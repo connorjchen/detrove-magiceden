@@ -22,7 +22,12 @@ export default function Marketplace() {
   const [sortBy, setSortBy] = useState("Recently listed");
   const [priceRange, setPriceRange] = useState(["", ""]);
 
-  const filterOptionValues = [["Hermes", "Jordan", "Yeezy", "Nike", "Adidas"]]; // switch to be dynamic with data
+  const filterOptions = [["Hermes", "Jordan", "Yeezy", "Nike", "Adidas"]]; // switch to be dynamic with data
+  const sortByOptions = [
+    "Recently listed",
+    "Price: Low to High",
+    "Price: High to Low",
+  ];
 
   const clearFilters = () => {
     setOptionsSelected([[]]);
@@ -35,14 +40,14 @@ export default function Marketplace() {
     <Box display="flex">
       <FiltersBar
         clearFilters={clearFilters}
-        filterOptionValues={filterOptionValues}
+        options={filterOptions}
         optionsSelected={optionsSelected}
         setOptionsSelected={setOptionsSelected}
         forSaleOnly={forSaleOnly}
         setForSaleOnly={setForSaleOnly}
         setPriceRange={setPriceRange}
       />
-      <Box>
+      <Box width="100%">
         <Box
           display="flex"
           marginBottom="16px"
@@ -56,7 +61,11 @@ export default function Marketplace() {
             <Typography variant="h6" marginRight="16px">
               30 Items
             </Typography>
-            <SortByFilter sortBy={sortBy} setSortBy={setSortBy} />
+            <SortByFilter
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              options={sortByOptions}
+            />
           </Box>
         </Box>
         <Grid container spacing="32px">
@@ -67,11 +76,26 @@ export default function Marketplace() {
                 image={hermesSneaker}
                 title={"Hermes Expert Sneaker"}
                 price={"100"}
-                isMarketplace={true}
+                page="marketplace"
               />
             </Grid>
           ))}
         </Grid>
+        {/* <Box
+          borderRadius="16px"
+          border={`1px solid ${theme.palette.secondary.outline}`}
+          height="400px"
+          display="flex"
+        >
+          <Typography
+            variant="h6"
+            fontSize="30px"
+            fontWeight="normal"
+            margin="auto"
+          >
+            No items to display
+          </Typography>
+        </Box> */}
       </Box>
     </Box>
   );

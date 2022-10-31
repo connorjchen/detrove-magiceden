@@ -27,7 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Marketplace />} exact />
             <Route path="/solana/:address" element={<Listing />} />
-            <Route path="/sell" element={<Sell />} />
+            <Route path="/sell/:address" element={<Sell />} />
             <Route path="profile" element={<Profile />} />
           </Routes>
           <Footer />

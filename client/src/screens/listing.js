@@ -100,7 +100,7 @@ export default function Listing() {
     );
   }
 
-  function SelectSize({ sizeSelected, setSizeSelected, sizes }) {
+  function SelectSize() {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -184,7 +184,7 @@ export default function Listing() {
                 color: theme.palette.primary.main,
                 marginTop: "16px",
                 "&:hover": {
-                  opacity: "0.85",
+                  backgroundColor: theme.palette.accent.hover,
                 },
               }}
               onClick={() => console.log("hi")}

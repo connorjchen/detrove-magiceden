@@ -12,14 +12,9 @@ import {
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import checkMark from "../images/checkMark.svg";
 
-export default function SortByFilter({ sortBy, setSortBy }) {
+export default function SortByFilter({ sortBy, setSortBy, options }) {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
-  const options = [
-    "Recently listed",
-    "Price: Low to High",
-    "Price: High to Low",
-  ];
 
   return (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>

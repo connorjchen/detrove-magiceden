@@ -17,7 +17,7 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 export default function FiltersBar({
   clearFilters,
-  filterOptionValues,
+  options,
   optionsSelected,
   setOptionsSelected,
   forSaleOnly,
@@ -179,7 +179,7 @@ export default function FiltersBar({
   return (
     <Box
       sx={{
-        minWidth: "250px",
+        width: "250px",
         height: "calc(100vh - 162px)",
         position: "sticky",
         top: "80px",
@@ -188,7 +188,7 @@ export default function FiltersBar({
       }}
     >
       <ClearFiltersButton clearFilters={clearFilters} />
-      {renderCheckListFilter("Brand", filterOptionValues[0], selectOption, 0)}
+      {renderCheckListFilter("Brand", options[0], selectOption, 0)}
       <Divider />
       {renderPriceFilter()}
       <Divider />

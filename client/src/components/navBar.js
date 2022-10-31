@@ -23,7 +23,7 @@ import SearchBar from "./searchBar";
 const drawerWidth = 240;
 const navItems = [
   ["Marketplace", "/"],
-  ["Sell", "/sell"],
+  ["Profile", "/profile"],
 ];
 
 export default function NavBar(props) {

@@ -42,7 +42,7 @@ export default function Sell() {
     );
   };
 
-  function renderPriceInput(solPrice, handleSolPriceChange, usdPrice) {
+  function renderPriceInput() {
     return (
       <Box>
         <Typography variant="h6">Price</Typography>
@@ -113,7 +113,7 @@ export default function Sell() {
           color: theme.palette.primary.main,
           marginTop: "32px",
           "&:hover": {
-            opacity: "0.85",
+            backgroundColor: theme.palette.accent.hover,
           },
         }}
         onClick={() => console.log("hi")}
@@ -143,7 +143,7 @@ export default function Sell() {
           image={hermesSneaker}
           title={"Hermes Expert Sneaker"}
           price={solPrice}
-          isMarketplace={false}
+          page="sell"
         />
       </Box>
     </Box>

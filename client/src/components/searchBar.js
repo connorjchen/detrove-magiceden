@@ -3,7 +3,7 @@ import { OutlinedInput, useTheme, Fade, Box, Typography } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import hermesSneaker from "../images/hermesSneaker.jpg";
 
-export default function SearchBar({}) {
+export default function SearchBar() {
   const theme = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -14,7 +14,7 @@ export default function SearchBar({}) {
   ];
 
   return (
-    <Box width="400px" marginRight="32px">
+    <Box width="100%" maxWidth="700px" marginRight="32px">
       <OutlinedInput
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -34,7 +34,9 @@ export default function SearchBar({}) {
         <Box
           sx={{
             ...theme.dropdownBox,
-            width: "400px",
+            position: "relative",
+            top: "240px",
+            marginTop: "-232px",
           }}
         >
           {options.map(([title, image], i) => (

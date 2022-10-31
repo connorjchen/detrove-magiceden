@@ -6,20 +6,8 @@ const lightDarkGrey = "rgba(22, 22, 26, 0.1)";
 const darkGrey = "rgba(22, 22, 26, 0.2)";
 const darkerGrey = "rgba(22, 22, 26, 0.5)";
 const black = "#000000";
-const lightBlue = "#38bdff";
 const darkBlue = "#35456a";
-const btnAnimation = {
-  transition: "all 0.15s ease-in-out",
-  backgroundColor: lightGrey,
-  borderRadius: "16px",
-  "&:hover": {
-    backgroundColor: lightDarkGrey,
-  },
-  "&:active": {
-    transform: "scale(0.95)",
-    transition: "transform 0.15s ease-in-out",
-  },
-};
+const lightDarkBlue = "rgb(82, 97, 128)";
 
 const theme = createTheme({
   typography: {
@@ -43,7 +31,7 @@ const theme = createTheme({
       main: black,
     },
     accent: {
-      light: lightBlue,
+      hover: lightDarkBlue,
       dark: darkBlue,
     },
   },
