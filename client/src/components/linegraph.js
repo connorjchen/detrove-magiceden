@@ -120,7 +120,7 @@ export default function LineGraph() {
           />
         )}
       </Box>
-      <Box marginLeft="48px">
+      <Box>
         <Tabs
           textColor="black"
           value={tab}
