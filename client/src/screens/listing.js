@@ -14,6 +14,7 @@ import Footer from "../components/footer";
 import ContentBox from "../components/contentBox";
 import { getListing } from "../redux/actions/listingActions";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
+import LineGraph from "../components/linegraph";
 
 export default function Listing() {
   const theme = useTheme();
@@ -157,11 +158,7 @@ export default function Listing() {
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Box
-            borderRadius="16px"
-            border={`1px solid ${theme.palette.secondary.outline}`}
-            height="100%"
-          ></Box>
+          <LineGraph></LineGraph>
         </Grid>
         <Grid item xs={4}>
           <Box>
