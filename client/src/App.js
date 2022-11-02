@@ -18,6 +18,7 @@ const ScrollToTop = (props) => {
   return <>{props.children}</>;
 };
 
+// update profile with address?
 function App() {
   return (
     <ThemeProvider theme={theme}>
