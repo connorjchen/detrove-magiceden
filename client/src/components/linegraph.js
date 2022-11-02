@@ -1,7 +1,7 @@
-import { Box, Typography, Button, useTheme, Tabs, Tab } from "@mui/material";
+import { Box, Typography, useTheme, Tabs, Tab } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
 const options = {
   legend: {
     display: false,
@@ -52,16 +52,22 @@ const options = {
   },
 };
 
+function StyledTab({ label }) {
+  return (
+    <Tab
+      sx={{
+        minWidth: "initial",
+      }}
+      label={label}
+    />
+  );
+}
+
 export default function LineGraph() {
   const theme = useTheme();
 
   const [data, setData] = useState({});
-
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [tab, setTab] = React.useState(0);
 
   useEffect(() => {
     let data = [];
@@ -77,21 +83,21 @@ export default function LineGraph() {
   }, []);
 
   return (
-    <Box borderRadius="16px" height="100%">
+    <Box
+      borderRadius="16px"
+      height="100%"
+      display="flex"
+      flexDirection="column"
+    >
       <Box>
-        <Typography variant="h1" fontSize="32px">
+        <Typography variant="h6" fontSize="24px">
           $114,656,84
         </Typography>
-
-        <Typography variant="h1" fontSize="14px">
+        <Typography variant="h6" fontSize="14px">
           $142.90 (-0,12) Today
         </Typography>
       </Box>
-      <Box
-        sx={{
-          height: "80%",
-        }}
-      >
+      <Box height="100%">
         {data?.length > 0 && (
           <Line
             data={{
@@ -114,166 +120,24 @@ export default function LineGraph() {
           />
         )}
       </Box>
-      <Box>
-        {/* <ButtonGroup
-          size="large"
-          disableElevation
-          variant="contained"
-          aria-label="Disabled elevation buttons"
-        >
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            sx={{
-              "&.Mui-selected": {
-                background: "rgba(22, 22, 26, 0.5)",
-              },
-            }}
-            onClick={() => console.log("hi")}
-          >
-            LIVE
-          </Button>
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            sx={{
-              "&.active": {
-                background: "black",
-              },
-            }}
-            onClick={() => console.log("hi")}
-          >
-            1D
-          </Button>
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            onClick={() => console.log("hi")}
-          >
-            {" "}
-            1W{" "}
-          </Button>
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            onClick={() => console.log("hi")}
-          >
-            {" "}
-            1M{" "}
-          </Button>
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            onClick={() => console.log("hi")}
-          >
-            {" "}
-            3M{" "}
-          </Button>
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            onClick={() => console.log("hi")}
-          >
-            {" "}
-            1Y{" "}
-          </Button>
-          <Button
-            style={{
-              fontWeight: "bold",
-            }}
-            onClick={() => console.log("hi")}
-          >
-            {" "}
-            ALL{" "}
-          </Button>
-        </ButtonGroup> */}
+      <Box marginLeft="48px">
         <Tabs
-          variant="standard"
           textColor="black"
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
+          value={tab}
+          onChange={(_, tab) => setTab(tab)}
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "black",
+            },
+          }}
         >
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                background: "rgba(22, 22, 26, 0.1)",
-              },
-              fontWeight: "bold",
-            }}
-            label="LIVE"
-          />
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                background: "rgba(22, 22, 26, 0.1)",
-              },
-              fontWeight: "bold",
-            }}
-            label="1D"
-          />
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                background: "rgba(22, 22, 26, 0.1)",
-              },
-              fontWeight: "bold",
-            }}
-            label="1W"
-          />
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                width: "50px",
-              },
-              fontWeight: "bold",
-              margin: "0",
-            }}
-            label="1M"
-          />
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                width: "50px",
-              },
-              fontWeight: "bold",
-              margin: "0",
-            }}
-            label="3M"
-          />
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                width: "50px",
-              },
-              fontWeight: "bold",
-              margin: "0",
-            }}
-            label="1Y"
-          />
-          <Tab
-            sx={{
-              "&.Mui-selected": {
-                outline: "none",
-                width: "50px",
-              },
-              fontWeight: "bold",
-              margin: "0",
-            }}
-            label="ALL"
-          />
+          <Tab label="LIVE" />
+          <Tab label="1D" />
+          <Tab label="1W" />
+          <Tab label="1M" />
+          <Tab label="3M" />
+          <Tab label="1Y" />
+          <Tab label="ALL" />
         </Tabs>
       </Box>
     </Box>

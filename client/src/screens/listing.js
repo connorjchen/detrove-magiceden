@@ -9,8 +9,6 @@ import {
   ClickAwayListener,
   Fade,
 } from "@mui/material";
-import NavBar from "../components/navBar";
-import Footer from "../components/footer";
 import ContentBox from "../components/contentBox";
 import { getListing } from "../redux/actions/listingActions";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
@@ -58,7 +56,7 @@ export default function Listing() {
   const itemInfo = {
     Brand: "Hermes",
     Condition: "New",
-    Colorway: "Marine / Orange / Blanc",
+    Colorway: "Marine / Orange",
     SKU: "123456",
     "Release Date": "1/1/2021",
     "Retail Price": "$1,050",
@@ -76,10 +74,12 @@ export default function Listing() {
       <>
         {Object.keys(itemInfo).map((key, i) => (
           <Grid item xs={2} key={i} textAlign="center">
-            <Typography variant="h6">{key}</Typography>
-            <Typography variant="h6" fontWeight="normal">
-              {itemInfo[key]}
-            </Typography>
+            <Box margin="16px 0">
+              <Typography variant="h6">{key}</Typography>
+              <Typography variant="h6" fontWeight="normal">
+                {itemInfo[key]}
+              </Typography>
+            </Box>
           </Grid>
         ))}
       </>
@@ -151,14 +151,14 @@ export default function Listing() {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center">
-      <Grid container spacing="32px" width="1200px">
+      <Grid container rowSpacing="16px" columnSpacing="32px" width="1200px">
         <Grid item xs={12}>
           <Typography variant="h6" fontSize="24px">
             Hermes Expert Sneaker
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <LineGraph></LineGraph>
+          <LineGraph />
         </Grid>
         <Grid item xs={4}>
           <Box>

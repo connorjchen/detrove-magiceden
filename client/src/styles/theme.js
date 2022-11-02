@@ -105,6 +105,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          minWidth: "initial",
+        },
+      },
+    },
   },
   basicButton: {
     transition: "all 0.15s ease-in-out",
