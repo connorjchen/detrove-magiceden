@@ -16,6 +16,8 @@ import solanaIcon from "../images/solanaIcon.png";
 import SortByFilter from "../components/sortByFilter";
 import FiltersBar from "../components/filtersBar";
 import { Search as SearchIcon } from "@mui/icons-material";
+import LineGraph from "../components/linegraph";
+import { textAlign } from "@mui/system";
 
 export default function Profile() {
   const theme = useTheme();
@@ -33,6 +35,16 @@ export default function Profile() {
     "Recently listed",
     "Price: Low to High",
     "Price: High to Low",
+  ];
+  const watchlistOptions = [
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
+    ["Hermes Expert Sneaker", hermesSneaker, "100"],
   ];
 
   const clearFilters = () => {
@@ -56,21 +68,52 @@ export default function Profile() {
       <Box margin="32px 0">
         <Grid container spacing="32px">
           <Grid item xs={8}>
-            <Box
-              borderRadius="16px"
-              border={`1px solid ${theme.palette.secondary.outline}`}
-              height="400px"
-            >
-              Robinhood Graph
-            </Box>
+            <LineGraph />
           </Grid>
           <Grid item xs={4}>
-            <Box
-              borderRadius="16px"
-              border={`1px solid ${theme.palette.secondary.outline}`}
-              height="400px"
-            >
-              Watchlist
+            <Typography variant="h6">Watchlist</Typography>
+            <Box height="400px" overflow="auto">
+              {watchlistOptions.map(([title, image, price], i) => (
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  padding="8px"
+                >
+                  <Box
+                    component="img"
+                    src={image}
+                    alt="image"
+                    width="48px"
+                    borderRadius="10px"
+                    marginRight="16px"
+                  />
+                  <Typography
+                    variant="h6"
+                    fontSize="14px"
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: "1",
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {title}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    fontSize="14px"
+                    flex="1"
+                    textAlign="right"
+                    whiteSpace="nowrap"
+                    marginLeft="16px"
+                  >{`${price.replace(
+                    /\B(?=(\d{3})+(?!\d))/g,
+                    ","
+                  )} SOL`}</Typography>
+                </Box>
+              ))}
             </Box>
           </Grid>
         </Grid>

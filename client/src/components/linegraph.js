@@ -131,7 +131,6 @@ export default function LineGraph() {
             },
           }}
         >
-          <Tab label="LIVE" />
           <Tab label="1D" />
           <Tab label="1W" />
           <Tab label="1M" />

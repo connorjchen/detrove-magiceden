@@ -151,7 +151,7 @@ export default function Listing() {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center">
-      <Grid container rowSpacing="16px" columnSpacing="32px" width="1200px">
+      <Grid container spacing="16px" width="1200px">
         <Grid item xs={12}>
           <Typography variant="h6" fontSize="24px">
             Hermes Expert Sneaker
@@ -161,7 +161,7 @@ export default function Listing() {
           <LineGraph />
         </Grid>
         <Grid item xs={4}>
-          <Box>
+          <Box marginLeft="48px">
             <Box
               component="img"
               src={hermesSneaker}
@@ -213,8 +213,8 @@ export default function Listing() {
               <Typography variant="h6" fontWeight="normal">
                 Any NFT issued by Detrove is redeemable for its physical
                 counterpart at anytime. To redeem, please email
-                contact@detrove.com. If you have any questions, you can reach us
-                at contact@detrove.com.
+                contact@detrove.com. If you have any questions or concerns, you
+                can reach us at contact@detrove.com.
               </Typography>
             }
           />

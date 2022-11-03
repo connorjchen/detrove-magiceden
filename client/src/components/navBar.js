@@ -18,6 +18,7 @@ import {
 import { Menu as MenuIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import phantomLogo from "../images/phantomLogo.svg";
+import detroveLogo from "../images/detroveLogo/detroveLogo.svg";
 import SearchBar from "./searchBar";
 
 const drawerWidth = 240;
@@ -100,7 +101,20 @@ export default function NavBar(props) {
               width: "100%",
             }}
           >
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                component="img"
+                src={detroveLogo}
+                alt="phantom logo"
+                width="40px"
+              />
               <Typography
                 variant="h4"
                 sx={{
