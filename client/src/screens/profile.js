@@ -66,11 +66,11 @@ export default function Profile() {
         </Typography>
       </Box>
       <Box margin="32px 0">
-        <Grid container spacing="32px">
+        <Grid container spacing="16px">
           <Grid item xs={8}>
             <LineGraph />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} marginLeft="48px">
             <Typography variant="h6">Watchlist</Typography>
             <Box height="400px" overflow="auto">
               {watchlistOptions.map(([title, image, price], i) => (
