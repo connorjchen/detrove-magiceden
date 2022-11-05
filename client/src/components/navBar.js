@@ -20,13 +20,20 @@ import { Link } from "react-router-dom";
 import phantomLogo from "../images/phantomLogo.svg";
 import detroveLogo from "../images/detroveLogo/detroveLogo.svg";
 import SearchBar from "./searchBar";
-
+import {
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-material-ui";
+// import {
+//   WalletDisconnectButton,
+//   WalletMultiButton,
+// } from "@solana/wallet-adapter-react-ui";
 const drawerWidth = 240;
 const navItems = [
   ["Marketplace", "/"],
   ["Profile", "/profile"],
 ];
-
+require("@solana/wallet-adapter-react-ui/styles.css");
 export default function NavBar(props) {
   const theme = useTheme();
   const { window } = props;
@@ -171,7 +178,7 @@ export default function NavBar(props) {
                 Docs
               </Typography>
             </Box>
-            <Button
+            {/* <Button
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -187,7 +194,8 @@ export default function NavBar(props) {
               <Typography variant="h6" color={theme.palette.primary.main}>
                 Connect
               </Typography>
-            </Button>
+            </Button> */}
+            <WalletMultiButton />
           </Box>
         </Toolbar>
       </AppBar>
