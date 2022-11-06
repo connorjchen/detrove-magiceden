@@ -25,7 +25,7 @@ export default function Profile() {
 
   const [optionsSelected, setOptionsSelected] = useState([[]]);
   const [forSaleOnly, setForSaleOnly] = useState(false);
-  const [sortBy, setSortBy] = useState("Recently listed");
+  const [sortBy, setSortBy] = useState("Recently received");
   const [priceRange, setPriceRange] = useState(["", ""]);
   const [searchTerm, setSearchTerm] = useState("");
 

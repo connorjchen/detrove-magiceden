@@ -103,6 +103,46 @@ export default function Sell() {
     );
   }
 
+  function DurationInfo({}) {
+    return (
+      <>
+        <Typography variant="h6">Duration</Typography>
+        <Box display="flex" justifyContent="space-between">
+          <Typography
+            variant="h6"
+            fontSize="14px"
+            color={theme.palette.secondary.bold}
+          >
+            Start Date
+          </Typography>
+          <Typography
+            variant="h6"
+            fontSize="14px"
+            color={theme.palette.secondary.bold}
+          >
+            Today
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Typography
+            variant="h6"
+            fontSize="14px"
+            color={theme.palette.secondary.bold}
+          >
+            End Date
+          </Typography>
+          <Typography
+            variant="h6"
+            fontSize="14px"
+            color={theme.palette.secondary.bold}
+          >
+            6 Months from Today
+          </Typography>
+        </Box>
+      </>
+    );
+  }
+
   function BuyButton({}) {
     return (
       <Box
@@ -131,6 +171,8 @@ export default function Sell() {
         </Typography>
         {renderPriceInput(solPrice, handleSolPriceChange, usdPrice)}
         <Divider sx={{ margin: "16px 0" }} />
+        <DurationInfo />
+        <Divider sx={{ margin: "16px 0" }} />
         <FeesInfo />
         <BuyButton />
       </Box>
@@ -141,7 +183,7 @@ export default function Sell() {
         <ItemCard
           address={1}
           image={hermesSneaker}
-          title={"Hermes Expert Sneaker"}
+          title={"Hermes Expert Sneaker Size 9M"}
           price={solPrice}
           page="sell"
         />

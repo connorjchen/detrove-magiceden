@@ -43,6 +43,7 @@ export default function SortByFilter({ sortBy, setSortBy, options }) {
                 sx={{
                   ...theme.dropdownOption,
                 }}
+                onClick={() => setSortBy(option)}
               >
                 <Typography variant="h6" fontSize="14px">
                   {option}
