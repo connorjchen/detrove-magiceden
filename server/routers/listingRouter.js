@@ -1,24 +1,26 @@
 import express from "express";
-import listingServices from "../services/listingServices.js";
-import { v4 as uuid } from "uuid";
+import {
+  getListings,
+  getIfUserCanSellSneaker,
+  createWatchlistItem,
+} from "../services/listingServices.js";
 
 const router = express.Router();
 
-router.get("/", async function (req, res) {
-  try {
-    res.json(await listingServices.getAll());
-  } catch (err) {
-    console.error(`Error while getting listings `, err.message);
-  }
+router.get("/listings/:sneaker_id", async function (req, res) {
+  const { sneaker_id } = req.params;
+  await getListings(sneaker_id, req, res);
 });
 
-router.post("/", async function (req, res) {
-  try {
-    const { nftId, price } = req.body;
-    res.json(await listingServices.create(uuid(), nftId, price));
-  } catch (err) {
-    console.error(`Error while creating listings `, err.message);
-  }
+router.get("/sell/:user_id/:sneaker_id", async function (req, res) {
+  const { user_id, sneaker_id } = req.params;
+  const { nft_addresses } = req.body;
+  await getIfUserCanSellSneaker(user_id, sneaker_id, nft_addresses, req, res);
+});
+
+router.post("/watchlist", async function (req, res) {
+  const { user_id, sneaker_id } = req.body;
+  await createWatchlistItem(user_id, sneaker_id, req, res);
 });
 
 export default router;

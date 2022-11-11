@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
 
-import ListingReducer from "./listingReducer";
+import MarketplaceReducer from "./marketplaceReducer";
 
-export const reducers = combineReducers({ listings: ListingReducer });
+export const reducers = combineReducers({ marketplace: MarketplaceReducer });

@@ -1,22 +1,42 @@
 import { query } from "../db.js";
 
-async function getAll() {
-  const result = await query("SELECT * FROM listings");
-  return { result };
-}
-
-async function create(id, nftId, price) {
-  const result = await query(
-    "INSERT INTO listings(id, nft_id, price) VALUES (?, ?, ?)",
-    [id, nftId, price]
-  );
-
-  let message = "Error in creating listing";
-  if (result.affectedRows) {
-    message = "Listing created successfully";
+async function getListings(sneaker_id, req, res) {
+  // REPLACE QUERY
+  try {
+    const result = await query("SELECT * FROM listings");
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  return { message };
 }
 
-export default { getAll, create };
+async function getIfUserCanSellSneaker(
+  user_id,
+  sneaker_id,
+  owned_nft_addresses,
+  req,
+  res
+) {
+  // REPLACE QUERY
+  try {
+    const result = await query("SELECT * FROM listings");
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+async function createWatchlistItem(user_id, sneaker_id, req, res) {
+  try {
+    const result = await query(
+      `INSERT INTO watchlist_items
+    VALUES (?, ?, ?, DEFAULT, DEFAULT`,
+      [uuid(), user_id, sneaker_id]
+    );
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export { getListings, getIfUserCanSellSneaker, createWatchlistItem };

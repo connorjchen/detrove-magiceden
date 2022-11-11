@@ -3,8 +3,11 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import nftRouter from "./routers/nftRouter.js";
+import marketplaceRouter from "./routers/marketplaceRouter.js";
+import sellRouter from "./routers/sellRouter.js";
+import profileRouter from "./routers/profileRouter.js";
 import listingRouter from "./routers/listingRouter.js";
+import navBarRouter from "./routers/navBarRouter.js";
 
 const app = express();
 dotenv.config();
@@ -12,13 +15,16 @@ dotenv.config();
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-// ADD API TO BASE URL
+
 app.get("/", (req, res) => {
   res.json({ message: "Server is up and running!" });
 });
 
-app.use("/api/nfts", nftRouter);
-app.use("/api/listings", listingRouter);
+app.use("/api/marketplace", marketplaceRouter);
+app.use("/api/sell", sellRouter);
+app.use("/api/profile", profileRouter);
+app.use("/api/listing", listingRouter);
+app.use("/api/navBar", navBarRouter);
 
 const PORT = process.env.PORT || 5000;
 

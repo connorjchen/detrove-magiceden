@@ -1,6 +1,6 @@
 # Detrove
 
-Built using node version 14.17.0 and npm version 6.14.13
+Built using node version 14.17.3 and npm version 8.19.2
 
 ## Run Frontend:
 

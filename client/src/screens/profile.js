@@ -9,7 +9,6 @@ import {
   OutlinedInput,
   Divider,
 } from "@mui/material";
-import { getListing } from "../redux/actions/listingActions";
 import ItemCard from "../components/itemCard";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
 import solanaIcon from "../images/solanaIcon.png";
@@ -17,7 +16,6 @@ import SortByFilter from "../components/sortByFilter";
 import FiltersBar from "../components/filtersBar";
 import { Search as SearchIcon } from "@mui/icons-material";
 import LineGraph from "../components/linegraph";
-import { textAlign } from "@mui/system";
 
 export default function Profile() {
   const theme = useTheme();

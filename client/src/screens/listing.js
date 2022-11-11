@@ -10,19 +10,13 @@ import {
   Fade,
 } from "@mui/material";
 import ContentBox from "../components/contentBox";
-import { getListing } from "../redux/actions/listingActions";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
 import LineGraph from "../components/linegraph";
 
 export default function Listing() {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { address } = useParams();
-  useEffect(() => {
-    dispatch(getListing());
-  }, [dispatch]);
 
-  const { loading, error, listing } = useSelector((state) => state.listings);
   const [sizeSelected, setSizeSelected] = useState("Select Size");
 
   const sizes = [
