@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   useTheme,
   alpha,
@@ -20,24 +20,35 @@ import { Link } from "react-router-dom";
 import phantomLogo from "../images/phantomLogo.svg";
 import detroveLogo from "../images/detroveLogo/detroveLogo.svg";
 import SearchBar from "./searchBar";
+import "./wallet.css";
 import {
   WalletDisconnectButton,
   WalletMultiButton,
-} from "@solana/wallet-adapter-material-ui";
-// import {
-//   WalletDisconnectButton,
-//   WalletMultiButton,
-// } from "@solana/wallet-adapter-react-ui";
+} from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
+
 const drawerWidth = 240;
 const navItems = [
   ["Marketplace", "/"],
   ["Profile", "/profile"],
 ];
+
 require("@solana/wallet-adapter-react-ui/styles.css");
 export default function NavBar(props) {
   const theme = useTheme();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isConnected, setIsConnected] = React.useState(false);
+  const { publicKey, wallet, disconnect } = useWallet();
+
+  const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+  const content = useMemo(() => {
+    if (!wallet || !base58) {
+      return "Connect";
+    }
+    setIsConnected(true);
+    return base58.slice(0, 4) + ".." + base58.slice(-4);
+  }, [wallet, base58]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -178,24 +189,13 @@ export default function NavBar(props) {
                 Docs
               </Typography>
             </Box>
-            {/* <Button
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                background: "rgba(22, 22, 26, 0.5)",
-                borderRadius: "16px",
-                padding: "6px 12px 6px 8px",
-                "&:hover": {
-                  background: "rgba(22, 22, 26, 0.5)",
-                },
-              }}
-            >
-              <Box component="img" src={phantomLogo} alt="phantom logo" />
-              <Typography variant="h6" color={theme.palette.primary.main}>
-                Connect
-              </Typography>
-            </Button> */}
-            <WalletMultiButton />
+
+            <WalletMultiButton
+              className={
+                isConnected ? "wallet-button-connected" : "wallet-button"
+              }
+              children={content}
+            />
           </Box>
         </Toolbar>
       </AppBar>

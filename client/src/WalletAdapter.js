@@ -8,11 +8,14 @@ import {
   WalletModalProvider,
   WalletDisconnectButton,
   WalletMultiButton,
-} from "@solana/wallet-adapter-material-ui";
+} from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
 import {
   PhantomWalletAdapter,
   TorusWalletAdapter,
+  CoinbaseWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import App from "./App";
 
@@ -27,7 +30,13 @@ export default function WalletAdapter() {
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   const wallets = useMemo(
-    () => [new PhantomWalletAdapter(), new TorusWalletAdapter()],
+    () => [
+      new PhantomWalletAdapter(),
+      new TorusWalletAdapter(),
+      new CoinbaseWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new SolflareWalletAdapter(),
+    ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [network]
   );
