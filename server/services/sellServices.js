@@ -12,11 +12,11 @@ async function getSneaker(address, req, res) {
 }
 
 async function createListing(
-  nft_id,
-  seller_id,
+  nftId,
+  sellerId,
   price,
-  start_date,
-  end_date,
+  startDate,
+  endDate,
   req,
   res
 ) {
@@ -24,7 +24,7 @@ async function createListing(
     const result = await query(
       `INSERT INTO listings
     VALUES (?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT, DEFAULT)`,
-      [uuid(), nft_id, seller_id, price, start_date, end_date]
+      [uuid(), nftId, sellerId, price, startDate, endDate]
     );
     res.json({ result });
   } catch (error) {
@@ -32,15 +32,8 @@ async function createListing(
   }
 }
 
-async function updateListing(
-  price,
-  start_date,
-  end_date,
-  is_deleted,
-  req,
-  res
-) {
-  // REPLACE QUERY AND CHECK WHICH INPUTS NEED TO BE CHANGED (check undefined)
+async function updateListing(price, startDate, endDate, isDeleted, req, res) {
+  // REPLACE QUERY AND REPLACE ALL FIELDS
   try {
     const result = await query("SELECT * FROM listings");
     res.json({ result });

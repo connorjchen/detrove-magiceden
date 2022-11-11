@@ -7,19 +7,19 @@ import {
 
 const router = express.Router();
 
-router.get("/sneaker/:nft_address", async function (req, res) {
-  const { nft_address } = req.params;
-  await getSneaker(nft_address, req, res);
+router.get("/sneaker/:nftAddress", async function (req, res) {
+  const { nftAddress } = req.params;
+  await getSneaker(nftAddress, req, res);
 });
 
 router.post("/listing", async function (req, res) {
-  const { nft_id, seller_id, price, start_date, end_date } = req.body;
-  await createListing(nft_id, seller_id, price, start_date, end_date, req, res);
+  const { nftId, sellerId, price, startDate, endDate } = req.body;
+  await createListing(nftId, sellerId, price, startDate, endDate, req, res);
 });
 
 router.put("/listing", async function (req, res) {
-  const { price, start_date, end_date, is_deleted } = req.body;
-  await updateListing(price, start_date, end_date, is_deleted, req, res);
+  const { price, startDate, endDate, isDeleted } = req.body;
+  await updateListing(price, startDate, endDate, isDeleted, req, res);
 });
 
 export default router;

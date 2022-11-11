@@ -9,23 +9,24 @@ import {
 const router = express.Router();
 
 router.get("/sneakers", async function (req, res) {
-  const { nft_addresses } = req.body;
-  await getSneakers(nft_addresses, req, res);
+  const { nftAddresses } = req.body;
+  await getSneakers(nftAddresses, req, res);
 });
 
-router.get("/watchlist/:user_id", async function (req, res) {
-  const { user_id } = req.params;
-  await getWatchlist(user_id, req, res);
+router.get("/watchlist/:userId", async function (req, res) {
+  const { userId } = req.params;
+  await getWatchlist(userId, req, res);
 });
 
-router.get("/user/:user_address", async function (req, res) {
-  const { user_address } = req.params;
-  await getUser(user_address, req, res);
+router.get("/user/:userAddress", async function (req, res) {
+  const { userAddress } = req.params;
+  await getUser(userAddress, req, res);
 });
 
-router.put("/user", async function (req, res) {
+router.put("/user/:userId", async function (req, res) {
+  const { userId } = req.params;
   const { username } = req.body;
-  await updateUser(username, req, res);
+  await updateUser(userId, username, req, res);
 });
 
 export default router;

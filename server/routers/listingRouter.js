@@ -7,20 +7,20 @@ import {
 
 const router = express.Router();
 
-router.get("/listings/:sneaker_id", async function (req, res) {
-  const { sneaker_id } = req.params;
-  await getListings(sneaker_id, req, res);
+router.get("/listings/:sneakerId", async function (req, res) {
+  const { sneakerId } = req.params;
+  await getListings(sneakerId, req, res);
 });
 
-router.get("/sell/:user_id/:sneaker_id", async function (req, res) {
-  const { user_id, sneaker_id } = req.params;
-  const { nft_addresses } = req.body;
-  await getIfUserCanSellSneaker(user_id, sneaker_id, nft_addresses, req, res);
+router.get("/sell/:userId/:sneakerId", async function (req, res) {
+  const { userId, sneakerId } = req.params;
+  const { nftAddresses } = req.body;
+  await getIfUserCanSellSneaker(userId, sneakerId, nftAddresses, req, res);
 });
 
 router.post("/watchlist", async function (req, res) {
-  const { user_id, sneaker_id } = req.body;
-  await createWatchlistItem(user_id, sneaker_id, req, res);
+  const { userId, sneakerId } = req.body;
+  await createWatchlistItem(userId, sneakerId, req, res);
 });
 
 export default router;

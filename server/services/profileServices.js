@@ -1,6 +1,6 @@
 import { query } from "../db.js";
 
-async function getSneakers(nft_addresses, req, res) {
+async function getSneakers(nftAddresses, req, res) {
   // REPLACE QUERY
   try {
     const result = await query("SELECT * FROM listings");
@@ -10,7 +10,7 @@ async function getSneakers(nft_addresses, req, res) {
   }
 }
 
-async function getWatchlist(user_id, req, res) {
+async function getWatchlist(userId, req, res) {
   // REPLACE QUERY
   try {
     const result = await query("SELECT * FROM listings");
@@ -20,20 +20,21 @@ async function getWatchlist(user_id, req, res) {
   }
 }
 
-async function getUser(user_address, req, res) {
-  // REPLACE QUERY
+async function getUser(userAddress, req, res) {
   try {
-    const result = await query("SELECT * FROM listings");
+    const result = await query(
+      "SELECT * FROM users WHERE blockchain_address = ?",
+      [userAddress]
+    );
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
-async function updateUser(username, req, res) {
-  // REPLACE QUERY AND CHECK WHICH INPUTS NEED TO BE CHANGED (check undefined)
+async function updateUser(userAddress, username, req, res) {
   try {
-    const result = await query("SELECT * FROM listings");
+    const result = await query("UPDATE ");
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });

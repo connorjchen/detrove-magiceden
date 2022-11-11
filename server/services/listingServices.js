@@ -1,6 +1,6 @@
 import { query } from "../db.js";
 
-async function getListings(sneaker_id, req, res) {
+async function getListings(sneakerId, req, res) {
   // REPLACE QUERY
   try {
     const result = await query("SELECT * FROM listings");
@@ -11,9 +11,9 @@ async function getListings(sneaker_id, req, res) {
 }
 
 async function getIfUserCanSellSneaker(
-  user_id,
-  sneaker_id,
-  owned_nft_addresses,
+  userId,
+  sneakerId,
+  ownedNftAddresses,
   req,
   res
 ) {
@@ -26,12 +26,12 @@ async function getIfUserCanSellSneaker(
   }
 }
 
-async function createWatchlistItem(user_id, sneaker_id, req, res) {
+async function createWatchlistItem(userId, sneakerId, req, res) {
   try {
     const result = await query(
       `INSERT INTO watchlist_items
     VALUES (?, ?, ?, DEFAULT, DEFAULT`,
-      [uuid(), user_id, sneaker_id]
+      [uuid(), userId, sneakerId]
     );
     res.json({ result });
   } catch (error) {
