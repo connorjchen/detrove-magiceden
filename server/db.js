@@ -14,7 +14,7 @@ const dbServer = {
 };
 
 const tunnelConfig = {
-  host: process.env.TUNNEL_HOST,
+  host: process.env.TUNNEL_HOST2,
   port: process.env.TUNNEL_PORT,
   username: process.env.TUNNEL_USERNAME,
   privateKey: fs.readFileSync(process.env.TUNNEL_PRIVATE_KEY),
