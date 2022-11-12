@@ -6,8 +6,8 @@ import dotenv from "dotenv";
 import marketplaceRouter from "./routers/marketplaceRouter.js";
 import sellRouter from "./routers/sellRouter.js";
 import profileRouter from "./routers/profileRouter.js";
-import listingRouter from "./routers/listingRouter.js";
-import navBarRouter from "./routers/navBarRouter.js";
+import productRouter from "./routers/productRouter.js";
+import searchRouter from "./routers/searchRouter.js";
 import buyRouter from "./routers/buyRouter.js";
 
 const app = express();
@@ -24,8 +24,8 @@ app.get("/", (req, res) => {
 app.use("/api/marketplace", marketplaceRouter);
 app.use("/api/sell", sellRouter);
 app.use("/api/profile", profileRouter);
-app.use("/api/listing", listingRouter);
-app.use("/api/navBar", navBarRouter);
+app.use("/api/product", productRouter);
+app.use("/api/search", searchRouter);
 app.use("/api/buy", buyRouter);
 
 const PORT = process.env.PORT || 5000;

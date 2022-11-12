@@ -97,7 +97,7 @@ export default function ItemCard({ address, image, title, price, page }) {
   if (page == "marketplace") {
     return (
       <Link
-        to={`/solana/${address}`}
+        to={`/product/${address}`}
         style={{
           textDecoration: "none",
         }}
@@ -147,7 +147,7 @@ export default function ItemCard({ address, image, title, price, page }) {
   } else if (page == "profile") {
     return (
       <Link
-        to={`/solana/${address}`}
+        to={`/product/${address}`}
         style={{
           textDecoration: "none",
         }}

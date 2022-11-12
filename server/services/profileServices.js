@@ -1,29 +1,29 @@
 import { query } from "../db.js";
 
-async function getSneakers(nftAddresses, req, res) {
+export async function getSneakers(nftAddresses, req, res) {
   // REPLACE QUERY
   try {
-    const result = await query("SELECT * FROM listings");
+    let result = await query(`SELECT * FROM listings`);
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
-async function getWatchlist(userId, req, res) {
+export async function getWatchlist(userId, req, res) {
   // REPLACE QUERY
   try {
-    const result = await query("SELECT * FROM listings");
+    let result = await query(`SELECT * FROM listings`);
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
-async function getUser(userAddress, req, res) {
+export async function getUser(userAddress, req, res) {
   try {
-    const result = await query(
-      "SELECT * FROM users WHERE blockchain_address = ?",
+    let result = await query(
+      `SELECT * FROM users WHERE blockchain_address = ?`,
       [userAddress]
     );
     res.json({ result });
@@ -32,13 +32,41 @@ async function getUser(userAddress, req, res) {
   }
 }
 
-async function updateUser(userAddress, username, req, res) {
+export async function createUser(
+  username,
+  blockchain_address,
+  profile_pic,
+  req,
+  res
+) {
   try {
-    const result = await query("UPDATE ");
+    let result = await query(
+      `INSERT INTO users
+    VALUES (?, ?, ?, ?, DEFAULT)`,
+      [uuid(), username, blockchain_address, profile_pic]
+    );
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
-export { getSneakers, getWatchlist, getUser, updateUser };
+export async function updateUser(userId, username, req, res) {
+  try {
+    const updateResult = await query(
+      `UPDATE users SET username = ? WHERE id = ?`,
+      [username, userId]
+    );
+
+    if (updateResult.affectedRows === 0) {
+      res.status(500).json({ message: "No rows were affected" });
+      return;
+    }
+
+    let result = await query(`SELECT * FROM users WHERE id = ?`, [userId]);
+
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

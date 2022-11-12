@@ -14,7 +14,7 @@ const dbServer = {
 };
 
 const tunnelConfig = {
-  host: process.env.TUNNEL_HOST2,
+  host: process.env.TUNNEL_HOST,
   port: process.env.TUNNEL_PORT,
   username: process.env.TUNNEL_USERNAME,
   privateKey: fs.readFileSync(process.env.TUNNEL_PRIVATE_KEY),
@@ -39,16 +39,11 @@ const SSHConnection = new Promise((resolve, reject) => {
         forwardConfig.dstPort,
         (err, stream) => {
           if (err) reject(err);
-
-          // create a new DB server object including stream
           const updatedDbServer = {
             ...dbServer,
             stream,
           };
-          // connect to mysql
           const connection = mysql.createConnection(updatedDbServer);
-          // check for successful connection
-          // resolve or reject the Promise accordingly
           connection.connect((error) => {
             if (error) {
               reject(error);

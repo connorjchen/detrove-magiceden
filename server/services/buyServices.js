@@ -1,8 +1,13 @@
 import { query } from "../db.js";
-import { getListings as listingServicesGetListings } from "./listingServices.js";
+import {
+  getSneaker as productServicesGetSneaker,
+  getListings as productServicesGetListings,
+} from "./productServices.js";
 
-async function getListings(sneakerId, req, res) {
-  await listingServicesGetListings(sneakerId, req, res);
+export async function getSneaker(sneakerId, req, res) {
+  await productServicesGetSneaker(sneakerId, req, res);
 }
 
-export { getListings };
+export async function getListings(sneakerId, req, res) {
+  await productServicesGetListings(sneakerId, req, res);
+}

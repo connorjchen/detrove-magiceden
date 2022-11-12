@@ -1,5 +1,5 @@
 import express from "express";
-import { getSneakers } from "../services/navBarServices.js";
+import { getSneakers } from "../services/searchServices.js";
 
 const router = express.Router();
 

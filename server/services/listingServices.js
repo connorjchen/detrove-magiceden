@@ -1,42 +1,43 @@
 import { query } from "../db.js";
 
-async function getListings(sneakerId, req, res) {
-  // REPLACE QUERY
+export async function getListing(listingId, req, res) {
   try {
-    const result = await query("SELECT * FROM listings");
+    let result = await query(`SELECT * FROM listings WHERE id = ?`, [
+      listingId,
+    ]);
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
-async function getIfUserCanSellSneaker(
-  userId,
-  sneakerId,
-  ownedNftAddresses,
+export async function updateListing(
+  listingId,
+  price,
+  startDate,
+  endDate,
+  soldAt,
+  deletedAt,
   req,
   res
 ) {
-  // REPLACE QUERY
   try {
-    const result = await query("SELECT * FROM listings");
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-async function createWatchlistItem(userId, sneakerId, req, res) {
-  try {
-    const result = await query(
-      `INSERT INTO watchlist_items
-    VALUES (?, ?, ?, DEFAULT, DEFAULT`,
-      [uuid(), userId, sneakerId]
+    const updateResult = await query(
+      `UPDATE listings SET price = ?, start_date = ?, end_date = ?, sold_at = ?, deleted_at = ? WHERE id = ?`,
+      [price, startDate, endDate, soldAt, deletedAt, listingId]
     );
+
+    if (updateResult.affectedRows === 0) {
+      res.status(500).json({ message: "No rows were affected" });
+      return;
+    }
+
+    let result = await query(`SELECT * FROM listings WHERE id = ?`, [
+      listingId,
+    ]);
+
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
-
-export { getListings, getIfUserCanSellSneaker, createWatchlistItem };

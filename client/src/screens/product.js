@@ -13,7 +13,7 @@ import ContentBox from "../components/contentBox";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
 import LineGraph from "../components/linegraph";
 
-export default function Listing() {
+export default function Product() {
   const theme = useTheme();
   const dispatch = useDispatch();
 

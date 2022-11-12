@@ -1,17 +1,31 @@
 import { query } from "../db.js";
 import { v4 as uuid } from "uuid";
+import {
+  getSneaker as productServicesGetSneaker,
+  getUnlistedNfts as productServicesGetUnlistedNfts,
+} from "./productServices.js";
 
-async function getSneaker(address, req, res) {
-  // REPLACE QUERY
-  try {
-    const result = await query("SELECT * FROM listings");
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+export async function getSneaker(sneakerId, req, res) {
+  await productServicesGetSneaker(sneakerId, req, res);
 }
 
-async function createListing(
+export async function getUnlistedNfts(
+  userId,
+  sneakerId,
+  ownedNftAddresses,
+  req,
+  res
+) {
+  await productServicesGetUnlistedNfts(
+    userId,
+    sneakerId,
+    ownedNftAddresses,
+    req,
+    res
+  );
+}
+
+export async function createListing(
   nftId,
   sellerId,
   price,
@@ -21,7 +35,7 @@ async function createListing(
   res
 ) {
   try {
-    const result = await query(
+    let result = await query(
       `INSERT INTO listings
     VALUES (?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT, DEFAULT)`,
       [uuid(), nftId, sellerId, price, startDate, endDate]
@@ -31,15 +45,3 @@ async function createListing(
     res.status(500).json({ message: error.message });
   }
 }
-
-async function updateListing(price, startDate, endDate, isDeleted, req, res) {
-  // REPLACE QUERY AND REPLACE ALL FIELDS
-  try {
-    const result = await query("SELECT * FROM listings");
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-export { getSneaker, createListing, updateListing };
