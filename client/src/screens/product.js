@@ -200,7 +200,7 @@ export default function Product() {
               <Typography variant="h6" fontWeight="normal">
                 Sneaker in knit and calfskin with leather patches and signature
                 Clou de Selle details. Light sole with graphic design for a
-                modern and athletic style. Made in Italy
+                modern and athletic style. Made in Italy.
               </Typography>
             }
           />

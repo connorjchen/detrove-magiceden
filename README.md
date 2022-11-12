@@ -1,11 +1,12 @@
 # Detrove
 
-Built using node version 14.17.3 and npm version 8.19.2
+Built using node version v16 LTS and npm version 8.19.2
+Legacy peer deps needed because of MUI incompatible with new version of React
 
 ## Run Frontend:
 
 - cd client
-- npm install
+- npm install --legacy-peer-deps
 - npm start
 
 ## Run Backend:
