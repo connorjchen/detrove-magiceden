@@ -121,8 +121,9 @@ export default function Listing() {
             <Box
               sx={{
                 ...theme.dropdownBox,
-                width: "368px",
-                height: "350px",
+                height: "240px",
+                top: "240px",
+                marginTop: "-232px",
                 overflow: "auto",
               }}
             >
@@ -173,21 +174,28 @@ export default function Listing() {
               setSizeSelected={setSizeSelected}
               sizes={sizes}
             />
-            <Box
-              sx={{
-                ...theme.basicButton,
-                height: "48px",
-                backgroundColor: theme.palette.accent.dark,
-                color: theme.palette.primary.main,
-                marginTop: "16px",
-                "&:hover": {
-                  backgroundColor: theme.palette.accent.hover,
-                },
+            <Link
+              to={`/buy/${address}`}
+              style={{
+                textDecoration: "none",
               }}
-              onClick={() => console.log("hi")}
             >
-              <Typography variant="h6">Buy Now for 100 SOL</Typography>
-            </Box>
+              <Box
+                sx={{
+                  ...theme.basicButton,
+                  height: "48px",
+                  backgroundColor: theme.palette.accent.dark,
+                  color: theme.palette.primary.main,
+                  marginTop: "16px",
+                  "&:hover": {
+                    backgroundColor: theme.palette.accent.hover,
+                  },
+                }}
+                onClick={() => console.log("hi")}
+              >
+                <Typography variant="h6">Buy Now for 100 SOL</Typography>
+              </Box>
+            </Link>
           </Box>
         </Grid>
         <ItemLabels />

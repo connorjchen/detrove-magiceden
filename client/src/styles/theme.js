@@ -157,7 +157,7 @@ const theme = createTheme({
     },
   },
   dropdownBox: {
-    position: "absolute",
+    position: "relative",
     zIndex: 1,
     background: white,
     borderRadius: "16px",

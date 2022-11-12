@@ -43,7 +43,7 @@ export default function WalletAdapter() {
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={wallets}>
         <WalletModalProvider>
           <App />
         </WalletModalProvider>

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Marketplace from "./screens/marketplace";
 import Listing from "./screens/listing";
 import Sell from "./screens/sell";
+import Buy from "./screens/buy";
 import Profile from "./screens/profile";
 import NavBar from "./components/navBar";
 import Footer from "./components/footer";
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Marketplace />} exact />
             <Route path="/solana/:address" element={<Listing />} />
             <Route path="/sell/:address" element={<Sell />} />
+            <Route path="/buy/:address" element={<Buy />} />
             <Route path="profile" element={<Profile />} />
           </Routes>
           <Footer />
