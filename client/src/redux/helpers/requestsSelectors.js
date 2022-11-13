@@ -1,28 +1,31 @@
 // Extract request field from state
+import { useSelector } from "react-redux";
+
 const requestState = (state) => state.requests;
 
-export const requestsInProgress = (state) =>
-  requestState(state).requests.filter((request) => request.inProgress).length >
-  0;
-
-// Get requests in progress either by single requestName or by requestNames array
-export const namedRequestsInProgress = (
-  state,
-  requestName // RequestsEnum | RequestsEnum[]
-) => {
+const namedRequestsInProgress = (state, requestNames) => {
   const singleNamedRequestInProgress = (singleRequestName) =>
     requestState(state).requests.find(
       (request) => request.name === singleRequestName && request.inProgress
     ) !== undefined;
 
-  if (Array.isArray(requestName)) {
-    return requestName.some(singleNamedRequestInProgress);
-  }
-
-  return singleNamedRequestInProgress(requestName);
+  return requestNames.some(singleNamedRequestInProgress);
 };
 
-export const namedRequestError = (state, requestName) =>
-  requestState(state).requests.find(
-    (request) => request.name === requestName && request.error !== null
-  )?.error;
+const namedRequestsError = (state, requestNames) => {
+  const singleNamedRequestError = (singleRequestName) =>
+    requestState(state).requests.find(
+      (request) => request.name === singleRequestName && request.error !== null
+    )?.error;
+
+  const errors = requestNames
+    .map(singleNamedRequestError)
+    .filter((error) => error !== undefined);
+  return errors.length > 0 ? errors : undefined;
+};
+
+export const getLoadingAndErrors = (state, requestNames) => {
+  const isLoading = namedRequestsInProgress(state, requestNames);
+  const errors = namedRequestsError(state, requestNames);
+  return { isLoading, errors };
+};

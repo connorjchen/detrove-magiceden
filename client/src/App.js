@@ -9,6 +9,7 @@ import NavBar from "./components/navBar";
 import Footer from "./components/footer";
 import { ThemeProvider } from "@mui/material";
 import theme from "./styles/theme";
+import { SnackbarProvider } from "notistack";
 
 const ScrollToTop = (props) => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const ScrollToTop = (props) => {
 function App() {
   return (
     <ThemeProvider theme={theme}>
+<<<<<<< HEAD
       <BrowserRouter>
         <ScrollToTop>
           <NavBar />
@@ -41,6 +43,23 @@ function App() {
           <Footer />
         </ScrollToTop>
       </BrowserRouter>
+=======
+      <SnackbarProvider>
+        <BrowserRouter>
+          <ScrollToTop>
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Marketplace />} exact />
+              <Route path="/product/:sneakerId" element={<Product />} />
+              <Route path="/sell/:sneakerId" element={<Sell />} />
+              <Route path="/buy/:sneakerId" element={<Buy />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+            <Footer />
+          </ScrollToTop>
+        </BrowserRouter>
+      </SnackbarProvider>
+>>>>>>> 5fc6251 (Connor/redux refactor (#30))
     </ThemeProvider>
   );
 }

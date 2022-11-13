@@ -2,29 +2,29 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, useTheme, Grid, Typography } from "@mui/material";
 import { getListings } from "../redux/actions/marketplaceActions";
-import {
-  namedRequestsInProgress,
-  namedRequestError,
-} from "../redux/helpers/requestsSelectors";
+import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
+import { useSnackbar } from "notistack";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import SortByFilter from "../components/sortByFilter";
 import FiltersBar from "../components/filtersBar";
 import ItemCard from "../components/itemCard";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
+import Loading from "../components/loading";
 
 export default function Marketplace() {
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getListings());
   }, [dispatch]);
 
   const { listings } = useSelector((state) => state.marketplace);
-  const [isLoading, error] = useSelector((state) => [
-    namedRequestsInProgress(state, RequestsEnum.marketplaceGetListings),
-    namedRequestError(state, RequestsEnum.marketplaceGetListings),
-  ]);
-  console.log(listings, isLoading, error);
+  const { isLoading, errors } = useSelector((state) =>
+    getLoadingAndErrors(state, [RequestsEnum.marketplaceGetListings])
+  );
+  console.log(listings, isLoading, errors);
 
   const [optionsSelected, setOptionsSelected] = useState([[]]);
   const [forSaleOnly, setForSaleOnly] = useState(false);
@@ -45,7 +45,18 @@ export default function Marketplace() {
     setPriceRange(["", ""]);
   };
 
-  return (
+  if (errors) {
+    for (const error of errors) {
+      enqueueSnackbar(error, {
+        variant: "error",
+        autoHideDuration: 3000,
+      });
+    }
+  }
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Box display="flex">
       <FiltersBar
         clearFilters={clearFilters}
