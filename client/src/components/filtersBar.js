@@ -180,7 +180,7 @@ export default function FiltersBar({
     <Box
       sx={{
         width: "250px",
-        height: "calc(100vh - 162px)",
+        height: "calc(100vh - 170px)",
         position: "sticky",
         top: "80px",
         overflowY: "auto",
