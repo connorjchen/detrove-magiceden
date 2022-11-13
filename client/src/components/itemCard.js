@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import solanaIcon from "../images/solanaIcon.png";
 
-export default function ItemCard({ address, image, title, price, page }) {
+export default function ItemCard({ sneakerId, image, title, price, page }) {
   const theme = useTheme();
 
   function ItemCardContent() {
@@ -59,7 +59,7 @@ export default function ItemCard({ address, image, title, price, page }) {
         </CardContent>
         {!price && page == "profile" && (
           <Link
-            to={`/sell/${address}`}
+            to={`/sell/${sneakerId}`}
             style={{
               textDecoration: "none",
             }}
@@ -97,7 +97,7 @@ export default function ItemCard({ address, image, title, price, page }) {
   if (page == "marketplace") {
     return (
       <Link
-        to={`/product/${address}`}
+        to={`/product/${sneakerId}`}
         style={{
           textDecoration: "none",
         }}
@@ -147,7 +147,7 @@ export default function ItemCard({ address, image, title, price, page }) {
   } else if (page == "profile") {
     return (
       <Link
-        to={`/product/${address}`}
+        to={`/product/${sneakerId}`}
         style={{
           textDecoration: "none",
         }}

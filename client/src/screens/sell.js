@@ -16,7 +16,7 @@ import solanaIcon from "../images/solanaIcon.png";
 export default function Sell() {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { address } = useParams();
+  const { sneakerId } = useParams();
 
   const [solPrice, setSolPrice] = useState("");
   const [usdPrice, setUsdPrice] = useState("0");

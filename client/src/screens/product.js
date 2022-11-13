@@ -16,6 +16,7 @@ import LineGraph from "../components/linegraph";
 export default function Product() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { sneakerId } = useParams();
 
   const [sizeSelected, setSizeSelected] = useState("Select Size");
 
@@ -169,7 +170,7 @@ export default function Product() {
               sizes={sizes}
             />
             <Link
-              to={`/buy/${address}`}
+              to={`/buy/${sneakerId}`}
               style={{
                 textDecoration: "none",
               }}

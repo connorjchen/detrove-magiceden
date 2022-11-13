@@ -11,7 +11,6 @@ import {
   ClickAwayListener,
   Fade,
 } from "@mui/material";
-import { getListing } from "../redux/actions/listingActions";
 import ItemCard from "../components/itemCard";
 import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
 import solanaIcon from "../images/solanaIcon.png";
@@ -54,7 +53,7 @@ export default function Buy() {
   const dispatch = useDispatch();
   const { address } = useParams();
   useEffect(() => {
-    dispatch(getListing());
+    // dispatch(getListing());
   }, [dispatch]);
 
   const { loading, error, listing } = useSelector((state) => state.listings);
