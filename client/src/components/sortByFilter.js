@@ -34,7 +34,8 @@ export default function SortByFilter({ sortBy, setSortBy, options }) {
           <Box
             sx={{
               ...theme.dropdownBox,
-              right: "32px",
+              top: "139px",
+              marginTop: "-131px",
             }}
           >
             {options.map((option, i) => (

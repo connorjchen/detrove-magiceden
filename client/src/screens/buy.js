@@ -56,7 +56,6 @@ export default function Buy() {
     // dispatch(getListing());
   }, [dispatch]);
 
-  const { loading, error, listing } = useSelector((state) => state.listings);
   const [solPrice, setSolPrice] = useState("");
   const [usdPrice, setUsdPrice] = useState("0");
   const [sizeSelected, setSizeSelected] = useState("Select Size");

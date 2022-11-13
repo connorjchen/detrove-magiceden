@@ -34,9 +34,8 @@ export default function SearchBar() {
         <Box
           sx={{
             ...theme.dropdownBox,
-            position: "relative",
-            top: "240px",
-            marginTop: "-232px",
+            top: "216px",
+            marginTop: "-208px",
           }}
         >
           {options.map(([title, image], i) => (
