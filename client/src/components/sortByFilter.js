@@ -15,6 +15,7 @@ import checkMark from "../images/checkMark.svg";
 export default function SortByFilter({ sortBy, setSortBy, options }) {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
+  const heightOfDropdown = 38.39 * options.length + 16;
 
   return (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
@@ -34,8 +35,8 @@ export default function SortByFilter({ sortBy, setSortBy, options }) {
           <Box
             sx={{
               ...theme.dropdownBox,
-              top: "139px",
-              marginTop: "-131px",
+              top: `${heightOfDropdown + 8}px`,
+              marginTop: `-${heightOfDropdown}px`,
             }}
           >
             {options.map((option, i) => (
