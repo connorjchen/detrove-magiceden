@@ -12,25 +12,21 @@ export async function getSneaker(sneakerId, req, res) {
 }
 
 export async function getListings(sneakerId, req, res) {
-  // REPLACE QUERY
   try {
-    let result = await query(`SELECT * FROM listings`);
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-export async function getUnlistedNfts(
-  userId,
-  sneakerId,
-  ownedNftAddresses,
-  req,
-  res
-) {
-  // REPLACE QUERY
-  try {
-    let result = await query(`SELECT * FROM listings`);
+    let result = await query(
+      `SELECT subquery.*
+      FROM (
+        SELECT listings.*, items.size, ROW_NUMBER() OVER(PARTITION BY items.size ORDER BY listings.price) row_num
+          FROM items
+          INNER JOIN listings ON items.id = listings.item_id
+        WHERE listings.sold_at IS NULL
+          AND listings.deleted_at IS NULL
+          AND items.sneaker_id = ?
+        ) subquery
+      WHERE subquery.row_num = 1
+      ORDER BY subquery.size`,
+      [sneakerId]
+    );
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });

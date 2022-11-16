@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getSneaker,
-  getUnlistedNfts,
+  getUnlistedItems,
   createListing,
 } from "../services/sellServices.js";
 
@@ -12,15 +12,14 @@ router.get("/sneaker/:sneakerId", async function (req, res) {
   await getSneaker(sneakerId, req, res);
 });
 
-router.get("/unlisted/nfts/:userId/:sneakerId", async function (req, res) {
+router.get("/unlisted/items/:userId/:sneakerId", async function (req, res) {
   const { userId, sneakerId } = req.params;
-  const { nftAddresses } = req.body;
-  await getUnlistedNfts(userId, sneakerId, nftAddresses, req, res);
+  await getUnlistedItems(userId, sneakerId, req, res);
 });
 
 router.post("/listing", async function (req, res) {
-  const { nftId, sellerId, price, startDate, endDate } = req.body;
-  await createListing(nftId, sellerId, price, startDate, endDate, req, res);
+  const { itemId, sellerId, price } = req.body;
+  await createListing(itemId, sellerId, price, req, res);
 });
 
 export default router;

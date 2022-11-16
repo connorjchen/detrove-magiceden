@@ -9,6 +9,7 @@ import profileRouter from "./routers/profileRouter.js";
 import productRouter from "./routers/productRouter.js";
 import searchRouter from "./routers/searchRouter.js";
 import buyRouter from "./routers/buyRouter.js";
+import listingRouter from "./routers/listingRouter.js";
 
 const app = express();
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/profile", profileRouter);
 app.use("/api/product", productRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/buy", buyRouter);
+app.use("/api/listing", listingRouter);
 
 const PORT = process.env.PORT || 5000;
 

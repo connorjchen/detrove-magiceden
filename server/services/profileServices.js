@@ -1,9 +1,37 @@
 import { query } from "../db.js";
 
-export async function getSneakers(nftAddresses, req, res) {
-  // REPLACE QUERY
+export async function getItems(userId, req, res) {
   try {
-    let result = await query(`SELECT * FROM listings`);
+    let result = await query(
+      `SELECT * FROM items
+    INNER JOIN sneakers ON items.sneaker_id = sneakers.id
+    INNER JOIN listings ON items.id = listings.item_id
+    WHERE items.owner_id = ? AND listings.sold_at IS NULL AND listings.deleted_at IS NULL
+    ORDER BY sneakers.id, items.size;`,
+      [userId]
+    );
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export async function getActiveListings(userId, req, res) {
+  try {
+    let result = await query(
+      `SELECT * FROM listings
+      WHERE seller_id = ? AND sold_at IS NULL AND deleted_at IS NULL ORDER BY created_at`,
+      [userId]
+    );
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export async function getUser(userId, req, res) {
+  try {
+    let result = await query(`SELECT * FROM users WHERE id = ?`, [userId]);
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -11,60 +39,10 @@ export async function getSneakers(nftAddresses, req, res) {
 }
 
 export async function getWatchlist(userId, req, res) {
-  // REPLACE QUERY
   try {
-    let result = await query(`SELECT * FROM listings`);
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-export async function getUser(userAddress, req, res) {
-  try {
-    let result = await query(
-      `SELECT * FROM users WHERE blockchain_address = ?`,
-      [userAddress]
-    );
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-export async function createUser(
-  username,
-  blockchain_address,
-  profile_pic,
-  req,
-  res
-) {
-  try {
-    let result = await query(
-      `INSERT INTO users
-    VALUES (?, ?, ?, ?, DEFAULT)`,
-      [uuid(), username, blockchain_address, profile_pic]
-    );
-    res.json({ result });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-export async function updateUser(userId, username, req, res) {
-  try {
-    const updateResult = await query(
-      `UPDATE users SET username = ? WHERE id = ?`,
-      [username, userId]
-    );
-
-    if (updateResult.affectedRows === 0) {
-      res.status(500).json({ message: "No rows were affected" });
-      return;
-    }
-
-    let result = await query(`SELECT * FROM users WHERE id = ?`, [userId]);
-
+    let result = await query(`SELECT * FROM watchlist_items WHERE id = ?`, [
+      userId,
+    ]);
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
