@@ -17,11 +17,10 @@ router.get("/listings/:sneakerId", async function (req, res) {
   await getListings(sneakerId, req, res);
 });
 
-router.patch("/purchase/:listingId"),
-  async function (req, res) {
-    const { listingId } = req.params;
-    const { buyerId } = req.body;
-    await updatePurchase(listingId, buyerId);
-  };
+router.patch("/purchase/:listingId", async function (req, res) {
+  const { listingId } = req.params;
+  const { buyerId } = req.body;
+  await updatePurchase(listingId, buyerId, req, res);
+});
 
 export default router;

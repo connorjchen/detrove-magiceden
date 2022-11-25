@@ -8,6 +8,8 @@ const darkerGrey = "rgba(22, 22, 26, 0.5)";
 const black = "#000000";
 const darkBlue = "#35456a";
 const lightDarkBlue = "rgb(82, 97, 128)";
+const red = "rgba(211,48,47,255)";
+const lightRed = "rgba(211,48,47,0.8)";
 
 const theme = createTheme({
   typography: {
@@ -33,6 +35,10 @@ const theme = createTheme({
     accent: {
       hover: lightDarkBlue,
       dark: darkBlue,
+    },
+    error: {
+      main: red,
+      hover: lightRed,
     },
   },
   components: {

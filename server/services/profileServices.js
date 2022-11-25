@@ -3,13 +3,37 @@ import { query } from "../db.js";
 export async function getItems(userId, req, res) {
   try {
     let result = await query(
-      `SELECT * FROM items
-    INNER JOIN sneakers ON items.sneaker_id = sneakers.id
-    INNER JOIN listings ON items.id = listings.item_id
-    WHERE items.owner_id = ? AND listings.sold_at IS NULL AND listings.deleted_at IS NULL
-    ORDER BY sneakers.id, items.size;`,
-      [userId]
+      `
+      SELECT items.*, sneakers.brand, sneakers.name, listings.price
+      FROM items
+      INNER JOIN sneakers ON items.sneaker_id = sneakers.id
+      INNER JOIN listings ON items.id = listings.item_id
+      WHERE items.owner_id = ?
+      AND listings.sold_at IS NULL
+      AND listings.deleted_at IS NULL
+
+      UNION
+
+      SELECT  items.*, sneakers.brand, sneakers.name, NULL as price
+      FROM items
+      INNER JOIN sneakers ON items.sneaker_id = sneakers.id
+      WHERE items.id NOT IN (
+      SELECT items.id
+        FROM items
+        INNER JOIN listings ON items.id = listings.item_id
+        WHERE listings.sold_at IS NULL
+        AND listings.deleted_at IS NULL
+      )
+      AND items.owner_id = ?
+      `,
+      [userId, userId]
     );
+    result = result.map((item) => {
+      if (item.price) {
+        item.price = Number(item.price);
+      }
+      return item;
+    });
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -19,8 +43,16 @@ export async function getItems(userId, req, res) {
 export async function getActiveListings(userId, req, res) {
   try {
     let result = await query(
-      `SELECT * FROM listings
-      WHERE seller_id = ? AND sold_at IS NULL AND deleted_at IS NULL ORDER BY created_at`,
+      `
+      SELECT listings.*, items.size, sneakers.name, items.sneaker_id
+      FROM listings
+      INNER JOIN items ON listings.item_id = items.id
+      INNER JOIN sneakers ON items.sneaker_id = sneakers.id
+      WHERE seller_id = ?
+      AND sold_at IS NULL
+      AND deleted_at IS NULL 
+      ORDER BY created_at
+      `,
       [userId]
     );
     res.json({ result });
@@ -29,9 +61,12 @@ export async function getActiveListings(userId, req, res) {
   }
 }
 
-export async function getUser(userId, req, res) {
+export async function getUser(userEmail, req, res) {
   try {
-    let result = await query(`SELECT * FROM users WHERE id = ?`, [userId]);
+    let result = await query(`SELECT * FROM users WHERE email = ?`, [
+      userEmail,
+    ]);
+    result = result[0];
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });

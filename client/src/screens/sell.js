@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import {
   Box,
   Typography,
@@ -8,33 +13,70 @@ import {
   Grid,
   OutlinedInput,
   Divider,
+  ClickAwayListener,
+  Fade,
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
-import hermesSneaker from "../images/hermesSneaker.jpg"; // remove to be dynamic with data
-import solanaIcon from "../images/solanaIcon.png";
+import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
+import { SelectSize } from "../components/selectSize";
+import {
+  getUnlistedItems,
+  getSneaker,
+  createListing,
+} from "../redux/actions/sellActions";
+import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
+import { RequestsEnum } from "../redux/helpers/requestsEnum";
+import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
+import { useSnackbar } from "notistack";
+import Loading from "../components/loading";
 
 export default function Sell() {
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [searchParams, _] = useSearchParams();
+
   const { sneakerId } = useParams();
+  const { sneaker, unlistedItems } = useSelector((state) => state.sell);
+  const { isLoading, errors } = useSelector((state) =>
+    getLoadingAndErrors(state, [
+      RequestsEnum.sellGetSneaker,
+      RequestsEnum.sellGetUnlistedItems,
+    ])
+  );
+  const [sizeSelected, setSizeSelected] = useState("Select Size");
+  const [price, setPrice] = useState("");
 
-  const [solPrice, setSolPrice] = useState("");
-  const [usdPrice, setUsdPrice] = useState("0");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const solToUsedConversion = 32.34;
-
-  const handleSolPriceChange = (event) => {
-    const val = event.target.value;
-    if (val.split(".")[1] && val.split(".")[1].length > 4) {
-      return;
+  useEffect(() => {
+    if (searchParams.get("size")) {
+      const searchParamSize = Number(searchParams.get("size"));
+      setSizeSelected(searchParamSize);
     }
-    setSolPrice(val);
-    setUsdPrice(
-      (val * solToUsedConversion)
-        .toFixed(2)
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    );
+  }, [searchParams]);
+
+  useEffect(() => {
+    dispatch(getSneaker(sneakerId));
+    dispatch(
+      getUnlistedItems("83447b8e-341b-42b1-97ba-d5987342dbc2", sneakerId)
+    ); // TODO: userId
+  }, [dispatch]);
+
+  useEffect(() => {
+    displayErrors(errors, enqueueSnackbar);
+  }, [errors, displayErrors, enqueueSnackbar]);
+
+  const handleCreateListing = () => {
+    if (sizeSelected === "Select Size") return;
+
+    // TODO: get item id and user id
+    const itemId = "08cfbab5-6952-4fc7-a933-bbb17f915448";
+
+    dispatch(
+      createListing(itemId, "83447b8e-341b-42b1-97ba-d5987342dbc2", price)
+    ).then((res) => {
+      navigate("/profile");
+    });
   };
 
   function renderPriceInput() {
@@ -42,34 +84,17 @@ export default function Sell() {
       <Box>
         <Typography variant="h6">Price</Typography>
         <OutlinedInput
-          value={solPrice}
+          value={price}
           type="number"
-          onChange={(e) => handleSolPriceChange(e)}
-          startAdornment={
-            <Box
-              component="img"
-              src={solanaIcon}
-              width="16px"
-              marginRight="8px"
-            />
-          }
-          placeholder="Amount"
+          onChange={(e) => setPrice(e.target.value)}
+          startAdornment={<Typography variant="h6">$</Typography>}
+          placeholder="Price"
           sx={{
             ...theme.inputAnimation,
             height: "48px",
             width: "100%",
           }}
         />
-        <Typography
-          variant="h6"
-          fontSize="14px"
-          fontWeight="normal"
-          color={theme.palette.secondary.bold}
-          display="flex"
-          justifyContent="right"
-        >
-          ${usdPrice}
-        </Typography>
       </Box>
     );
   }
@@ -98,40 +123,15 @@ export default function Sell() {
     );
   }
 
-  function DurationInfo({}) {
+  function TotalIncome({}) {
     return (
       <>
-        <Typography variant="h6">Duration</Typography>
         <Box display="flex" justifyContent="space-between">
-          <Typography
-            variant="h6"
-            fontSize="14px"
-            color={theme.palette.secondary.bold}
-          >
-            Start Date
+          <Typography variant="h6" fontSize="20px">
+            Total Income:
           </Typography>
-          <Typography
-            variant="h6"
-            fontSize="14px"
-            color={theme.palette.secondary.bold}
-          >
-            Today
-          </Typography>
-        </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Typography
-            variant="h6"
-            fontSize="14px"
-            color={theme.palette.secondary.bold}
-          >
-            End Date
-          </Typography>
-          <Typography
-            variant="h6"
-            fontSize="14px"
-            color={theme.palette.secondary.bold}
-          >
-            6 Months from Today
+          <Typography variant="h6" fontSize="20px">
+            {price ? `${convertToDisplayPrice(price * 0.95)}` : "$"}
           </Typography>
         </Box>
       </>
@@ -149,26 +149,35 @@ export default function Sell() {
           marginTop: "32px",
           "&:hover": {
             backgroundColor: theme.palette.accent.hover,
+            cursor: sizeSelected === "Select Size" ? "not-allowed" : "pointer",
           },
         }}
-        onClick={() => console.log("hi")}
+        onClick={handleCreateListing}
       >
-        <Typography variant="h6">Complete Listing</Typography>
+        <Typography variant="h6">Purchase</Typography>
       </Box>
     );
   }
+
+  if (isLoading) return <Loading />;
 
   return (
     <Box display="flex" justifyContent="center">
       <Box marginRight="64px" width="600px">
         <Typography variant="h6" fontSize="30px" marginBottom="16px">
-          Sell NFT
+          Sell Sneaker
         </Typography>
-        {renderPriceInput(solPrice, handleSolPriceChange, usdPrice)}
+        <SelectSize
+          listings={unlistedItems}
+          sizeSelected={sizeSelected}
+          handleSizeSelect={(size) => setSizeSelected(size)}
+        />
         <Divider sx={{ margin: "16px 0" }} />
-        <DurationInfo />
+        {renderPriceInput()}
         <Divider sx={{ margin: "16px 0" }} />
         <FeesInfo />
+        <Divider sx={{ margin: "16px 0" }} />
+        <TotalIncome />
         <BuyButton />
       </Box>
       <Box>
@@ -177,9 +186,11 @@ export default function Sell() {
         </Typography>
         <ItemCard
           address={1}
-          image={hermesSneaker}
-          title={"Hermes Expert Sneaker Size 9M"}
-          price={solPrice}
+          image={jordanObsidian}
+          title={`${sneaker.name} ${
+            sizeSelected === "Select Size" ? "" : `Size ${sizeSelected}`
+          }`}
+          price={price ?? ""}
           page="sell"
         />
       </Box>

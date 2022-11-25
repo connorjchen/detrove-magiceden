@@ -37,7 +37,7 @@ export default function FiltersBar({
           height: "48px",
           marginBottom: "16px",
         }}
-        onClick={() => clearFilters()}
+        onClick={clearFilters}
       >
         <Typography variant="h6">Clear Filters</Typography>
       </Box>
@@ -59,7 +59,7 @@ export default function FiltersBar({
         </AccordionSummary>
         <AccordionDetails>
           <FormGroup>
-            {options.map((option, i) => (
+            {options[idx].map((option, i) => (
               <FormControlLabel
                 key={i}
                 control={
@@ -188,7 +188,9 @@ export default function FiltersBar({
       }}
     >
       <ClearFiltersButton clearFilters={clearFilters} />
-      {renderCheckListFilter("Brand", options[0], selectOption, 0)}
+      {renderCheckListFilter("Brand", options, selectOption, 0)}
+      <Divider />
+      {renderCheckListFilter("Size", options, selectOption, 1)}
       <Divider />
       {renderPriceFilter()}
       <Divider />

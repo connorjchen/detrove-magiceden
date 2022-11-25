@@ -52,17 +52,6 @@ const options = {
   },
 };
 
-function StyledTab({ label }) {
-  return (
-    <Tab
-      sx={{
-        minWidth: "initial",
-      }}
-      label={label}
-    />
-  );
-}
-
 export default function LineGraph() {
   const theme = useTheme();
 
@@ -71,16 +60,31 @@ export default function LineGraph() {
 
   useEffect(() => {
     let data = [];
-    let value = 50;
-    for (var i = 0; i < 366; i++) {
+    let value = 0;
+    let numDays = 0;
+
+    if (tab === 0) {
+      numDays = 1;
+    } else if (tab === 1) {
+      numDays = 7;
+    } else if (tab === 2) {
+      numDays = 30;
+    } else if (tab === 3) {
+      numDays = 90;
+    } else if (tab === 4) {
+      numDays = 365;
+    } else if (tab === 5) {
+      numDays = 1825;
+    }
+
+    for (var i = 0; i <= numDays; i++) {
       let date = new Date();
-      date.setHours(0, 0, 0, 0);
-      date.setDate(i);
-      value += Math.round((Math.random() < 0.5 ? 1 : 0) * Math.random() * 10);
+      date.setDate(date.getDate() - numDays + i);
+      value = 400;
       data.push({ x: date, y: value });
     }
     setData(data);
-  }, []);
+  }, [tab]);
 
   return (
     <Box
@@ -91,10 +95,10 @@ export default function LineGraph() {
     >
       <Box>
         <Typography variant="h6" fontSize="24px">
-          $114,656,84
+          $400
         </Typography>
         <Typography variant="h6" fontSize="14px">
-          $142.90 (-0,12) Today
+          $0.00 (+0.00) Today
         </Typography>
       </Box>
       <Box height="100%">
@@ -122,7 +126,7 @@ export default function LineGraph() {
       </Box>
       <Box>
         <Tabs
-          textColor="black"
+          textColor="inherit"
           value={tab}
           onChange={(_, tab) => setTab(tab)}
           TabIndicatorProps={{

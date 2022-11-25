@@ -5,6 +5,7 @@ export async function getSneaker(sneakerId, req, res) {
     let result = await query(`SELECT * FROM sneakers WHERE id = ?`, [
       sneakerId,
     ]);
+    result = result[0];
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,7 +15,8 @@ export async function getSneaker(sneakerId, req, res) {
 export async function getListings(sneakerId, req, res) {
   try {
     let result = await query(
-      `SELECT subquery.*
+      `
+      SELECT subquery.*
       FROM (
         SELECT listings.*, items.size, ROW_NUMBER() OVER(PARTITION BY items.size ORDER BY listings.price) row_num
           FROM items
@@ -24,7 +26,8 @@ export async function getListings(sneakerId, req, res) {
           AND items.sneaker_id = ?
         ) subquery
       WHERE subquery.row_num = 1
-      ORDER BY subquery.size`,
+      ORDER BY subquery.size
+      `,
       [sneakerId]
     );
     res.json({ result });
@@ -48,8 +51,10 @@ export async function getIsWatchlistItem(userId, sneakerId, req, res) {
 export async function createWatchlistItem(userId, sneakerId, req, res) {
   try {
     let result = await query(
-      `INSERT INTO watchlist_items
-    VALUES (?, ?, ?, DEFAULT, DEFAULT)`,
+      `
+      INSERT INTO watchlist_items
+      VALUES (?, ?, ?, DEFAULT, DEFAULT)
+      `,
       [uuid(), userId, sneakerId]
     );
     res.json({ result });

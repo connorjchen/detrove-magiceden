@@ -2,11 +2,18 @@ import { query } from "../db.js";
 
 export async function getListing(listingId, req, res) {
   try {
-    let result = await query(`SELECT * FROM listings WHERE id = ?`, [
-      listingId,
-    ]);
+    let result = await query(
+      `
+      SELECT listings.*, items.size, sneakers.name
+      FROM listings
+      INNER JOIN items ON listings.item_id = items.id
+      INNER JOIN sneakers ON items.sneaker_id = sneakers.id
+      WHERE listings.id = ?
+      `,
+      [listingId]
+    );
 
-    res.json({ result });
+    res.json({ result: result[0] });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

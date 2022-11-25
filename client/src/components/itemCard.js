@@ -9,7 +9,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import solanaIcon from "../images/solanaIcon.png";
+import { convertToDisplayPrice } from "../utils/utils";
 
 export default function ItemCard({ sneakerId, image, title, price, page }) {
   const theme = useTheme();
@@ -43,23 +43,17 @@ export default function ItemCard({ sneakerId, image, title, price, page }) {
           <Typography variant="h6" fontSize={"12px"}>
             Price
           </Typography>
-          <Box display="flex" alignItems="center">
-            <Box
-              component="img"
-              src={solanaIcon}
-              width="16px"
-              marginRight="8px"
-            />
+          <Box>
             <Typography variant="h6">
-              {price === undefined && page === "profile"
+              {price === null && page === "profile"
                 ? "Unlisted"
-                : `${price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} SOL`}
+                : convertToDisplayPrice(price)}
             </Typography>
           </Box>
         </CardContent>
-        {!price && page == "profile" && (
+        {!price && page === "profile" && (
           <Link
-            to={`/sell/${sneakerId}`}
+            to={`/sell/${sneakerId}`} // TODO: add sneaker size as query
             style={{
               textDecoration: "none",
             }}
@@ -94,7 +88,7 @@ export default function ItemCard({ sneakerId, image, title, price, page }) {
     );
   }
 
-  if (page == "marketplace") {
+  if (page === "marketplace") {
     return (
       <Link
         to={`/product/${sneakerId}`}
@@ -119,7 +113,7 @@ export default function ItemCard({ sneakerId, image, title, price, page }) {
         </Card>
       </Link>
     );
-  } else if (page == "sell") {
+  } else if (page === "sell" || page === "buy") {
     return (
       <Card
         sx={{

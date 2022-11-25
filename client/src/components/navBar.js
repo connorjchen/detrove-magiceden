@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useTheme,
   alpha,
@@ -16,16 +16,17 @@ import {
   Drawer,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@material-ui/icons";
-import { Link } from "react-router-dom";
-import phantomLogo from "../images/phantomLogo.svg";
+import { Link, useNavigate } from "react-router-dom";
 import detroveLogo from "../images/detroveLogo/detroveLogo.svg";
 import SearchBar from "./searchBar";
-import "./wallet.css";
-import {
-  WalletDisconnectButton,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
+import jwt_decode from "jwt-decode";
+import { RequestsEnum } from "../redux/helpers/requestsEnum";
+import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
+import { useSnackbar } from "notistack";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../components/loading";
+import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
+import { getUser } from "../redux/actions/profileActions";
 
 const drawerWidth = 240;
 const navItems = [
@@ -33,22 +34,61 @@ const navItems = [
   ["Profile", "/profile"],
 ];
 
-require("@solana/wallet-adapter-react-ui/styles.css");
 export default function NavBar(props) {
+  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isConnected, setIsConnected] = React.useState(false);
-  const { publicKey, wallet, disconnect } = useWallet();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
-  const content = useMemo(() => {
-    if (!wallet || !base58) {
-      return "Connect";
+  const { user } = useSelector((state) => state.profile);
+  const { isLoading, errors } = useSelector((state) =>
+    getLoadingAndErrors(state, [RequestsEnum.profileGetUser])
+  );
+
+  const googleSignInCallback = (response) => {
+    const user = jwt_decode(response.credential);
+    dispatch(getUser(user.email));
+    navigate("/profile");
+    localStorage.setItem("userEmail", user.email);
+  };
+
+  const googleSignOutCallback = () => {
+    dispatch(getUser(null));
+    navigate("/");
+    localStorage.removeItem("userEmail");
+  };
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id:
+        "320221953489-1m1bpln163tqqvfkgh3fhpgdv15jm5nd.apps.googleusercontent.com",
+      callback: (response) => googleSignInCallback(response),
+    });
+
+    if (localStorage.getItem("userEmail")) {
+      dispatch(getUser(localStorage.getItem("userEmail")));
     }
-    setIsConnected(true);
-    return base58.slice(0, 4) + ".." + base58.slice(-4);
-  }, [wallet, base58]);
+  }, []);
+
+  useEffect(() => {
+    /* global google */
+    if (!user) {
+      google.accounts.id.renderButton(document.getElementById("googleSignIn"), {
+        theme: "outline",
+        size: "large",
+      });
+      document.getElementById("googleSignIn").hidden = false;
+    } else {
+      document.getElementById("googleSignIn").hidden = true;
+    }
+  }, [user]);
+
+  useEffect(() => {
+    displayErrors(errors, enqueueSnackbar);
+  }, [errors, displayErrors, enqueueSnackbar]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -83,6 +123,25 @@ export default function NavBar(props) {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+  const NavBarText = ({ text }) => {
+    return (
+      <Typography
+        variant="h6"
+        color={theme.palette.secondary.bold}
+        sx={{
+          ...theme.easeTransition,
+          whiteSpace: "nowrap",
+          padding: "0 16px 0 0",
+          "&:hover": {
+            color: theme.palette.tertiary.main,
+          },
+        }}
+      >
+        {text}
+      </Typography>
+    );
+  };
 
   return (
     <Box display="flex" height="54px">
@@ -149,23 +208,6 @@ export default function NavBar(props) {
           <Box
             sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}
           >
-            {navItems.map(([item, link], i) => (
-              <Link key={i} to={link} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="h6"
-                  color={theme.palette.secondary.bold}
-                  sx={{
-                    ...theme.easeTransition,
-                    padding: "0 16px 0 0",
-                    "&:hover": {
-                      color: theme.palette.tertiary.main,
-                    },
-                  }}
-                >
-                  {item}
-                </Typography>
-              </Link>
-            ))}
             <Box
               component="a"
               href="https://detrove.gitbook.io/litepaper/"
@@ -175,27 +217,26 @@ export default function NavBar(props) {
                 textDecoration: "none",
               }}
             >
-              <Typography
-                variant="h6"
-                color={theme.palette.secondary.bold}
+              <NavBarText text="Docs" />
+            </Box>
+            {navItems.map(([item, link], i) => (
+              <Link key={i} to={link} style={{ textDecoration: "none" }}>
+                <NavBarText text={item} />
+              </Link>
+            ))}
+            <Box id="googleSignIn"></Box>
+            {user && (
+              <Box
+                onClick={() => googleSignOutCallback()}
                 sx={{
-                  ...theme.easeTransition,
-                  padding: "0 16px 0 0",
                   "&:hover": {
-                    color: theme.palette.tertiary.main,
+                    cursor: "pointer",
                   },
                 }}
               >
-                Docs
-              </Typography>
-            </Box>
-
-            <WalletMultiButton
-              className={
-                isConnected ? "wallet-button-connected" : "wallet-button"
-              }
-              children={content}
-            />
+                {<NavBarText text="Sign Out" />}
+              </Box>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

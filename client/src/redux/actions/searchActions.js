@@ -3,16 +3,16 @@ import { apiBaseUrl } from "../constants";
 import { requestHelper } from "../helpers/requestsHelpers";
 import { RequestsEnum } from "../helpers/requestsEnum";
 
-const baseUrl = `${apiBaseUrl}/marketplace`;
+const baseUrl = `${apiBaseUrl}/search`;
 
-export const getListings = () => async (dispatch) => {
+export const getSneakers = () => async (dispatch) => {
   return await requestHelper(
     dispatch,
-    RequestsEnum.marketplaceGetListings,
+    RequestsEnum.searchGetSneakers,
     async () => {
-      const { data } = await Axios.get(`${baseUrl}/listings`);
+      const { data } = await Axios.get(`${baseUrl}/sneakers`);
       dispatch({
-        type: RequestsEnum.marketplaceGetListings,
+        type: RequestsEnum.searchGetSneakers,
         payload: data.result,
       });
     }

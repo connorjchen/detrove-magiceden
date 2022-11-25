@@ -7,6 +7,7 @@ import Buy from "./screens/buy";
 import Profile from "./screens/profile";
 import NavBar from "./components/navBar";
 import Footer from "./components/footer";
+import Listing from "./screens/listing";
 import { ThemeProvider } from "@mui/material";
 import theme from "./styles/theme";
 import { SnackbarProvider } from "notistack";
@@ -53,6 +54,7 @@ function App() {
               <Route path="/product/:sneakerId" element={<Product />} />
               <Route path="/sell/:sneakerId" element={<Sell />} />
               <Route path="/buy/:sneakerId" element={<Buy />} />
+              <Route path="/listing/:listingId" element={<Listing />} />
               <Route path="/profile" element={<Profile />} />
             </Routes>
             <Footer />

@@ -19,79 +19,70 @@ import {
 import ItemCard from "../components/itemCard";
 import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import { SelectSize } from "../components/selectSize";
-import {
-  getListings,
-  getSneaker,
-  purchaseListing,
-} from "../redux/actions/buyActions";
+import { getListing, updateListing } from "../redux/actions/listingActions";
 import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
 
-export default function Buy() {
+export default function Listing() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [searchParams, _] = useSearchParams();
 
-  const { sneakerId } = useParams();
-  const { sneaker, listings } = useSelector((state) => state.buy);
+  const { listingId } = useParams();
+  const { listing } = useSelector((state) => state.listing);
   const { isLoading, errors } = useSelector((state) =>
-    getLoadingAndErrors(state, [
-      RequestsEnum.buyGetSneaker,
-      RequestsEnum.buyGetListings,
-    ])
+    getLoadingAndErrors(state, [RequestsEnum.listingGetListing])
   );
-  const [sizeSelected, setSizeSelected] = useState("Select Size");
   const [price, setPrice] = useState("");
 
   useEffect(() => {
-    if (searchParams.get("size")) {
-      const searchParamSize = Number(searchParams.get("size"));
-      setSizeSelected(searchParamSize);
-      setPrice(listings.find((l) => l.size === searchParamSize)?.price);
-    }
-  }, [listings, searchParams]);
+    dispatch(getListing(listingId));
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getSneaker(sneakerId));
-    dispatch(getListings(sneakerId));
-  }, [dispatch]);
+    if (listing) {
+      setPrice(listing.price);
+    }
+  }, [listing]);
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
   }, [errors, displayErrors, enqueueSnackbar]);
 
-  const handleSizeSelect = (size) => {
-    setSizeSelected(size);
-    setPrice(listings.find((l) => l.size === size).price);
-  };
-
-  const handlePurchase = () => {
-    if (sizeSelected === "Select Size") return;
-
-    // TODO: get buyer id from user state
-    const buyerId = "83447b8e-341b-42b1-97ba-d5987342dbc2";
-
-    dispatch(
-      purchaseListing(listings.find((l) => l.size === sizeSelected).id, buyerId)
-    ).then((res) => {
+  const handleUpdateListing = (isDeleted) => {
+    dispatch(updateListing(listingId, price, isDeleted)).then((res) => {
       navigate("/profile");
     });
   };
 
-  function PriceInfo({}) {
+  function renderPriceInput() {
+    return (
+      <Box>
+        <Typography variant="h6">Price</Typography>
+        <OutlinedInput
+          value={price}
+          type="number"
+          onChange={(e) => setPrice(e.target.value)}
+          startAdornment={<Typography variant="h6">$</Typography>}
+          placeholder="Price"
+          sx={{
+            ...theme.inputAnimation,
+            height: "48px",
+            width: "100%",
+          }}
+        />
+      </Box>
+    );
+  }
+
+  function FeesInfo({}) {
     return (
       <>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="h6">Market Price:</Typography>
-          <Typography variant="h6">
-            {price ? `${convertToDisplayPrice(price)}` : "$"}
-          </Typography>
-        </Box>
+        <Typography variant="h6">Fees</Typography>
         <Box display="flex" justifyContent="space-between">
           <Typography
             variant="h6"
@@ -112,22 +103,22 @@ export default function Buy() {
     );
   }
 
-  function TotalCost({}) {
+  function TotalIncome({}) {
     return (
       <>
         <Box display="flex" justifyContent="space-between">
           <Typography variant="h6" fontSize="20px">
-            Order Total:
+            Total Income:
           </Typography>
           <Typography variant="h6" fontSize="20px">
-            {price ? `${convertToDisplayPrice(price * 1.05)}` : "$"}
+            {price ? `${convertToDisplayPrice(price * 0.95)}` : "$"}
           </Typography>
         </Box>
       </>
     );
   }
 
-  function BuyButton({}) {
+  function UpdateButton({}) {
     return (
       <Box
         sx={{
@@ -138,12 +129,33 @@ export default function Buy() {
           marginTop: "32px",
           "&:hover": {
             backgroundColor: theme.palette.accent.hover,
-            cursor: sizeSelected === "Select Size" ? "not-allowed" : "pointer",
+            cursor: "pointer",
           },
         }}
-        onClick={handlePurchase}
+        onClick={() => handleUpdateListing(false)}
       >
-        <Typography variant="h6">Purchase</Typography>
+        <Typography variant="h6">Update Listing</Typography>
+      </Box>
+    );
+  }
+
+  function DeleteButton({}) {
+    return (
+      <Box
+        sx={{
+          ...theme.basicButton,
+          height: "48px",
+          backgroundColor: theme.palette.error.main,
+          color: theme.palette.primary.main,
+          marginTop: "32px",
+          "&:hover": {
+            backgroundColor: theme.palette.error.hover,
+            cursor: "pointer",
+          },
+        }}
+        onClick={() => handleUpdateListing(true)}
+      >
+        <Typography variant="h6">Delete Listing</Typography>
       </Box>
     );
   }
@@ -154,18 +166,15 @@ export default function Buy() {
     <Box display="flex" justifyContent="center">
       <Box marginRight="64px" width="600px">
         <Typography variant="h6" fontSize="30px" marginBottom="16px">
-          Buy Sneaker
+          Update Listing
         </Typography>
-        <SelectSize
-          listings={listings}
-          sizeSelected={sizeSelected}
-          handleSizeSelect={(size) => handleSizeSelect(size)}
-        />
+        {renderPriceInput()}
         <Divider sx={{ margin: "16px 0" }} />
-        <PriceInfo />
+        <FeesInfo />
         <Divider sx={{ margin: "16px 0" }} />
-        <TotalCost />
-        <BuyButton />
+        <TotalIncome />
+        <UpdateButton />
+        <DeleteButton />
       </Box>
       <Box>
         <Typography variant="h6" marginBottom="16px">
@@ -174,11 +183,9 @@ export default function Buy() {
         <ItemCard
           address={1}
           image={jordanObsidian}
-          title={`${sneaker.name} ${
-            sizeSelected === "Select Size" ? "" : `Size ${sizeSelected}`
-          }`}
+          title={`${listing.name} ${listing.size}`}
           price={price ?? ""}
-          page="buy"
+          page="sell"
         />
       </Box>
     </Box>
