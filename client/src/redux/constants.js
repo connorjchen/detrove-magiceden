@@ -1,4 +1,6 @@
-export const apiBaseUrl = "http://localhost:5000/api";
+// export const apiBaseUrl = "http://localhost:5000/api";
+export const apiBaseUrl =
+  "https://nlaol79agi.execute-api.us-east-1.amazonaws.com/dev/api";
 
 export const defaultSneaker = {
   id: "unknown",

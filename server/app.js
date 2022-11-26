@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import serverless from "serverless-http";
 
 import marketplaceRouter from "./routers/marketplaceRouter.js";
 import sellRouter from "./routers/sellRouter.js";
@@ -42,3 +43,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () =>
   console.log(`Server Running on Port: http://localhost:${PORT}`)
 );
+
+export const handler = serverless(app);
