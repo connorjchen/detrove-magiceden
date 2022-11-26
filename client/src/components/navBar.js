@@ -55,7 +55,6 @@ export default function NavBar(props) {
     const googleSignInCallback = (response) => {
       const user = jwt_decode(response.credential);
       dispatch(getUser(user.email));
-      navigate("/profile");
       localStorage.setItem("userEmail", user.email);
     };
 

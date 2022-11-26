@@ -15,6 +15,7 @@ import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
+import LogInReminder from "../components/logInReminder";
 
 export default function Buy() {
   const { enqueueSnackbar } = useSnackbar();
@@ -25,8 +26,10 @@ export default function Buy() {
 
   const { sneakerId } = useParams();
   const { sneaker, listings } = useSelector((state) => state.buy);
+  const { user } = useSelector((state) => state.profile);
   const { isLoading, errors } = useSelector((state) =>
     getLoadingAndErrors(state, [
+      RequestsEnum.profileGetUser,
       RequestsEnum.buyGetSneaker,
       RequestsEnum.buyGetListings,
     ])
@@ -59,11 +62,8 @@ export default function Buy() {
   const handlePurchase = () => {
     if (sizeSelected === "Select Size") return;
 
-    // TODO: get buyer id from user state
-    const buyerId = "83447b8e-341b-42b1-97ba-d5987342dbc2";
-
     dispatch(
-      purchaseListing(listings.find((l) => l.size === sizeSelected).id, buyerId)
+      purchaseListing(listings.find((l) => l.size === sizeSelected).id, user.id)
     ).then((res) => {
       navigate("/profile");
     });
@@ -134,6 +134,7 @@ export default function Buy() {
     );
   }
 
+  if (!user) return <LogInReminder />;
   if (isLoading) return <Loading />;
 
   return (

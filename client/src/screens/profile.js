@@ -23,6 +23,7 @@ import { useSnackbar } from "notistack";
 import { filterAndSortProfileItems, displayErrors } from "../utils/utils.js";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import Loading from "../components/loading";
+import LogInReminder from "../components/logInReminder";
 
 export default function Profile() {
   const { enqueueSnackbar } = useSnackbar();
@@ -91,25 +92,7 @@ export default function Profile() {
     clearFilters();
   };
 
-  if (!user)
-    return (
-      <Box
-        borderRadius="16px"
-        border={`1px solid ${theme.palette.secondary.outline}`}
-        display="flex"
-        height="100%"
-        width="100%"
-      >
-        <Typography
-          variant="h6"
-          fontSize="30px"
-          fontWeight="normal"
-          margin="auto"
-        >
-          Log in with Google!
-        </Typography>
-      </Box>
-    );
+  if (!user) return <LogInReminder />;
 
   if (isLoading) return <Loading />;
 
@@ -184,6 +167,7 @@ export default function Profile() {
                     title={`${item.name} Size ${item.size}`}
                     price={item.price}
                     page="profile"
+                    sneakerSize={item.size}
                   />
                 </Grid>
               ))}

@@ -21,6 +21,7 @@ import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
+import LogInReminder from "../components/logInReminder";
 
 export default function Sell() {
   const { enqueueSnackbar } = useSnackbar();
@@ -31,44 +32,47 @@ export default function Sell() {
 
   const { sneakerId } = useParams();
   const { sneaker, unlistedItems } = useSelector((state) => state.sell);
+  const { user } = useSelector((state) => state.profile);
   const { isLoading, errors } = useSelector((state) =>
     getLoadingAndErrors(state, [
+      RequestsEnum.profileGetUser,
       RequestsEnum.sellGetSneaker,
       RequestsEnum.sellGetUnlistedItems,
     ])
   );
-  const [sizeSelected, setSizeSelected] = useState("Select Size");
+  const [itemSelected, setItemSelected] = useState(null);
   const [price, setPrice] = useState("");
 
   useEffect(() => {
     if (searchParams.get("size")) {
       const searchParamSize = Number(searchParams.get("size"));
-      setSizeSelected(searchParamSize);
+      setItemSelected(
+        unlistedItems.find((item) => item.size === searchParamSize)
+      );
     }
-  }, [searchParams]);
+  }, [searchParams, unlistedItems]);
 
   useEffect(() => {
+    if (!user) return;
+
     dispatch(getSneaker(sneakerId));
-    dispatch(
-      getUnlistedItems("83447b8e-341b-42b1-97ba-d5987342dbc2", sneakerId)
-    ); // TODO: userId
-  }, [dispatch, sneakerId]);
+    dispatch(getUnlistedItems(user.id, sneakerId));
+  }, [dispatch, sneakerId, user]);
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
   }, [errors, enqueueSnackbar]);
 
   const handleCreateListing = () => {
-    if (sizeSelected === "Select Size") return;
+    if (!itemSelected) return;
 
-    // TODO: get item id and user id
-    const itemId = "08cfbab5-6952-4fc7-a933-bbb17f915448";
-
-    dispatch(
-      createListing(itemId, "83447b8e-341b-42b1-97ba-d5987342dbc2", price)
-    ).then((res) => {
+    dispatch(createListing(itemSelected.id, user.id, price)).then((res) => {
       navigate("/profile");
     });
+  };
+
+  const handleSizeSelect = (size) => {
+    setItemSelected(unlistedItems.find((item) => item.size === size));
   };
 
   function renderPriceInput() {
@@ -141,7 +145,7 @@ export default function Sell() {
           marginTop: "32px",
           "&:hover": {
             backgroundColor: theme.palette.accent.hover,
-            cursor: sizeSelected === "Select Size" ? "not-allowed" : "pointer",
+            cursor: itemSelected ? "pointer" : "not-allowed",
           },
         }}
         onClick={handleCreateListing}
@@ -151,6 +155,7 @@ export default function Sell() {
     );
   }
 
+  if (!user) return <LogInReminder />;
   if (isLoading) return <Loading />;
 
   return (
@@ -161,8 +166,8 @@ export default function Sell() {
         </Typography>
         <SelectSize
           listings={unlistedItems}
-          sizeSelected={sizeSelected}
-          handleSizeSelect={(size) => setSizeSelected(size)}
+          sizeSelected={itemSelected ? itemSelected.size : "Select Size"}
+          handleSizeSelect={(size) => handleSizeSelect(size)}
         />
         <Divider sx={{ margin: "16px 0" }} />
         {renderPriceInput()}
@@ -180,7 +185,7 @@ export default function Sell() {
           address={1}
           image={jordanObsidian}
           title={`${sneaker.name} ${
-            sizeSelected === "Select Size" ? "" : `Size ${sizeSelected}`
+            itemSelected ? `Size ${itemSelected.size}` : ""
           }`}
           price={price ?? ""}
           page="sell"

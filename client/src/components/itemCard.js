@@ -11,7 +11,14 @@ import {
 } from "@mui/material";
 import { convertToDisplayPrice } from "../utils/utils";
 
-export default function ItemCard({ sneakerId, image, title, price, page }) {
+export default function ItemCard({
+  sneakerId,
+  image,
+  title,
+  price,
+  page,
+  sneakerSize,
+}) {
   const theme = useTheme();
 
   function ItemCardContent() {
@@ -53,7 +60,7 @@ export default function ItemCard({ sneakerId, image, title, price, page }) {
         </CardContent>
         {!price && page === "profile" && (
           <Link
-            to={`/sell/${sneakerId}`} // TODO: add sneaker size as query
+            to={`/sell/${sneakerId}/?size=${sneakerSize}`}
             style={{
               textDecoration: "none",
             }}

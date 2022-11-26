@@ -16,6 +16,7 @@ import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
+import LogInReminder from "../components/logInReminder";
 
 export default function Listing() {
   const { enqueueSnackbar } = useSnackbar();
@@ -25,8 +26,12 @@ export default function Listing() {
 
   const { listingId } = useParams();
   const { listing } = useSelector((state) => state.listing);
+  const { user } = useSelector((state) => state.profile);
   const { isLoading, errors } = useSelector((state) =>
-    getLoadingAndErrors(state, [RequestsEnum.listingGetListing])
+    getLoadingAndErrors(state, [
+      RequestsEnum.profileGetUser,
+      RequestsEnum.listingGetListing,
+    ])
   );
   const [price, setPrice] = useState("");
 
@@ -151,7 +156,27 @@ export default function Listing() {
     );
   }
 
+  if (!user) return <LogInReminder />;
   if (isLoading) return <Loading />;
+  if (listing.seller_id !== user.id)
+    return (
+      <Box
+        borderRadius="16px"
+        border={`1px solid ${theme.palette.secondary.outline}`}
+        display="flex"
+        height="100%"
+        width="100%"
+      >
+        <Typography
+          variant="h6"
+          fontSize="30px"
+          fontWeight="normal"
+          margin="auto"
+        >
+          You are not the seller of this listing.
+        </Typography>
+      </Box>
+    );
 
   return (
     <Box display="flex" justifyContent="center">
