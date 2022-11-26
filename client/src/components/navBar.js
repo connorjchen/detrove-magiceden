@@ -68,7 +68,7 @@ export default function NavBar(props) {
     if (localStorage.getItem("userEmail")) {
       dispatch(getUser(localStorage.getItem("userEmail")));
     }
-  }, [dispatch, navigate]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!user) {

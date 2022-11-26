@@ -15,3 +15,8 @@ Legacy peer deps needed because of MUI incompatible with new version of React
 - cd server
 - npm install
 - npm start
+
+## Deploy Backend:
+
+- cd server
+- serverless deploy

@@ -1,5 +1,5 @@
 import { query } from "../db.js";
-
+import { v4 as uuid } from "uuid";
 export async function getItems(userId, req, res) {
   try {
     let result = await query(
@@ -66,6 +66,16 @@ export async function getUser(userEmail, req, res) {
     let result = await query(`SELECT * FROM users WHERE email = ?`, [
       userEmail,
     ]);
+    if (result.length === 0) {
+      await query(
+        `
+        INSERT INTO users
+        VALUES (?, ?, 1000, DEFAULT)
+        `,
+        [uuid(), userEmail]
+      );
+      result = await query(`SELECT * FROM users WHERE email = ?`, [userEmail]);
+    }
     result = result[0];
     res.json({ result });
   } catch (error) {
