@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
 import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
-import solanaIcon from "../images/solanaIcon.png";
 import SortByFilter from "../components/sortByFilter";
 import FiltersBar from "../components/filtersBar";
 import { Search as SearchIcon } from "@mui/icons-material";
@@ -58,7 +57,7 @@ export default function Profile() {
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   useEffect(() => {
     if (!items) return;
@@ -344,7 +343,7 @@ export default function Profile() {
         <Tabs
           textColor="inherit"
           value={tab}
-          onChange={(_, tab) => setTab(tab)}
+          onChange={(_, tab) => switchTabs(tab)}
           TabIndicatorProps={{
             style: {
               backgroundColor: "black",

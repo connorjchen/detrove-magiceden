@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import {
-  Box,
-  Typography,
-  useTheme,
-  Grid,
-  OutlinedInput,
-  Divider,
-  ClickAwayListener,
-  Fade,
-} from "@mui/material";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Box, Typography, useTheme, Divider } from "@mui/material";
 import ItemCard from "../components/itemCard";
 import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import { SelectSize } from "../components/selectSize";
@@ -35,7 +21,7 @@ export default function Buy() {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const { sneakerId } = useParams();
   const { sneaker, listings } = useSelector((state) => state.buy);
@@ -59,11 +45,11 @@ export default function Buy() {
   useEffect(() => {
     dispatch(getSneaker(sneakerId));
     dispatch(getListings(sneakerId));
-  }, [dispatch]);
+  }, [dispatch, sneakerId]);
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   const handleSizeSelect = (size) => {
     setSizeSelected(size);
@@ -83,7 +69,7 @@ export default function Buy() {
     });
   };
 
-  function PriceInfo({}) {
+  function PriceInfo() {
     return (
       <>
         <Box display="flex" justifyContent="space-between">
@@ -112,7 +98,7 @@ export default function Buy() {
     );
   }
 
-  function TotalCost({}) {
+  function TotalCost() {
     return (
       <>
         <Box display="flex" justifyContent="space-between">
@@ -127,7 +113,7 @@ export default function Buy() {
     );
   }
 
-  function BuyButton({}) {
+  function BuyButton() {
     return (
       <Box
         sx={{

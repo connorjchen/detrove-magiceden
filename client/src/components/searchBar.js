@@ -31,7 +31,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   useEffect(() => {
     if (sneakers) {

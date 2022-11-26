@@ -25,7 +25,7 @@ export const updateListing =
       dispatch,
       RequestsEnum.listingUpdateListing,
       async () => {
-        const { data } = await Axios.patch(`${baseUrl}/listing/${listingId}`, {
+        await Axios.patch(`${baseUrl}/listing/${listingId}`, {
           price,
           isDeleted,
         });

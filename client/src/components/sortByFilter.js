@@ -3,13 +3,9 @@ import {
   Box,
   useTheme,
   Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Fade,
   ClickAwayListener,
 } from "@mui/material";
-import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import checkMark from "../images/checkMark.svg";
 
 export default function SortByFilter({ sortBy, setSortBy, options }) {

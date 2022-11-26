@@ -33,11 +33,11 @@ export default function Product() {
   useEffect(() => {
     dispatch(getSneaker(sneakerId));
     dispatch(getListings(sneakerId));
-  }, [dispatch]);
+  }, [dispatch, sneakerId]);
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   const handleSizeSelect = (size) => {
     setSizeSelected(size);

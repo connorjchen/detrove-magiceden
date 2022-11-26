@@ -1,5 +1,3 @@
-import SearchBar from "../components/searchBar";
-
 export const displayErrors = (errors, enqueueSnackbar) => {
   if (errors) {
     for (const error of errors) {

@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Typography,
   useTheme,
-  Grid,
   OutlinedInput,
   Divider,
-  ClickAwayListener,
-  Fade,
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
 import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
-import { SelectSize } from "../components/selectSize";
 import { getListing, updateListing } from "../redux/actions/listingActions";
 import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
@@ -41,7 +32,7 @@ export default function Listing() {
 
   useEffect(() => {
     dispatch(getListing(listingId));
-  }, [dispatch]);
+  }, [dispatch, listingId]);
 
   useEffect(() => {
     if (listing) {
@@ -51,7 +42,7 @@ export default function Listing() {
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   const handleUpdateListing = (isDeleted) => {
     dispatch(updateListing(listingId, price, isDeleted)).then((res) => {
@@ -79,7 +70,7 @@ export default function Listing() {
     );
   }
 
-  function FeesInfo({}) {
+  function FeesInfo() {
     return (
       <>
         <Typography variant="h6">Fees</Typography>
@@ -103,7 +94,7 @@ export default function Listing() {
     );
   }
 
-  function TotalIncome({}) {
+  function TotalIncome() {
     return (
       <>
         <Box display="flex" justifyContent="space-between">
@@ -118,7 +109,7 @@ export default function Listing() {
     );
   }
 
-  function UpdateButton({}) {
+  function UpdateButton() {
     return (
       <Box
         sx={{
@@ -139,7 +130,7 @@ export default function Listing() {
     );
   }
 
-  function DeleteButton({}) {
+  function DeleteButton() {
     return (
       <Box
         sx={{

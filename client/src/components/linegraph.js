@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme, Tabs, Tab } from "@mui/material";
+import { Box, Typography, Tabs, Tab } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
@@ -53,8 +53,6 @@ const options = {
 };
 
 export default function LineGraph() {
-  const theme = useTheme();
-
   const [data, setData] = useState({});
   const [tab, setTab] = React.useState(0);
 

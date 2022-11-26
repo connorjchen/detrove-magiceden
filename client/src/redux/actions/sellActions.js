@@ -40,7 +40,7 @@ export const createListing = (itemId, sellerId, price) => async (dispatch) => {
     dispatch,
     RequestsEnum.sellCreateListing,
     async () => {
-      const { data } = await Axios.post(`${baseUrl}/listing`, {
+      await Axios.post(`${baseUrl}/listing`, {
         itemId,
         sellerId,
         price,

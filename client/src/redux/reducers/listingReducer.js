@@ -1,4 +1,3 @@
-import { defaultSneaker } from "../constants";
 import { RequestsEnum } from "../helpers/requestsEnum";
 
 const initialState = {

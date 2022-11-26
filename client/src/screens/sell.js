@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   Box,
   Typography,
   useTheme,
-  Grid,
   OutlinedInput,
   Divider,
-  ClickAwayListener,
-  Fade,
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
 import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
@@ -35,7 +27,7 @@ export default function Sell() {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const { sneakerId } = useParams();
   const { sneaker, unlistedItems } = useSelector((state) => state.sell);
@@ -60,11 +52,11 @@ export default function Sell() {
     dispatch(
       getUnlistedItems("83447b8e-341b-42b1-97ba-d5987342dbc2", sneakerId)
     ); // TODO: userId
-  }, [dispatch]);
+  }, [dispatch, sneakerId]);
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   const handleCreateListing = () => {
     if (sizeSelected === "Select Size") return;
@@ -99,7 +91,7 @@ export default function Sell() {
     );
   }
 
-  function FeesInfo({}) {
+  function FeesInfo() {
     return (
       <>
         <Typography variant="h6">Fees</Typography>
@@ -123,7 +115,7 @@ export default function Sell() {
     );
   }
 
-  function TotalIncome({}) {
+  function TotalIncome() {
     return (
       <>
         <Box display="flex" justifyContent="space-between">
@@ -138,7 +130,7 @@ export default function Sell() {
     );
   }
 
-  function BuyButton({}) {
+  function BuyButton() {
     return (
       <Box
         sx={{

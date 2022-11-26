@@ -34,7 +34,7 @@ export const purchaseListing = (listingId, buyerId) => async (dispatch) => {
     dispatch,
     RequestsEnum.buyPurchaseListing,
     async () => {
-      const { data } = await Axios.patch(`${baseUrl}/purchase/${listingId}`, {
+      await Axios.patch(`${baseUrl}/purchase/${listingId}`, {
         buyerId,
       });
       return { result: "success" };

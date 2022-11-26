@@ -12,7 +12,6 @@ import {
   ListItemButton,
   ListItemText,
   IconButton,
-  Button,
   Drawer,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@material-ui/icons";
@@ -24,8 +23,7 @@ import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../components/loading";
-import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
+import { displayErrors } from "../utils/utils.js";
 import { getUser } from "../redux/actions/profileActions";
 
 const drawerWidth = 240;
@@ -43,16 +41,9 @@ export default function NavBar(props) {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.profile);
-  const { isLoading, errors } = useSelector((state) =>
+  const { errors } = useSelector((state) =>
     getLoadingAndErrors(state, [RequestsEnum.profileGetUser])
-  );
-
-  const googleSignInCallback = (response) => {
-    const user = jwt_decode(response.credential);
-    dispatch(getUser(user.email));
-    navigate("/profile");
-    localStorage.setItem("userEmail", user.email);
-  };
+  ); // did not use isLoading
 
   const googleSignOutCallback = () => {
     dispatch(getUser(null));
@@ -61,6 +52,13 @@ export default function NavBar(props) {
   };
 
   useEffect(() => {
+    const googleSignInCallback = (response) => {
+      const user = jwt_decode(response.credential);
+      dispatch(getUser(user.email));
+      navigate("/profile");
+      localStorage.setItem("userEmail", user.email);
+    };
+
     /* global google */
     google.accounts.id.initialize({
       client_id:
@@ -71,10 +69,9 @@ export default function NavBar(props) {
     if (localStorage.getItem("userEmail")) {
       dispatch(getUser(localStorage.getItem("userEmail")));
     }
-  }, []);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
-    /* global google */
     if (!user) {
       google.accounts.id.renderButton(document.getElementById("googleSignIn"), {
         theme: "outline",
@@ -88,7 +85,7 @@ export default function NavBar(props) {
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

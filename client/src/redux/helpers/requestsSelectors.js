@@ -1,6 +1,4 @@
 // Extract request field from state
-import { useSelector } from "react-redux";
-
 const requestState = (state) => state.requests;
 
 const namedRequestsInProgress = (state, requestNames) => {

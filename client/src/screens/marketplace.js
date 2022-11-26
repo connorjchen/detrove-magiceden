@@ -40,7 +40,7 @@ export default function Marketplace() {
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
-  }, [errors, displayErrors, enqueueSnackbar]);
+  }, [errors, enqueueSnackbar]);
 
   useEffect(() => {
     if (!listings) return;

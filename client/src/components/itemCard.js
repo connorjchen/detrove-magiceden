@@ -138,7 +138,7 @@ export default function ItemCard({ sneakerId, image, title, price, page }) {
         </CardActionArea>
       </Card>
     );
-  } else if (page == "profile") {
+  } else if (page === "profile") {
     return (
       <Link
         to={`/product/${sneakerId}`}
