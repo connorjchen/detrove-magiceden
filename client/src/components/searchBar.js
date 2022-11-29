@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { OutlinedInput, useTheme, Fade, Box, Typography } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
-import jordanObsidian from "../images/jordanObsidian.jpg";
 import { displayErrors } from "../utils/utils.js";
 import { getSneakers } from "../redux/actions/searchActions";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
@@ -10,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import Loading from "./loading";
 import { Link } from "react-router-dom";
+import { s3Object } from "../redux/constants.js";
 
 export default function SearchBar() {
   const { enqueueSnackbar } = useSnackbar();
@@ -78,7 +78,7 @@ export default function SearchBar() {
             marginTop: "-208px",
           }}
         >
-          {searchResults.slice(0, 3).map(({ id, name, image }, i) => (
+          {searchResults.slice(0, 3).map(({ id, name }, i) => (
             <Link
               key={i}
               to={`/product/${id}`}
@@ -95,7 +95,7 @@ export default function SearchBar() {
               >
                 <Box
                   component="img"
-                  src={jordanObsidian}
+                  src={s3Object(id)}
                   alt="image"
                   width="48px"
                   borderRadius="10px"

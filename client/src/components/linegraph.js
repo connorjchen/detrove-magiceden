@@ -52,7 +52,7 @@ const options = {
   },
 };
 
-export default function LineGraph() {
+export default function LineGraph({ tempPrice }) {
   const [data, setData] = useState({});
   const [tab, setTab] = React.useState(0);
 
@@ -93,10 +93,11 @@ export default function LineGraph() {
     >
       <Box>
         <Typography variant="h6" fontSize="24px">
-          $400
+          {tempPrice}
         </Typography>
         <Typography variant="h6" fontSize="14px">
-          $0.00 (+0.00) Today
+          {/* $0.00 (+0.00) Today */}
+          Coming Soon
         </Typography>
       </Box>
       <Box height="100%">

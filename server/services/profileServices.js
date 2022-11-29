@@ -1,5 +1,6 @@
 import { query } from "../db.js";
 import { v4 as uuid } from "uuid";
+
 export async function getItems(userId, req, res) {
   try {
     let result = await query(
@@ -29,6 +30,7 @@ export async function getItems(userId, req, res) {
       [userId, userId]
     );
     result = result.map((item) => {
+      item.size = Number(item.size);
       if (item.price) {
         item.price = Number(item.price);
       }
@@ -51,10 +53,15 @@ export async function getActiveListings(userId, req, res) {
       WHERE seller_id = ?
       AND sold_at IS NULL
       AND deleted_at IS NULL 
-      ORDER BY created_at
+      ORDER BY created_at DESC
       `,
       [userId]
     );
+    result = result.map((listing) => {
+      listing.size = Number(listing.size);
+      listing.price = Number(listing.price);
+      return listing;
+    });
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });

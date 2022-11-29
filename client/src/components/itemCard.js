@@ -22,6 +22,17 @@ export default function ItemCard({
   const theme = useTheme();
 
   function ItemCardContent() {
+    let displayedPrice;
+    if (!price) {
+      if (page === "marketplace") {
+        displayedPrice = "Not for Sale";
+      } else if (page === "profile") {
+        displayedPrice = "Unlisted";
+      }
+    } else {
+      displayedPrice = convertToDisplayPrice(price);
+    }
+
     return (
       <Box
         sx={{
@@ -34,7 +45,7 @@ export default function ItemCard({
         <CardContent>
           <Typography
             variant="h6"
-            fontSize={"14px"}
+            fontSize="14px"
             sx={{
               marginBottom: "8px",
               height: "48px",
@@ -51,11 +62,7 @@ export default function ItemCard({
             Price
           </Typography>
           <Box>
-            <Typography variant="h6">
-              {price === null && page === "profile"
-                ? "Unlisted"
-                : convertToDisplayPrice(price)}
-            </Typography>
+            <Typography variant="h6">{displayedPrice}</Typography>
           </Box>
         </CardContent>
         {!price && page === "profile" && (
@@ -71,7 +78,7 @@ export default function ItemCard({
                 display: "flex",
                 backgroundColor: theme.palette.accent.dark,
                 color: theme.palette.primary.main,
-                height: "58px",
+                height: "65px",
                 bottom: "58px",
                 marginBottom: "-58px",
                 position: "relative",
@@ -83,7 +90,6 @@ export default function ItemCard({
                   backgroundColor: theme.palette.accent.hover,
                 },
               }}
-              onClick={() => console.log("redirect to for sale page")}
             >
               <Typography variant="h6" textAlign="center" margin="auto">
                 List for Sale
@@ -95,7 +101,7 @@ export default function ItemCard({
     );
   }
 
-  if (page === "marketplace") {
+  if (page === "marketplace" || page === "profile") {
     return (
       <Link
         to={`/product/${sneakerId}`}
@@ -144,31 +150,6 @@ export default function ItemCard({
           <ItemCardContent />
         </CardActionArea>
       </Card>
-    );
-  } else if (page === "profile") {
-    return (
-      <Link
-        to={`/product/${sneakerId}`}
-        style={{
-          textDecoration: "none",
-        }}
-      >
-        <Card
-          sx={{
-            borderRadius: "16px",
-            boxShadow:
-              "0px 2px 16px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-            ...theme.easeTransition,
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
-          }}
-        >
-          <CardActionArea>
-            <ItemCardContent />
-          </CardActionArea>
-        </Card>
-      </Link>
     );
   }
 }

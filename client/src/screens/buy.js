@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Box, Typography, useTheme, Divider } from "@mui/material";
 import ItemCard from "../components/itemCard";
-import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import { SelectSize } from "../components/selectSize";
 import {
   getListings,
@@ -16,6 +15,7 @@ import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
 import LogInReminder from "../components/logInReminder";
+import { s3Object } from "../redux/constants";
 
 export default function Buy() {
   const { enqueueSnackbar } = useSnackbar();
@@ -73,7 +73,7 @@ export default function Buy() {
     return (
       <>
         <Box display="flex" justifyContent="space-between">
-          <Typography variant="h6">Market Price:</Typography>
+          <Typography variant="h6">Market Price</Typography>
           <Typography variant="h6">
             {price ? `${convertToDisplayPrice(price)}` : "$"}
           </Typography>
@@ -160,7 +160,7 @@ export default function Buy() {
         </Typography>
         <ItemCard
           address={1}
-          image={jordanObsidian}
+          image={s3Object(sneaker.id)}
           title={`${sneaker.name} ${
             sizeSelected === "Select Size" ? "" : `Size ${sizeSelected}`
           }`}

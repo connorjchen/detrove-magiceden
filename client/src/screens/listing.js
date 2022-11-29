@@ -9,7 +9,6 @@ import {
   Divider,
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
-import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import { getListing, updateListing } from "../redux/actions/listingActions";
 import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
@@ -17,6 +16,7 @@ import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
 import LogInReminder from "../components/logInReminder";
+import { s3Object } from "../redux/constants";
 
 export default function Listing() {
   const { enqueueSnackbar } = useSnackbar();
@@ -198,7 +198,7 @@ export default function Listing() {
         </Typography>
         <ItemCard
           address={1}
-          image={jordanObsidian}
+          image={s3Object(listing.sneaker_id)}
           title={`${listing.name} ${listing.size}`}
           price={price ?? ""}
           page="sell"

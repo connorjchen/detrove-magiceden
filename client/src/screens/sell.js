@@ -9,7 +9,6 @@ import {
   Divider,
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
-import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import { SelectSize } from "../components/selectSize";
 import {
   getUnlistedItems,
@@ -22,6 +21,7 @@ import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
 import LogInReminder from "../components/logInReminder";
+import { s3Object } from "../redux/constants";
 
 export default function Sell() {
   const { enqueueSnackbar } = useSnackbar();
@@ -150,7 +150,7 @@ export default function Sell() {
         }}
         onClick={handleCreateListing}
       >
-        <Typography variant="h6">Purchase</Typography>
+        <Typography variant="h6">Create Listing</Typography>
       </Box>
     );
   }
@@ -183,7 +183,7 @@ export default function Sell() {
         </Typography>
         <ItemCard
           address={1}
-          image={jordanObsidian}
+          image={s3Object(sneaker.id)}
           title={`${sneaker.name} ${
             itemSelected ? `Size ${itemSelected.size}` : ""
           }`}

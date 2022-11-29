@@ -26,7 +26,7 @@ export async function updatePurchase(listingId, buyerId, req, res) {
       `
       UPDATE users
       INNER JOIN listings ON users.id = listings.seller_id
-      SET users.balance = users.balance + listings.price
+      SET users.balance = users.balance + listings.price * 0.95
       WHERE listings.id = ?;
       `,
       [listingId]
@@ -36,7 +36,7 @@ export async function updatePurchase(listingId, buyerId, req, res) {
       `
       UPDATE users
       INNER JOIN listings ON users.id = listings.buyer_id
-      SET users.balance = users.balance - listings.price
+      SET users.balance = users.balance - listings.price * 1.05
       WHERE listings.id = ?;
       `,
       [listingId]

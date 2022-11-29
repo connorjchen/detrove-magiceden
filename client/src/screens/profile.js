@@ -11,19 +11,23 @@ import {
   Tab,
 } from "@mui/material";
 import ItemCard from "../components/itemCard";
-import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import SortByFilter from "../components/sortByFilter";
 import FiltersBar from "../components/filtersBar";
 import { Search as SearchIcon } from "@mui/icons-material";
 import LineGraph from "../components/linegraph";
 import { convertToDisplayPrice } from "../utils/utils";
-import { getActiveListings, getItems } from "../redux/actions/profileActions";
+import {
+  getActiveListings,
+  getItems,
+  getUser,
+} from "../redux/actions/profileActions";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import { filterAndSortProfileItems, displayErrors } from "../utils/utils.js";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import Loading from "../components/loading";
 import LogInReminder from "../components/logInReminder";
+import { s3Object } from "../redux/constants";
 
 export default function Profile() {
   const { enqueueSnackbar } = useSnackbar();
@@ -52,6 +56,12 @@ export default function Profile() {
   useEffect(() => {
     if (!user) return;
 
+    dispatch(getUser(user.email));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!user) return;
+
     dispatch(getItems(user.id));
     dispatch(getActiveListings(user.id));
   }, [user, dispatch]);
@@ -64,7 +74,7 @@ export default function Profile() {
     if (!items) return;
     setFilterOptions([
       Array.from(new Set(items.map((item) => item.brand))).sort(),
-      Array.from(new Set(items.map((item) => item.size))).sort(),
+      Array.from(new Set(items.map((item) => item.size))).sort((a, b) => a - b),
     ]);
   }, [items]);
 
@@ -163,7 +173,7 @@ export default function Profile() {
                 <Grid item key={idx} xs={12} sm={6} md={4} lg={3} xl={2.4}>
                   <ItemCard
                     sneakerId={item.sneaker_id}
-                    image={jordanObsidian}
+                    image={s3Object(item.sneaker_id)}
                     title={`${item.name} Size ${item.size}`}
                     price={item.price}
                     page="profile"
@@ -180,76 +190,96 @@ export default function Profile() {
 
   const renderActiveListingsTab = () => {
     return (
-      <Box>
-        {activeListings.map((listing, idx) => {
-          return (
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              padding="8px"
+      <>
+        {activeListings.length === 0 ? (
+          <Box
+            borderRadius="16px"
+            border={`1px solid ${theme.palette.secondary.outline}`}
+            height="400px"
+            display="flex"
+          >
+            <Typography
+              variant="h6"
+              fontSize="30px"
+              fontWeight="normal"
+              margin="auto"
             >
-              <Box
-                display="flex"
-                alignItems="center"
-                onClick={() => navigate(`/product/${listing.sneaker_id}`)}
-                sx={{
-                  cursor: "pointer",
-                }}
-              >
+              No listings to display
+            </Typography>
+          </Box>
+        ) : (
+          <>
+            {activeListings.map((listing, idx) => {
+              return (
                 <Box
-                  component="img"
-                  src={jordanObsidian}
-                  alt="image"
-                  width="48px"
-                  borderRadius="10px"
-                  marginRight="16px"
-                />
-                <Typography
-                  variant="h6"
-                  fontSize="14px"
-                  sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitLineClamp: "1",
-                    WebkitBoxOrient: "vertical",
-                  }}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  padding="8px"
                 >
-                  {`${listing.name} Size ${listing.size}`}
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center">
-                <Typography
-                  variant="h6"
-                  fontSize="14px"
-                  flex="1"
-                  textAlign="right"
-                  whiteSpace="nowrap"
-                  marginRight="16px"
-                >
-                  {convertToDisplayPrice(listing.price)}
-                </Typography>
-                <Box
-                  sx={{
-                    ...theme.basicButton,
-                    height: "48px",
-                    backgroundColor: theme.palette.accent.dark,
-                    color: theme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: theme.palette.accent.hover,
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={() => navigate(`/product/${listing.sneaker_id}`)}
+                    sx={{
                       cursor: "pointer",
-                    },
-                  }}
-                  onClick={() => navigate(`/listing/${listing.id}`)}
-                >
-                  <Typography variant="h6">Edit Listing</Typography>
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={s3Object(listing.sneaker_id)}
+                      alt="image"
+                      width="48px"
+                      borderRadius="10px"
+                      marginRight="16px"
+                    />
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: "1",
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {`${listing.name} Size ${listing.size}`}
+                    </Typography>
+                  </Box>
+                  <Box display="flex" alignItems="center">
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      flex="1"
+                      textAlign="right"
+                      whiteSpace="nowrap"
+                      marginRight="16px"
+                    >
+                      {convertToDisplayPrice(listing.price)}
+                    </Typography>
+                    <Box
+                      sx={{
+                        ...theme.basicButton,
+                        height: "48px",
+                        backgroundColor: theme.palette.accent.dark,
+                        color: theme.palette.primary.main,
+                        "&:hover": {
+                          backgroundColor: theme.palette.accent.hover,
+                          cursor: "pointer",
+                        },
+                      }}
+                      onClick={() => navigate(`/listing/${listing.id}`)}
+                    >
+                      <Typography variant="h6">Edit Listing</Typography>
+                    </Box>
+                  </Box>
                 </Box>
-              </Box>
-            </Box>
-          );
-        })}
-      </Box>
+              );
+            })}
+          </>
+        )}
+      </>
     );
   };
 
@@ -260,7 +290,7 @@ export default function Profile() {
       </Typography>
       <Grid container rowSpacing="16px" columnSpacing="64px">
         <Grid item xs={8}>
-          <LineGraph />
+          <LineGraph tempPrice={convertToDisplayPrice(user.balance)} />
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h6">Watchlist</Typography>

@@ -12,8 +12,8 @@ import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import SortByFilter from "../components/sortByFilter";
 import FiltersBar from "../components/filtersBar";
 import ItemCard from "../components/itemCard";
-import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import Loading from "../components/loading";
+import { s3Object } from "../redux/constants";
 
 // make state defaults like default optionsSelected or default sizes to reference up here
 
@@ -53,7 +53,7 @@ export default function Marketplace() {
             return [...acc, ...listing.listings.map((listing) => listing.size)];
           }, [])
         )
-      ).sort(),
+      ).sort((a, b) => a - b),
     ]);
   }, [listings]);
 
@@ -132,7 +132,7 @@ export default function Marketplace() {
               <Grid item key={idx} xs={12} sm={6} md={4} lg={3} xl={2.4}>
                 <ItemCard
                   sneakerId={listing.id}
-                  image={jordanObsidian}
+                  image={s3Object(listing.id)}
                   title={listing.name}
                   price={listing.listings[0]?.price}
                   page="marketplace"

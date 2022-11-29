@@ -14,10 +14,12 @@ export const filterAndSortMarketplaceListings = (
   optionsSelected,
   forSaleOnly,
   sortBy,
-  priceRange,
-  searchTerm
+  priceRange
 ) => {
-  let filteredSortedListings = listings;
+  let filteredSortedListings = [...listings];
+
+  filteredSortedListings.sort((a, b) => a.name.localeCompare(b.name));
+
   if (forSaleOnly) {
     filteredSortedListings = filteredSortedListings.filter(
       (listing) => listing.listings.length > 0
@@ -40,7 +42,9 @@ export const filterAndSortMarketplaceListings = (
   }
   if (priceRange[0] !== "" || priceRange[1] !== "") {
     filteredSortedListings = filteredSortedListings.filter((listing) => {
-      const listingPrice = listing.listings[0].price;
+      const listingPrice = listing.listings[0]?.price;
+      if (!listingPrice) return false;
+
       if (priceRange[0] === "") {
         return listingPrice <= priceRange[1];
       } else if (priceRange[1] === "") {
@@ -51,13 +55,17 @@ export const filterAndSortMarketplaceListings = (
     });
   }
   if (sortBy === "Price: Low to High") {
-    filteredSortedListings = filteredSortedListings.sort(
-      (a, b) => a.listings[0].price - b.listings[0].price
-    );
+    filteredSortedListings = filteredSortedListings.sort((a, b) => {
+      if (!a.listings[0]) return 1;
+      if (!b.listings[0]) return -1;
+      return a.listings[0].price - b.listings[0].price;
+    });
   } else if (sortBy === "Price: High to Low") {
-    filteredSortedListings = filteredSortedListings.sort(
-      (a, b) => b.listings[0].price - a.listings[0].price
-    );
+    filteredSortedListings = filteredSortedListings.sort((a, b) => {
+      if (!a.listings[0]) return 1;
+      if (!b.listings[0]) return -1;
+      return b.listings[0].price - a.listings[0].price;
+    });
   }
   return filteredSortedListings;
 };
@@ -70,7 +78,12 @@ export const filterAndSortProfileItems = (
   priceRange,
   searchTerm
 ) => {
-  let filteredSortedItems = items;
+  let filteredSortedItems = [...items];
+
+  filteredSortedItems.sort((a, b) => {
+    return a.name !== b.name ? a.name.localeCompare(b.name) : a.size - b.size;
+  });
+
   if (forSaleOnly) {
     filteredSortedItems = filteredSortedItems.filter((item) => item.price);
   }
@@ -106,8 +119,8 @@ export const filterAndSortProfileItems = (
     });
   } else if (sortBy === "Price: High to Low") {
     filteredSortedItems = filteredSortedItems.sort((a, b) => {
-      if (!a.price) return -1;
-      if (!b.price) return 1;
+      if (!a.price) return 1;
+      if (!b.price) return -1;
       return b.price - a.price;
     });
   }

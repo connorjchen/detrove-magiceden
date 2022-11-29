@@ -30,6 +30,11 @@ export async function getListings(sneakerId, req, res) {
       `,
       [sneakerId]
     );
+    result = result.map((row) => ({
+      ...row,
+      size: Number(row.size),
+      price: Number(row.price),
+    }));
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });

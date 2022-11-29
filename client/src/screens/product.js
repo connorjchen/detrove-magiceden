@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSearchParams, Link, useParams } from "react-router-dom";
 import { Box, Typography, useTheme, Grid } from "@mui/material";
 import ContentBox from "../components/contentBox";
-import jordanObsidian from "../images/jordanObsidian.jpg"; // remove to be dynamic with data
 import LineGraph from "../components/linegraph";
 import { getSneaker, getListings } from "../redux/actions/productActions";
 import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
@@ -12,6 +11,7 @@ import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
 import { SelectSize } from "../components/selectSize";
+import { s3Object } from "../redux/constants";
 
 export default function Product() {
   const { enqueueSnackbar } = useSnackbar();
@@ -80,7 +80,7 @@ export default function Product() {
   if (isLoading) return <Loading />;
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="center">
+    <Box display="flex" justifyContent="center">
       <Grid container spacing="16px" width="1200px">
         <Grid item xs={12}>
           <Typography variant="h6" fontSize="24px">
@@ -94,7 +94,7 @@ export default function Product() {
           <Box marginLeft="48px">
             <Box
               component="img"
-              src={jordanObsidian}
+              src={s3Object(sneaker.id)}
               width="100%"
               borderRadius="16px"
             />

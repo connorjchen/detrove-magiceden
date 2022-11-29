@@ -31,7 +31,7 @@ export async function getListings(req, res) {
         result.push(currentSneaker);
       }
       currentSneaker.listings.push({
-        size: row.size,
+        size: Number(row.size),
         price: Number(row.price),
       });
     }
@@ -51,7 +51,7 @@ export async function getListings(req, res) {
     );
 
     if (sneakersWithoutListings.length > 0) {
-      results.concat(
+      result = result.concat(
         sneakersWithoutListings.map((row) => ({ ...row, listings: [] }))
       );
     }
