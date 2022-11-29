@@ -212,6 +212,7 @@ export default function Profile() {
             {activeListings.map((listing, idx) => {
               return (
                 <Box
+                  key={idx}
                   display="flex"
                   alignItems="center"
                   justifyContent="space-between"

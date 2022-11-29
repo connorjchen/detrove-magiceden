@@ -3,7 +3,11 @@ export const apiBaseUrl =
   "https://nlaol79agi.execute-api.us-east-1.amazonaws.com/dev/api";
 
 export const s3BaseUrl = "https://detrove-s3-images.s3.amazonaws.com";
-export const s3Object = (key) => `${s3BaseUrl}/${key}`;
+export const s3Object = (key) => {
+  if (!key || key === "unknown") return null;
+
+  return `${s3BaseUrl}/${key}`;
+};
 
 export const defaultSneaker = {
   id: "unknown",
