@@ -4,7 +4,7 @@ export async function getListing(listingId, req, res) {
   try {
     let result = await query(
       `
-      SELECT listings.*, items.size, sneakers.name, sneakers.id AS sneakers_id
+      SELECT listings.*, items.size, sneakers.name, sneakers.id AS sneaker_id
       FROM listings
       INNER JOIN items ON listings.item_id = items.id
       INNER JOIN sneakers ON items.sneaker_id = sneakers.id
