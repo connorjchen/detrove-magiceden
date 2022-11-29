@@ -55,6 +55,14 @@ export default function Listing() {
     });
   };
 
+  const handleSetPrice = (e) => {
+    const value = e.target.value;
+    const regex = /^\d{0,8}(\.\d{0,2})?$/;
+    if (regex.test(value)) {
+      setPrice(value);
+    }
+  };
+
   function renderPriceInput() {
     return (
       <Box>
@@ -62,7 +70,7 @@ export default function Listing() {
         <OutlinedInput
           value={price}
           type="number"
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={handleSetPrice}
           startAdornment={<Typography variant="h6">$</Typography>}
           placeholder="Price"
           sx={{
