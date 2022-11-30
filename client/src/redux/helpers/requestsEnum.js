@@ -14,4 +14,8 @@ export const RequestsEnum = Object.freeze({
   profileGetActiveListings: 13,
   listingGetListing: 14,
   listingUpdateListing: 15,
+  productGetIsWatchlistItem: 16,
+  productCreateWatchlistItem: 17,
+  productDeleteWatchlistItem: 18,
+  profileGetWatchlist: 19,
 });

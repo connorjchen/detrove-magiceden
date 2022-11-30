@@ -11,7 +11,7 @@ export async function getListings(req, res) {
           INNER JOIN sneakers ON items.sneaker_id = sneakers.id
           INNER JOIN listings ON items.id = listings.item_id
         WHERE listings.sold_at IS NULL
-          AND listings.deleted_at IS NULL
+        AND listings.deleted_at IS NULL
         ) subquery
       WHERE subquery.row_num = 1
       ORDER BY subquery.id, subquery.price

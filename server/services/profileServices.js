@@ -92,9 +92,45 @@ export async function getUser(userEmail, req, res) {
 
 export async function getWatchlist(userId, req, res) {
   try {
-    let result = await query(`SELECT * FROM watchlist_items WHERE id = ?`, [
-      userId,
-    ]);
+    let result1 = await query(
+      `
+      SELECT watchlist_items.*, sneakers.name, NULL as price
+      FROM watchlist_items
+      INNER JOIN sneakers ON watchlist_items.sneaker_id = sneakers.id
+      WHERE watchlist_items.user_id = ?
+      AND watchlist_items.deleted_at IS NULL
+      AND watchlist_items.sneaker_id NOT IN (
+        SELECT items.sneaker_id
+          FROM items
+          INNER JOIN listings ON items.id = listings.item_id
+          WHERE listings.sold_at IS NULL
+          AND listings.deleted_at IS NULL
+        )
+      `,
+      [userId]
+    );
+
+    let result2 = await query(
+      `
+      SELECT subquery.*
+      FROM (
+        SELECT watchlist_items.*, sneakers.name, listings.price, ROW_NUMBER() OVER(PARTITION BY sneakers.id ORDER BY listings.price) row_num
+          FROM watchlist_items
+          INNER JOIN items ON watchlist_items.sneaker_id = items.sneaker_id
+          INNER JOIN sneakers ON watchlist_items.sneaker_id = sneakers.id
+          INNER JOIN listings ON items.id = listings.item_id
+        WHERE listings.sold_at IS NULL
+        AND listings.deleted_at IS NULL
+        AND watchlist_items.user_id = ?
+        AND watchlist_items.deleted_at IS NULL
+        ) subquery
+      WHERE subquery.row_num = 1
+      `,
+      [userId]
+    );
+
+    let result = [...result1, ...result2];
+
     res.json({ result });
   } catch (error) {
     res.status(500).json({ message: error.message });

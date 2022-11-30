@@ -4,6 +4,7 @@ import { RequestsEnum } from "../helpers/requestsEnum";
 const initialState = {
   sneaker: defaultSneaker,
   listings: [],
+  isWatchlistItem: false,
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +19,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         listings: action.payload,
+      };
+    case RequestsEnum.productGetIsWatchlistItem:
+    case RequestsEnum.productCreateWatchlistItem:
+    case RequestsEnum.productDeleteWatchlistItem:
+      return {
+        ...state,
+        isWatchlistItem: action.payload,
       };
     default:
       return state;

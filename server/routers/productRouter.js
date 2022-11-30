@@ -4,6 +4,7 @@ import {
   getListings,
   getIsWatchlistItem,
   createWatchlistItem,
+  deleteWatchlistItem,
 } from "../services/productServices.js";
 
 const router = express.Router();
@@ -26,6 +27,11 @@ router.get("/watchlist/:userId/:sneakerId", async function (req, res) {
 router.post("/watchlist", async function (req, res) {
   const { userId, sneakerId } = req.body;
   await createWatchlistItem(userId, sneakerId, req, res);
+});
+
+router.patch("/watchlist/:userId/:sneakerId", async function (req, res) {
+  const { userId, sneakerId } = req.params;
+  await deleteWatchlistItem(userId, sneakerId, req, res);
 });
 
 export default router;

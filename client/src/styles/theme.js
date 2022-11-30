@@ -10,6 +10,7 @@ const darkBlue = "#35456a";
 const lightDarkBlue = "rgb(82, 97, 128)";
 const red = "rgba(211,48,47,255)";
 const lightRed = "rgba(211,48,47,0.8)";
+const gold = "#FFCA00";
 
 const theme = createTheme({
   typography: {
@@ -39,6 +40,9 @@ const theme = createTheme({
     error: {
       main: red,
       hover: lightRed,
+    },
+    gold: {
+      main: gold,
     },
   },
   components: {

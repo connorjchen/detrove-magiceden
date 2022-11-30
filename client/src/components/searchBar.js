@@ -24,6 +24,7 @@ export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const heightOfDropdown = 63.99 * searchResults.length + 16;
 
   useEffect(() => {
     dispatch(getSneakers());
@@ -74,8 +75,8 @@ export default function SearchBar() {
         <Box
           sx={{
             ...theme.dropdownBox,
-            top: "216px",
-            marginTop: "-208px",
+            top: `${heightOfDropdown + 8}px`,
+            marginTop: `-${heightOfDropdown}px`,
           }}
         >
           {searchResults.slice(0, 3).map(({ id, name }, i) => (

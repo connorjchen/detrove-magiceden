@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import detroveLogo from "../images/detroveLogo/detroveLogo.svg";
+import detroveLogo from "../images/detroveLogo.svg";
 import SearchBar from "./searchBar";
 import jwt_decode from "jwt-decode";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
@@ -182,12 +182,7 @@ export default function NavBar(props) {
                 alignItems: "center",
               }}
             >
-              <Box
-                component="img"
-                src={detroveLogo}
-                alt="phantom logo"
-                width="40px"
-              />
+              <Box component="img" src={detroveLogo} alt="logo" width="40px" />
               <Typography
                 variant="h4"
                 sx={{

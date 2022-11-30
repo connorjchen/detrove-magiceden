@@ -20,6 +20,7 @@ import {
   getActiveListings,
   getItems,
   getUser,
+  getWatchlist,
 } from "../redux/actions/profileActions";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
@@ -35,12 +36,15 @@ export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, items, activeListings } = useSelector((state) => state.profile);
+  const { user, items, activeListings, watchlist } = useSelector(
+    (state) => state.profile
+  );
   const { isLoading, errors } = useSelector((state) =>
     getLoadingAndErrors(state, [
       RequestsEnum.profileGetUser,
       RequestsEnum.profileGetItems,
       RequestsEnum.profileGetActiveListings,
+      RequestsEnum.profileGetWatchlist,
     ])
   );
   const [optionsSelected, setOptionsSelected] = useState([[], []]);
@@ -64,6 +68,7 @@ export default function Profile() {
 
     dispatch(getItems(user.id));
     dispatch(getActiveListings(user.id));
+    dispatch(getWatchlist(user.id));
   }, [user, dispatch]);
 
   useEffect(() => {
@@ -295,17 +300,44 @@ export default function Profile() {
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h6">Watchlist</Typography>
-          <Box height="400px" overflow="auto">
-            {/* {watchlistOptions.map(([title, image, price], i) => (
+          <Box
+            height="400px"
+            overflow="auto"
+            borderRadius="16px"
+            border={`1px solid ${theme.palette.secondary.outline}`}
+          >
+            {watchlist.length === 0 ? (
+              <Box
+                borderRadius="16px"
+                border={`1px solid ${theme.palette.secondary.outline}`}
+                display="flex"
+                height="100%"
+              >
+                <Typography
+                  variant="h6"
+                  fontSize="30px"
+                  fontWeight="normal"
+                  margin="auto"
+                >
+                  No items to display
+                </Typography>
+              </Box>
+            ) : (
+              watchlist.map((item, i) => (
                 <Box
+                  key={i}
                   display="flex"
                   alignItems="center"
                   justifyContent="space-between"
                   padding="8px"
+                  onClick={() => navigate(`/product/${item.sneaker_id}`)}
+                  sx={{
+                    cursor: "pointer",
+                  }}
                 >
                   <Box
                     component="img"
-                    src={image}
+                    src={s3Object(item.sneaker_id)}
                     alt="image"
                     width="48px"
                     borderRadius="10px"
@@ -322,7 +354,7 @@ export default function Profile() {
                       WebkitBoxOrient: "vertical",
                     }}
                   >
-                    {title}
+                    {item.name}
                   </Typography>
                   <Typography
                     variant="h6"
@@ -332,25 +364,13 @@ export default function Profile() {
                     whiteSpace="nowrap"
                     marginLeft="16px"
                   >
-                    {convertToDisplayPrice(price)}
+                    {item.price
+                      ? convertToDisplayPrice(item.price)
+                      : "Not for Sale"}
                   </Typography>
                 </Box>
-              ))} */}
-            <Box
-              borderRadius="16px"
-              border={`1px solid ${theme.palette.secondary.outline}`}
-              display="flex"
-              height="100%"
-            >
-              <Typography
-                variant="h6"
-                fontSize="30px"
-                fontWeight="normal"
-                margin="auto"
-              >
-                Coming Soon
-              </Typography>
-            </Box>
+              ))
+            )}
           </Box>
         </Grid>
       </Grid>

@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   items: [],
   activeListings: [],
+  watchlist: [],
 };
 
 export default (state = initialState, action) => {
@@ -22,6 +23,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         activeListings: action.payload,
+      };
+    case RequestsEnum.profileGetWatchlist:
+      return {
+        ...state,
+        watchlist: action.payload,
       };
     default:
       return state;

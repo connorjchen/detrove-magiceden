@@ -59,3 +59,17 @@ export const getActiveListings = (userId) => async (dispatch) => {
     }
   );
 };
+
+export const getWatchlist = (userId) => async (dispatch) => {
+  return await requestHelper(
+    dispatch,
+    RequestsEnum.profileGetWatchlist,
+    async () => {
+      const { data } = await Axios.get(`${baseUrl}/watchlist/${userId}`);
+      dispatch({
+        type: RequestsEnum.profileGetWatchlist,
+        payload: data.result,
+      });
+    }
+  );
+};

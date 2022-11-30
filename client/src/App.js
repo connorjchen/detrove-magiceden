@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Marketplace from "./screens/marketplace";
 import Product from "./screens/product";
@@ -8,7 +8,7 @@ import Profile from "./screens/profile";
 import NavBar from "./components/navBar";
 import Footer from "./components/footer";
 import Listing from "./screens/listing";
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider, Box, Typography } from "@mui/material";
 import theme from "./styles/theme";
 import { SnackbarProvider } from "notistack";
 
@@ -22,6 +22,41 @@ const ScrollToTop = (props) => {
 };
 
 function App() {
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
+  if (windowSize.innerWidth < 750) {
+    return (
+      <Box height="100vh" display="flex">
+        <Typography
+          variant="h6"
+          fontSize="30px"
+          fontWeight="normal"
+          margin="auto"
+          textAlign="center"
+        >
+          Sorry! Detrove is only available on larger screen sizes currently.
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
 <<<<<<< HEAD

@@ -4,7 +4,13 @@ import { createSearchParams, Link, useParams } from "react-router-dom";
 import { Box, Typography, useTheme, Grid } from "@mui/material";
 import ContentBox from "../components/contentBox";
 import LineGraph from "../components/linegraph";
-import { getSneaker, getListings } from "../redux/actions/productActions";
+import {
+  getSneaker,
+  getListings,
+  getIsWatchlistItem,
+  createWatchlistItem,
+  deleteWatchlistItem,
+} from "../redux/actions/productActions";
 import { displayErrors, convertToDisplayPrice } from "../utils/utils.js";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
@@ -12,6 +18,10 @@ import { useSnackbar } from "notistack";
 import Loading from "../components/loading";
 import { SelectSize } from "../components/selectSize";
 import { s3Object } from "../redux/constants";
+import {
+  StarBorder as StarBorderIcon,
+  Star as StarIcon,
+} from "@material-ui/icons";
 
 export default function Product() {
   const { enqueueSnackbar } = useSnackbar();
@@ -20,11 +30,15 @@ export default function Product() {
 
   const [params, setParams] = useState({});
   const { sneakerId } = useParams();
-  const { sneaker, listings } = useSelector((state) => state.product);
+  const { sneaker, listings, isWatchlistItem } = useSelector(
+    (state) => state.product
+  );
+  const { user } = useSelector((state) => state.profile);
   const { isLoading, errors } = useSelector((state) =>
     getLoadingAndErrors(state, [
       RequestsEnum.productGetSneaker,
       RequestsEnum.productGetListings,
+      RequestsEnum.productGetIsWatchlistItem,
     ])
   );
   const [sizeSelected, setSizeSelected] = useState("Select Size");
@@ -33,7 +47,10 @@ export default function Product() {
   useEffect(() => {
     dispatch(getSneaker(sneakerId));
     dispatch(getListings(sneakerId));
-  }, [dispatch, sneakerId]);
+
+    if (!user) return;
+    dispatch(getIsWatchlistItem(user.id, sneakerId));
+  }, [dispatch, user, sneakerId]);
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
@@ -77,15 +94,60 @@ export default function Product() {
     );
   };
 
+  const WatchListButton = () => {
+    if (!user) return null;
+
+    if (!isWatchlistItem) {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-end",
+            cursor: "pointer",
+          }}
+          onClick={() => dispatch(createWatchlistItem(user.id, sneakerId))}
+        >
+          <StarBorderIcon style={{ color: theme.palette.gold.main }} />
+          <Typography variant="h6" fontSize="14px" fontWeight="normal">
+            Add to Watchlist
+          </Typography>
+        </Box>
+      );
+    } else {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-end",
+            cursor: "pointer",
+          }}
+          onClick={() => dispatch(deleteWatchlistItem(user.id, sneakerId))}
+        >
+          <StarIcon style={{ color: theme.palette.gold.main }} />
+          <Typography variant="h6" fontSize="14px" fontWeight="normal">
+            Remove from Watchlist
+          </Typography>
+        </Box>
+      );
+    }
+  };
+
   if (isLoading) return <Loading />;
 
   return (
     <Box display="flex" justifyContent="center">
       <Grid container spacing="16px" width="1200px">
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography variant="h6" fontSize="24px">
             {sneaker.name}
           </Typography>
+          <WatchListButton />
         </Grid>
         <Grid item xs={8}>
           <LineGraph />
