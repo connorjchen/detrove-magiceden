@@ -11,6 +11,7 @@ const lightDarkBlue = "rgb(82, 97, 128)";
 const red = "rgba(211,48,47,255)";
 const lightRed = "rgba(211,48,47,0.8)";
 const gold = "#FFCA00";
+const courtyardBlue = "#0B62E4";
 
 const theme = createTheme({
   typography: {
