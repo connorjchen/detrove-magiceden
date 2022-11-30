@@ -61,6 +61,10 @@ export default function Buy() {
 
   const handlePurchase = () => {
     if (sizeSelected === "Select Size") return;
+    if (user.balance < price) {
+      enqueueSnackbar("Insufficient funds", { variant: "error" });
+      return;
+    }
 
     dispatch(
       purchaseListing(listings.find((l) => l.size === sizeSelected).id, user.id)
@@ -124,7 +128,10 @@ export default function Buy() {
           marginTop: "32px",
           "&:hover": {
             backgroundColor: theme.palette.accent.hover,
-            cursor: sizeSelected === "Select Size" ? "not-allowed" : "pointer",
+            cursor:
+              sizeSelected === "Select Size" || user.balance < price
+                ? "not-allowed"
+                : "pointer",
           },
         }}
         onClick={handlePurchase}
