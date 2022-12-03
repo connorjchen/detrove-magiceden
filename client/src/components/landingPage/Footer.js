@@ -1,6 +1,11 @@
 import { Box, Container, Link, Typography } from "@mui/material";
-import socials from "../commons/socials";
+import React from "react";
+import twitterLogo from "../../images/twitter-white.svg";
+import discordLogo from "../../images/discord-logo.svg";
+import LinkedinLogo from "../../images/linked-in-white.svg";
+import GitbookLogo from "../../images/gitbook-white.svg";
 
+import SocialIcons from "../socialIcons";
 const navLinks = [
   { title: "How it works", href: "/#how-it-works", newTab: false },
   {
@@ -71,33 +76,28 @@ const Footer = () => {
               mb: { xs: 8, md: 0 },
             }}
           >
-            {socials.map((social, index) => (
-              <Link
-                href={social.href}
-                key={index}
-                sx={{ color: "white", textDecoration: "none" }}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Box
-                  sx={{
-                    height: 56,
-                    width: 56,
-                    borderRadius: 200,
-                    bgcolor: "#222326",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    src={social.icon}
-                    style={{ height: "18px" }}
-                    alt={social.name}
-                  ></img>
-                </Box>
-              </Link>
-            ))}
+            <SocialIcons
+              defaultName="Twitter"
+              link="https://twitter.com/"
+              image={twitterLogo}
+            />
+            <SocialIcons
+              defaultName="Discord"
+              link="https://discord.gg/9fvQcnvda2"
+              image={discordLogo}
+            />
+
+            <SocialIcons
+              defaultName="LinkedIn"
+              link="https://linkedin.com/"
+              image={LinkedinLogo}
+            />
+
+            <SocialIcons
+              defaultName="Gitbook"
+              link="https://detrove.gitbook.io/litepaper/"
+              image={GitbookLogo}
+            />
           </Box>
         </Box>
         <Typography

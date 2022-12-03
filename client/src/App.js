@@ -4,6 +4,7 @@ import Marketplace from "./screens/marketplace";
 import Product from "./screens/product";
 import Sell from "./screens/sell";
 import Buy from "./screens/buy";
+import LandingPage from "./screens/landing";
 import Profile from "./screens/profile";
 import NavBar from "./components/navBar";
 import Footer from "./components/footer";
@@ -86,6 +87,7 @@ function App() {
             <NavBar />
             <Routes>
               <Route path="/" element={<Marketplace />} exact />
+              <Route path="/landing" element={<LandingPage />} />
               <Route path="/product/:sneakerId" element={<Product />} />
               <Route path="/sell/:sneakerId" element={<Sell />} />
               <Route path="/buy/:sneakerId" element={<Buy />} />

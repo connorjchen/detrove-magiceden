@@ -1,5 +1,5 @@
 import { Box, SxProps, Typography, useMediaQuery } from "@mui/material";
-
+import React from "react";
 const Tile = ({
   title,
   text,

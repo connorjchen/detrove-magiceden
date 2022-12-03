@@ -1,5 +1,5 @@
 import { Box, SxProps } from "@mui/material";
-import { FC } from "react";
+import React from "react";
 const Explainer = ({
   children,
   contentAlignDesktop,

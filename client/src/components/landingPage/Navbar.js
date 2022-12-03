@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { Box, Container, Link, Typography, useMediaQuery } from "@mui/material";
+import {
+  useTheme,
+  Box,
+  Container,
+  Link,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Button from "./Button";
 import HamburgerMenu from "./HamburgerMenu";
-import socials from "../commons/socials";
 import { useLocation } from "react-router-dom";
-
+import React from "react";
+import detroveLogo from "../../images/detroveLogo.svg";
 const Navbar = ({ ctaButtonParams }) => {
-  const [mobileOpen, setMobileOpen] = useState < boolean > false;
-
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
   const mobile = useMediaQuery("(max-width:600px)");
   const menuBreakpoint = useMediaQuery("(max-width:1100px)");
 
@@ -54,17 +61,26 @@ const Navbar = ({ ctaButtonParams }) => {
           zIndex: 2,
         }}
       >
-        <img
-          src="courtyard-logo-full.png"
-          alt="Courtyard full logo"
+        <Link
+          to="/landing"
           style={{
-            height: mobile ? "32px" : "40px",
-            width: mobile ? "136px" : "170px",
-            zIndex: 3,
-            cursor: "pointer",
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
           }}
-          onClick={() => window.location.assign("/")}
-        />
+        >
+          <Box component="img" src={detroveLogo} alt="logo" width="40px" />
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: "bold",
+              color: theme.palette.accent.dark,
+              marginRight: "32px",
+            }}
+          >
+            Detrove
+          </Typography>
+        </Link>
         {menuBreakpoint ? (
           <HamburgerMenu mobileOpen={mobileOpen} onClick={handleOpenMobile} />
         ) : (
@@ -182,44 +198,6 @@ const Navbar = ({ ctaButtonParams }) => {
                   </Box>
                 </Link>
               ))}
-              {/* ========= SOCIALS ========= */}
-              <Box sx={{ my: 4 }}>
-                {socials.map((social, index) => (
-                  <Link
-                    sx={{ color: "black", textDecoration: "none" }}
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        my: 2,
-                      }}
-                    >
-                      <img
-                        src={social.icon}
-                        style={{ width: "24px", filter: "invert(1)" }}
-                        alt={social.name}
-                      ></img>
-                      <Typography
-                        sx={{
-                          fontSize: "1rem",
-                          lineHeight: "24px",
-                          letterSpacing: -0.8,
-                          ml: 1.5,
-                        }}
-                      >
-                        {social.name}
-                      </Typography>
-                    </Box>
-                  </Link>
-                ))}
-              </Box>
               {/* ========= CTA ========= */}
               {ctaButtonParams && (
                 <Box

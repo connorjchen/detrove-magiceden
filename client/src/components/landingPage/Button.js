@@ -1,37 +1,37 @@
-import { Typography, SxProps } from "@mui/material";
-
-const theme = useTheme();
-const colorSetsPrimary = {
-  black: {
-    color: "white",
-    bgcolor: "black",
-  },
-  white: {
-    color: "black",
-    bgcolor: "white",
-  },
-  blue: {
-    color: "white",
-    bgcolor: theme.palette.accent.dark,
-  },
-};
-
-const colorSetsSecondary = {
-  black: {
-    color: "black",
-    border: "1px solid black",
-  },
-  white: {
-    color: "white",
-    border: "1px solid white",
-  },
-  blue: {
-    color: theme.palette.accent.dark,
-    border: `1px solid ${theme.palette.accent.dark}`,
-  },
-};
+import { Typography, useTheme, SxProps } from "@mui/material";
+import React from "react";
 
 const Button = ({ title, variant, color, sx, onClick }) => {
+  const theme = useTheme();
+  const colorSetsPrimary = {
+    black: {
+      color: "white",
+      bgcolor: "black",
+    },
+    white: {
+      color: "black",
+      bgcolor: "white",
+    },
+    blue: {
+      color: "white",
+      bgcolor: theme.palette.accent.dark,
+    },
+  };
+
+  const colorSetsSecondary = {
+    black: {
+      color: "black",
+      border: "1px solid black",
+    },
+    white: {
+      color: "white",
+      border: "1px solid white",
+    },
+    blue: {
+      color: theme.palette.accent.dark,
+      border: `1px solid ${theme.palette.accent.dark}`,
+    },
+  };
   const primary = {
     ...colorSetsPrimary[color],
     "&:hover": {

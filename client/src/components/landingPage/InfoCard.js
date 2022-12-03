@@ -1,5 +1,5 @@
 import { Box, SxProps, Typography } from "@mui/material";
-
+import React from "react";
 const accentImages = {
   orange: "polygon-orange.png",
   red: "polygon-red.png",

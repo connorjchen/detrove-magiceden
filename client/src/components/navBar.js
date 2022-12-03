@@ -175,7 +175,7 @@ export default function NavBar(props) {
             }}
           >
             <Link
-              to="/"
+              to="/landing"
               style={{
                 textDecoration: "none",
                 display: "flex",

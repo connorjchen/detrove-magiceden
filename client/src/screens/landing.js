@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Container,
@@ -7,14 +8,13 @@ import {
   useTheme,
 } from "@mui/material";
 import { experimental_sx as sx } from "@mui/system";
-import BackedByIcons from "../components/landingPage/BackedByIcons";
 import Button from "../components/landingPage/Button";
 import Explainer from "../components/landingPage/Explainer";
 import Footer from "../components/landingPage/Footer";
 import InfoCard from "../components/landingPage/InfoCard";
 import Navbar from "../components/landingPage/Navbar";
-import Tile from "../components/landingPage/Tile";
-
+import Tile from "../components/landingPage/Tiles";
+import sneakerVideo from "../images/sneakerAnimation.mp4";
 const Title = styled(Typography)(
   sx({
     fontSize: { xs: "2rem", sm: "3rem", md: "4.75rem" },
@@ -41,11 +41,11 @@ const servicePoints = [
 ];
 
 const openWaitlistForm = () => {
-  window.open(waitListFormUrl, "_blank");
+  // window.open(waitListFormUrl, "_blank");
 };
 
 const openEmailForm = () => {
-  window.open(emailFormUrl, "_blank");
+  // window.open(emailFormUrl, "_blank");
 };
 
 const Home = () => {
@@ -69,13 +69,14 @@ const Home = () => {
         >
           {mobile && (
             <video
-              src="assets-carrousel.mp4"
+              src={sneakerVideo}
               autoPlay
               muted
               loop
               playsInline
               style={{
                 width: "100%",
+                height: "600px",
                 zIndex: -10,
                 WebkitMaskImage: "-webkit-radial-gradient(white, black)",
                 outline: "none",
@@ -83,15 +84,10 @@ const Home = () => {
               }}
             />
           )}
-          <Title
-            variant="h1"
-            sx={{ maxWidth: { xs: 1, sm: 0.7 }, fontWeight: 700 }}
-          >
-            Sell your{" "}
-            <span style={{ color: theme.palette.accent.dark }}>
-              collectibles
-            </span>{" "}
-            and earn passive income
+          <Title variant="h1" sx={{ maxWidth: "900px", fontWeight: 700 }}>
+            Speculate on{" "}
+            <span style={{ color: theme.palette.accent.dark }}>Sneakers</span>{" "}
+            and avoid absurd prices
           </Title>
           <Typography
             sx={{
@@ -102,8 +98,7 @@ const Home = () => {
               mt: 4,
             }}
           >
-            Turn your trading cards, sneakers, watches, and more into tradable
-            Connected Collectibles and earn 1% on every future sale.
+            Reduce Space. Reduce Cost. Reduce Time.
           </Typography>
           <Box
             sx={{
@@ -119,50 +114,34 @@ const Home = () => {
               sx={{ width: { xs: "auto", sm: "fit-content" } }}
               onClick={openWaitlistForm}
             />
-            <Button
-              title="Stay in the loop"
-              variant="secondary"
-              color="black"
-              sx={{
-                width: { xs: "auto", sm: "fit-content" },
-                ml: { xs: 0, sm: 2.5 },
-                mt: { xs: 2, sm: 0 },
-              }}
-              onClick={openEmailForm}
-            />
           </Box>
-          {!mobile && (
-            <video
-              src="assets-carrousel.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{
-                width: "45%",
-                position: "absolute",
-                right: mobile ? -80 : -30,
-                top: mobile ? -60 : 0,
-                zIndex: -10,
-                WebkitMaskImage: "-webkit-radial-gradient(white, black)",
-                outline: "none",
-                border: "none",
-              }}
-            />
-          )}
-        </Box>
-        <Box sx={{ my: { xs: 7, sm: 10 } }}>
-          <Title
-            variant="h3"
+          <Box
             sx={{
-              fontSize: { xs: "1.75rem", sm: "1.75rem", md: "3.5rem" },
-              textAlign: "center",
-              mb: { xs: 10, md: 12 },
+              height: "200px",
+              mt: 10,
+              borderRadius: "50%",
             }}
           >
-            Backed by
-          </Title>
-          <BackedByIcons />
+            {!mobile && (
+              <video
+                src={sneakerVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{
+                  width: "45%",
+                  position: "absolute",
+                  right: mobile ? -80 : -30,
+                  top: mobile ? -60 : 0,
+                  zIndex: -10,
+                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                  outline: "none",
+                  border: "none",
+                }}
+              />
+            )}
+          </Box>
         </Box>
         <Box
           sx={{
@@ -174,16 +153,17 @@ const Home = () => {
           }}
         >
           <Tile
-            compact
-            imgSrcIcon="/verified-icon.svg"
-            title="Authenticated, Vaulted, and Insured"
-            text="Feel confident that your assets are safe while you collect and trade. Every collectible is authenticated by experts, insured, and secured in a Brink’s vault."
-          />
-          <Tile
+            blackBg
             imgSrcPolygon="/polygon-dot-blue.svg"
             imgSrcImage="/tile-pokemon.webp"
             title="Earn 1% on every future sale"
             text="Vault and sell your Connected Collectibles to receive payouts every time they’re traded on marketplaces like OpenSea and the Courtyard marketplace."
+          />
+          <Tile
+            compact
+            imgSrcIcon="/verified-icon.svg"
+            title="Authenticated, Vaulted, and Insured"
+            text="Feel confident that your assets are safe while you collect and trade. Every collectible is authenticated by experts, insured, and secured in a Brink’s vault."
           />
         </Box>
         <Box
@@ -196,17 +176,17 @@ const Home = () => {
           }}
         >
           <Tile
+            compact
+            imgSrcIcon="/percent-icon.svg"
+            title="No sales tax or fees for vaulted assets"
+            text="Store your assets with Courtyard without paying sales tax, storage, or selling fees on vaulted transactions."
+          />
+          <Tile
             blackBg
             imgSrcPolygon="/polygon-dot-yellow.svg"
             imgSrcImage="/tile-shoe.webp"
             title="Flex your collection"
             text="Bring your collectibles out of your private collection and into the metaverse with Oncyber spaces and digital collectibles on Instagram."
-          />
-          <Tile
-            compact
-            imgSrcIcon="/percent-icon.svg"
-            title="No sales tax or fees for vaulted assets"
-            text="Store your assets with Courtyard without paying sales tax, storage, or selling fees on vaulted transactions."
           />
         </Box>
 
