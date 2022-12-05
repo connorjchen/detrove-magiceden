@@ -6,8 +6,8 @@ const Tile = ({
   compact,
   blackBg,
   imgSrcIcon,
-  imgSrcPolygon,
   imgSrcImage,
+  imgIphone,
   sx,
 }) => {
   const mobile = useMediaQuery("(max-width:600px)");
@@ -33,7 +33,7 @@ const Tile = ({
           <img
             src={imgSrcIcon}
             style={{
-              width: mobile ? "60px" : "auto",
+              width: mobile ? "60px" : "100px",
               marginBottom: mobile ? "16px" : "32px",
             }}
             alt=""
@@ -42,13 +42,13 @@ const Tile = ({
         <Typography
           sx={{
             fontSize: { xs: "1.5rem", sm: "2rem" },
-            fontWeight: 500,
+            fontWeight: 600,
             lineHeight: "36px",
-            letterSpacing: "-2px",
+            // letterSpacing: "-2px",
             color: blackBg ? "white" : "black",
           }}
         >
-          {imgSrcPolygon && (
+          {/* {imgSrcPolygon && (
             <img
               src={imgSrcPolygon}
               style={{
@@ -58,29 +58,31 @@ const Tile = ({
               }}
               alt=""
             ></img>
-          )}
+          )} */}
           {title}
         </Typography>
         <Typography
           sx={{
             fontSize: "1rem",
-            fontWeight: 500,
+            fontWeight: 600,
             lineHeight: "24px",
-            letterSpacing: "-0.8px",
+            // letterSpacing: "-0.8px",
             color: blackBg ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)",
             mt: 2.5,
           }}
         >
           {text}
         </Typography>
-        {imgSrcImage && (
+        {/* {imgSrcImage && (
           <Box sx={{ height: { xs: "270px", sm: "360px" } }}></Box>
-        )}
+        )} */}
         {imgSrcImage && (
           <Box
             sx={{
+              mt: 5,
               width: 1,
-              position: "absolute",
+              height: { xs: "170px", sm: "260px" },
+              // position: "absolute",
               bottom: 0,
               left: 0,
               display: "flex",
@@ -90,7 +92,8 @@ const Tile = ({
             <img
               src={imgSrcImage}
               style={{
-                height: mobile ? "250px" : "340px",
+                // height: mobile ? "250px" : "340px",
+                height: mobile ? "24px" : "120px",
               }}
               alt=""
             ></img>

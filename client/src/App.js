@@ -85,9 +85,10 @@ function App() {
         <BrowserRouter>
           <ScrollToTop>
             <NavBar />
+
             <Routes>
-              <Route path="/" element={<Marketplace />} exact />
-              <Route path="/landing" element={<LandingPage />} />
+              <Route path="/" element={<LandingPage />} exact />
+              <Route path="/marketplace" element={<Marketplace />} />
               <Route path="/product/:sneakerId" element={<Product />} />
               <Route path="/sell/:sneakerId" element={<Sell />} />
               <Route path="/buy/:sneakerId" element={<Buy />} />

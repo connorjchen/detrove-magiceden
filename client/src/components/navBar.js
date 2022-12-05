@@ -28,7 +28,7 @@ import { getUser } from "../redux/actions/profileActions";
 
 const drawerWidth = 240;
 const navItems = [
-  ["Marketplace", "/"],
+  ["Marketplace", "/marketplace"],
   ["Profile", "/profile"],
 ];
 
@@ -175,7 +175,7 @@ export default function NavBar(props) {
             }}
           >
             <Link
-              to="/landing"
+              to="/"
               style={{
                 textDecoration: "none",
                 display: "flex",

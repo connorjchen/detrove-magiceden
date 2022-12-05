@@ -14,7 +14,13 @@ import Footer from "../components/landingPage/Footer";
 import InfoCard from "../components/landingPage/InfoCard";
 import Navbar from "../components/landingPage/Navbar";
 import Tile from "../components/landingPage/Tiles";
-import sneakerVideo from "../images/sneakerAnimation.mp4";
+import authenticityIcon from "../images/authenticity-icon.svg";
+import sneakerVideo from "../images/sneakerAnimation2.mp4";
+import authenticityIcon2 from "../images/verification.png";
+import discountIcon from "../images/discount.png";
+import vaultIcon from "../images/vault.png";
+import iphone from "../images/iphone demo.png";
+
 const Title = styled(Typography)(
   sx({
     fontSize: { xs: "2rem", sm: "3rem", md: "4.75rem" },
@@ -67,7 +73,7 @@ const Home = () => {
             overflow: "hidden",
           }}
         >
-          {mobile && (
+          {/* {mobile && (
             <video
               src={sneakerVideo}
               autoPlay
@@ -76,29 +82,34 @@ const Home = () => {
               playsInline
               style={{
                 width: "100%",
-                height: "600px",
                 zIndex: -10,
                 WebkitMaskImage: "-webkit-radial-gradient(white, black)",
                 outline: "none",
                 border: "none",
               }}
             />
-          )}
-          <Title variant="h1" sx={{ maxWidth: "900px", fontWeight: 700 }}>
-            Speculate on{" "}
-            <span style={{ color: theme.palette.accent.dark }}>Sneakers</span>{" "}
-            and avoid absurd prices
+          )} */}
+          <Title
+            variant="h1"
+            sx={{ maxWidth: { xs: 1, sm: 0.6 }, fontWeight: 900 }}
+          >
+            Invest in{" "}
+            <span style={{ color: theme.palette.accent.logoDark }}>
+              Sneakers
+            </span>{" "}
+            like Stocks
           </Title>
           <Typography
             sx={{
               fontSize: "1.125rem",
               lineHeight: "24px",
               letterSpacing: "-0.8px",
-              maxWidth: { xs: 1, sm: 0.6 },
+              maxWidth: { xs: 1, sm: 0.5 },
               mt: 4,
             }}
           >
-            Reduce Space. Reduce Cost. Reduce Time.
+            Enjoy 3% total transaction fees, instant transactions and zero
+            consignment fees
           </Typography>
           <Box
             sx={{
@@ -117,9 +128,7 @@ const Home = () => {
           </Box>
           <Box
             sx={{
-              height: "200px",
-              mt: 10,
-              borderRadius: "50%",
+              mt: 19,
             }}
           >
             {!mobile && (
@@ -127,20 +136,41 @@ const Home = () => {
                 src={sneakerVideo}
                 autoPlay
                 muted
-                loop
                 playsInline
                 style={{
-                  width: "45%",
+                  width: "100%",
+                  height: "85%",
                   position: "absolute",
-                  right: mobile ? -80 : -30,
-                  top: mobile ? -60 : 0,
-                  zIndex: -10,
-                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                  right: -261,
+                  top: 30,
                   outline: "none",
                   border: "none",
+                  zIndex: -10,
+                  borderRadius: "40px",
+                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
                 }}
               />
             )}
+            {/* {!mobile && (
+              <video
+                src={sneakerVideo}
+                autoPlay
+                muted
+                playsInline
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  right: 0,
+                  top: -5,
+                  outline: "none",
+                  border: "none",
+                  zIndex: -10,
+                  borderRadius: "40px",
+                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                }}
+              />
+            )} */}
           </Box>
         </Box>
         <Box
@@ -153,17 +183,15 @@ const Home = () => {
           }}
         >
           <Tile
-            blackBg
-            imgSrcPolygon="/polygon-dot-blue.svg"
-            imgSrcImage="/tile-pokemon.webp"
-            title="Earn 1% on every future sale"
-            text="Vault and sell your Connected Collectibles to receive payouts every time they’re traded on marketplaces like OpenSea and the Courtyard marketplace."
+            imgSrcImage={authenticityIcon}
+            title="Authenticity Guaranteed"
+            text="Thanks to our meticulous multi-verification process, we ensure your product is authentic, otherwise, get your money back guaranteed"
           />
           <Tile
             compact
-            imgSrcIcon="/verified-icon.svg"
-            title="Authenticated, Vaulted, and Insured"
-            text="Feel confident that your assets are safe while you collect and trade. Every collectible is authenticated by experts, insured, and secured in a Brink’s vault."
+            imgSrcIcon={discountIcon}
+            title="Save More, Earn More"
+            text="Maximize your profits with no shipping cost, sales tax, and the lowest transaction fees"
           />
         </Box>
         <Box
@@ -177,16 +205,15 @@ const Home = () => {
         >
           <Tile
             compact
-            imgSrcIcon="/percent-icon.svg"
-            title="No sales tax or fees for vaulted assets"
-            text="Store your assets with Courtyard without paying sales tax, storage, or selling fees on vaulted transactions."
+            imgSrcIcon={vaultIcon}
+            title="Save Space in Your Home"
+            text="Your brand new sneakers are insured and kept in our secure, climate-controlled vault to be redeemed at any time"
           />
           <Tile
             blackBg
-            imgSrcPolygon="/polygon-dot-yellow.svg"
-            imgSrcImage="/tile-shoe.webp"
-            title="Flex your collection"
-            text="Bring your collectibles out of your private collection and into the metaverse with Oncyber spaces and digital collectibles on Instagram."
+            imgIphone={iphone}
+            title="Fast Sales, Instant Profit"
+            text="Stop waiting, get your payout instantly after you sell your kicks"
           />
         </Box>
 
