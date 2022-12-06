@@ -21,15 +21,10 @@ const Navbar = ({ ctaButtonParams }) => {
   const currentRoute = useLocation();
 
   const navLinks = [
-    { title: "How it works", href: "", newTab: false },
-    {
-      title: "Redeem",
-      href: "",
-      newTab: false,
-    },
+    { title: "How it works", href: "/#how-it-works", newTab: false },
     {
       title: "Marketplace",
-      href: "",
+      href: "/marketplace",
       newTab: false,
     },
   ];

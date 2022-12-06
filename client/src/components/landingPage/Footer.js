@@ -10,15 +10,12 @@ const navLinks = [
   { title: "How it works", href: "/#how-it-works", newTab: false },
   {
     title: "Marketplace",
-    href: "https://detrove.io",
+    href: "/marketplace",
     newTab: false,
   },
-  { title: "Redeem", href: "redeem", newTab: true },
-  { title: "Courtyard for Business", href: "/business", newTab: false },
-  { title: "Documentation", href: "https://docs.courtyard.io/", newTab: true },
-  { title: "Careers", href: "/careers", newTab: true },
-  { title: "Terms of Service", href: "/terms-of-service", newTab: true },
-  { title: "Privacy", href: "/privacy", newTab: true },
+
+  { title: "Terms of Service", href: "", newTab: true },
+  { title: "Privacy", href: "", newTab: true },
 ];
 
 const Footer = () => {
@@ -76,11 +73,11 @@ const Footer = () => {
               mb: { xs: 8, md: 0 },
             }}
           >
-            <SocialIcons
+            {/* <SocialIcons
               defaultName="Twitter"
               link="https://twitter.com/"
               image={twitterLogo}
-            />
+            /> */}
             <SocialIcons
               defaultName="Discord"
               link="https://discord.gg/9fvQcnvda2"
@@ -89,15 +86,15 @@ const Footer = () => {
 
             <SocialIcons
               defaultName="LinkedIn"
-              link="https://linkedin.com/"
+              link="https://www.linkedin.com/company/detrove/"
               image={LinkedinLogo}
             />
 
-            <SocialIcons
+            {/* <SocialIcons
               defaultName="Gitbook"
               link="https://detrove.gitbook.io/litepaper/"
-              image={GitbookLogo}
-            />
+              image={GitbookLogo} */}
+            {/* /> */}
           </Box>
         </Box>
         <Typography

@@ -4,10 +4,11 @@ import Marketplace from "./screens/marketplace";
 import Product from "./screens/product";
 import Sell from "./screens/sell";
 import Buy from "./screens/buy";
-import LandingPage from "./screens/landing";
+import Landing from "./screens/landing";
 import Profile from "./screens/profile";
 import NavBar from "./components/navBar";
 import Footer from "./components/footer";
+import Layout from "./components/layout";
 import Listing from "./screens/listing";
 import { ThemeProvider, Box, Typography } from "@mui/material";
 import theme from "./styles/theme";
@@ -84,18 +85,17 @@ function App() {
       <SnackbarProvider>
         <BrowserRouter>
           <ScrollToTop>
-            <NavBar />
-
             <Routes>
-              <Route path="/" element={<LandingPage />} exact />
-              <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/product/:sneakerId" element={<Product />} />
-              <Route path="/sell/:sneakerId" element={<Sell />} />
-              <Route path="/buy/:sneakerId" element={<Buy />} />
-              <Route path="/listing/:listingId" element={<Listing />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/" element={<Landing />} exact />
+              <Route element={<Layout />}>
+                <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/product/:sneakerId" element={<Product />} />
+                <Route path="/sell/:sneakerId" element={<Sell />} />
+                <Route path="/buy/:sneakerId" element={<Buy />} />
+                <Route path="/listing/:listingId" element={<Listing />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
             </Routes>
-            <Footer />
           </ScrollToTop>
         </BrowserRouter>
       </SnackbarProvider>

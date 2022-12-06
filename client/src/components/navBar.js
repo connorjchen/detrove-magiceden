@@ -199,17 +199,6 @@ export default function NavBar(props) {
           <Box
             sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}
           >
-            <Box
-              component="a"
-              href="https://detrove.gitbook.io/litepaper/"
-              target="_blank"
-              rel="noreferrer"
-              sx={{
-                textDecoration: "none",
-              }}
-            >
-              <NavBarText text="Docs" />
-            </Box>
             {navItems.map(([item, link], i) => (
               <Link key={i} to={link} style={{ textDecoration: "none" }}>
                 <NavBarText text={item} />

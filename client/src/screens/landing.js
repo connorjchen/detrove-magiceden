@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Container,
@@ -7,17 +8,16 @@ import {
   useMediaQuery,
   useTheme,
   TextField,
+  Link,
 } from "@mui/material";
 import { experimental_sx as sx } from "@mui/system";
 import Button from "../components/landingPage/Button";
-import Explainer from "../components/landingPage/Explainer";
 import Footer from "../components/landingPage/Footer";
 import InfoCard from "../components/landingPage/InfoCard";
 import Navbar from "../components/landingPage/Navbar";
 import Tile from "../components/landingPage/Tiles";
 import authenticityIcon from "../images/authenticity-icon.svg";
 import sneakerVideo from "../images/sneakerAnimation2.mp4";
-import authenticityIcon2 from "../images/verification.png";
 import discountIcon from "../images/discount.png";
 import vaultIcon from "../images/vault.png";
 import iphone from "../images/iphone demo.png";
@@ -48,21 +48,13 @@ const servicePoints = [
   },
 ];
 
-const addToWaitlist = () => {
-  // window.open(waitListFormUrl, "_blank");
-};
-
-const openEmailForm = () => {
-  // window.open(emailFormUrl, "_blank");
-};
-
 const Home = () => {
   const mobile = useMediaQuery("(max-width:600px)");
   const theme = useTheme();
   const valueRef = useRef("");
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
   return (
-    <Box>
+    <Box id="top-container">
       <Container sx={{ maxWidth: 0.95 }}>
         <Navbar />
         <Box
@@ -118,7 +110,7 @@ const Home = () => {
             }}
           >
             <TextField
-              id="outlined-basic"
+              id="waitlist"
               label="Enter Email"
               variant="outlined"
               color="grey"
@@ -131,11 +123,9 @@ const Home = () => {
               color="black"
               sx={{ width: { xs: "auto", sm: "fit-content" }, ml: 1 }}
               onClick={() => {
-                // addEmail(this.refs.email.getValue);
-                // setEmail("");
                 console.log(valueRef.current.value);
+                dispatch(addEmail(valueRef.current.value));
                 valueRef.current.value = "";
-                addEmail(valueRef.current.value);
               }}
             />
           </Box>
@@ -299,15 +289,17 @@ const Home = () => {
               mt: { xs: 8, sm: 12 },
             }}
           >
-            Invest in Culture
+            Be a Part of the Future of Reselling
           </Typography>
-          <Button
-            title="Join the waitlist"
-            variant="secondary"
-            // onClick={}
-            color="white"
-            sx={{ mt: { xs: 4, sm: 9 }, mb: { xs: 4, sm: 12 } }}
-          />
+          <Link href={"/#top-container"}>
+            <Button
+              title="Join the waitlist"
+              variant="secondary"
+              // onClick={window.scrollTo({ top: 0, left: 0, behavior: "smooth" })}
+              color="white"
+              sx={{ mt: { xs: 4, sm: 9 }, mb: { xs: 4, sm: 12 } }}
+            />
+          </Link>
         </Container>
       </Box>
       <Footer />
