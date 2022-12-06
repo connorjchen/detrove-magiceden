@@ -11,6 +11,7 @@ import productRouter from "./routers/productRouter.js";
 import searchRouter from "./routers/searchRouter.js";
 import buyRouter from "./routers/buyRouter.js";
 import listingRouter from "./routers/listingRouter.js";
+import landingRouter from "./routers/landingRouter.js";
 
 const app = express();
 dotenv.config();
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Server is up and running!" });
 });
 
+app.use("/api/landing", landingRouter);
 app.use("/api/marketplace", marketplaceRouter);
 app.use("/api/sell", sellRouter);
 app.use("/api/profile", profileRouter);
