@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Container,
@@ -21,6 +21,7 @@ import authenticityIcon2 from "../images/verification.png";
 import discountIcon from "../images/discount.png";
 import vaultIcon from "../images/vault.png";
 import iphone from "../images/iphone demo.png";
+import addEmail from "../redux/actions/landingActions";
 
 const Title = styled(Typography)(
   sx({
@@ -47,7 +48,7 @@ const servicePoints = [
   },
 ];
 
-const openWaitlistForm = () => {
+const addToWaitlist = () => {
   // window.open(waitListFormUrl, "_blank");
 };
 
@@ -58,6 +59,8 @@ const openEmailForm = () => {
 const Home = () => {
   const mobile = useMediaQuery("(max-width:600px)");
   const theme = useTheme();
+  const valueRef = useRef("");
+  const [email, setEmail] = useState("");
   return (
     <Box>
       <Container sx={{ maxWidth: 0.95 }}>
@@ -119,13 +122,21 @@ const Home = () => {
               label="Enter Email"
               variant="outlined"
               color="grey"
+              inputRef={valueRef}
+              // onChange={(val) => setEmail(val)}
             />
             <Button
               title="Join the waitlist"
               variant="primary"
               color="black"
               sx={{ width: { xs: "auto", sm: "fit-content" }, ml: 1 }}
-              onClick={openWaitlistForm}
+              onClick={() => {
+                // addEmail(this.refs.email.getValue);
+                // setEmail("");
+                console.log(valueRef.current.value);
+                valueRef.current.value = "";
+                addEmail(valueRef.current.value);
+              }}
             />
           </Box>
           <Box
@@ -293,7 +304,7 @@ const Home = () => {
           <Button
             title="Join the waitlist"
             variant="secondary"
-            onClick={openWaitlistForm}
+            // onClick={}
             color="white"
             sx={{ mt: { xs: 4, sm: 9 }, mb: { xs: 4, sm: 12 } }}
           />

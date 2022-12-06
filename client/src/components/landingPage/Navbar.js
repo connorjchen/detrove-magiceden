@@ -21,14 +21,17 @@ const Navbar = ({ ctaButtonParams }) => {
   const currentRoute = useLocation();
 
   const navLinks = [
-    { title: "How it works", href: "/#how-it-works", newTab: false },
+    { title: "How it works", href: "", newTab: false },
     {
-      title: "Marketplace",
-      href: "https://marketplace.courtyard.io",
+      title: "Redeem",
+      href: "",
       newTab: false,
     },
-    { title: "Redeem", href: "/redeem", newTab: true },
-    { title: "Courtyard for Business", href: "/business", newTab: false },
+    {
+      title: "Marketplace",
+      href: "",
+      newTab: false,
+    },
   ];
 
   function handleOpenMobile() {

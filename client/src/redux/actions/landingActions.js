@@ -5,7 +5,7 @@ import { RequestsEnum } from "../helpers/requestsEnum";
 
 const baseUrl = `${apiBaseUrl}/landing`;
 
-export const addEmail = (email) => async (dispatch) => {
+const addEmail = (email) => async (dispatch) => {
   return await requestHelper(
     dispatch,
     RequestsEnum.landingAddEmail,
@@ -14,3 +14,4 @@ export const addEmail = (email) => async (dispatch) => {
     }
   );
 };
+export default addEmail;
