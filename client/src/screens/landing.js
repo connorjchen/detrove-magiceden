@@ -228,23 +228,23 @@ const Home = () => {
         </Title>
         <Box sx={{ mt: 10.25, mb: { xs: 7, sm: 25 } }}>
           <InfoCard
-            title="1. Ship your collectible"
-            text="Join the waitlist to send collectibles directly to Courtyard with no-fee shipping and bank-grade storage provided by Brink’s."
+            title="1. Invest in Sneakers"
+            text="Invest in sneakers without owning them. We keep them clean, so you can redeem"
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
           />
           <InfoCard
-            title="2. Convert your collectible"
-            text="Once we authenticate your asset, we create and send a Connected Collectible (a type of NFT) to your wallet to supercharge your once-dormant physical asset with new possibilities."
+            title="2. Deposit your Sneakers"
+            text="Clean your collection by sending your sneakers to us. Your home is now clean and we keep your sneakers supreme"
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4, ml: "auto" }}
           />
           <InfoCard
-            title="3. Trade to earn passive income"
-            text="Set a price, let the bids roll in, or HODL. You have complete ownership of the Connected Collectible, which is immediately tradable on the blockchain. Each time your Connected Collectible is sold on a marketplace after the initial sale, you will receive 1% of each future sale until the physical collectible is redeemed by another collector."
+            title="3. Trade to earn"
+            text="Convert your love for sneakers into profit. Trade what you love and earn for that love"
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
           />
           <InfoCard
-            title="4. Redeem your collectible"
-            text="Connected Collectibles are always redeemable for the physical collectible. And if you’re the original owner and don’t sell the Connected Collectible you listed, you can redeem your physical collectible without paying withdrawal fees at any time."
+            title="4. Redeem your Kicks"
+            text="Want to flex them kicks? Redeem your sneakers and we ship"
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, ml: "auto" }}
           />
         </Box>
