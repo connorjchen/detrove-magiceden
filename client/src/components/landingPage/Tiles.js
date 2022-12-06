@@ -99,6 +99,26 @@ const Tile = ({
             ></img>
           </Box>
         )}
+        {imgIphone && (
+          <Box
+            sx={{
+              width: 1,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={imgIphone}
+              style={{
+                height: mobile ? "250px" : "340px",
+              }}
+              alt=""
+            ></img>
+          </Box>
+        )}
       </Box>
     </Box>
   );

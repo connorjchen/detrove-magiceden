@@ -18,27 +18,6 @@ const InfoCard = ({ title, text, color, sx }) => {
         ...sx,
       }}
     >
-      <img
-        src={accentImages[color]}
-        alt="orange arrow pointing right"
-        style={{
-          height: "24px",
-          position: "absolute",
-          left: 0,
-          top: 32,
-        }}
-      />
-      <img
-        src={accentImages[color]}
-        alt="orange arrow pointing left"
-        style={{
-          height: "24px",
-          position: "absolute",
-          right: 0,
-          top: 32,
-          transform: "rotate(180deg)",
-        }}
-      />
       <Box sx={{ mx: 5.25 }}>
         <Typography
           sx={{

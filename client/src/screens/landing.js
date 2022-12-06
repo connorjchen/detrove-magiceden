@@ -6,6 +6,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  TextField,
 } from "@mui/material";
 import { experimental_sx as sx } from "@mui/system";
 import Button from "../components/landingPage/Button";
@@ -60,12 +61,7 @@ const Home = () => {
   return (
     <Box>
       <Container sx={{ maxWidth: 0.95 }}>
-        <Navbar
-          ctaButtonParams={{
-            title: "Join the waitlist",
-            onClick: openWaitlistForm,
-          }}
-        />
+        <Navbar />
         <Box
           sx={{
             mt: { xs: 4, sm: 16 },
@@ -118,11 +114,17 @@ const Home = () => {
               flexDirection: { xs: "column", sm: "row" },
             }}
           >
+            <TextField
+              id="outlined-basic"
+              label="Enter Email"
+              variant="outlined"
+              color="grey"
+            />
             <Button
               title="Join the waitlist"
               variant="primary"
               color="black"
-              sx={{ width: { xs: "auto", sm: "fit-content" } }}
+              sx={{ width: { xs: "auto", sm: "fit-content" }, ml: 1 }}
               onClick={openWaitlistForm}
             />
           </Box>
@@ -217,125 +219,37 @@ const Home = () => {
           />
         </Box>
 
-        <Explainer
-          contentAlignDesktop="left"
-          contentAlignMobile="bottom"
-          sx={{ mt: { xs: 9, sm: 24 }, mb: { xs: 9, sm: 24 } }}
+        <Title
+          variant="h2"
+          sx={{ textAlign: "center", mt: { xs: 7, md: 24 } }}
+          id="how-it-works"
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              flexWrap: "wrap",
-              columnGap: 6,
-              rowGap: 8,
-            }}
-          >
-            {servicePoints.map((service, index) => (
-              <Box
-                key={index}
-                sx={{
-                  width: { xs: 1, sm: 260, md: 280 },
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  src={service.icon}
-                  style={{ width: "34px" }}
-                  alt={service.title}
-                ></img>
-                <Typography
-                  sx={{
-                    color: "white",
-                    textAlign: "left",
-                    ml: 3,
-                  }}
-                >
-                  {service.title}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        </Explainer>
-
-        <Title variant="h2" sx={{ textAlign: "center" }} id="how-it-works">
           How does it work?
         </Title>
         <Box sx={{ mt: 10.25, mb: { xs: 7, sm: 25 } }}>
           <InfoCard
-            color="orange"
             title="1. Ship your collectible"
             text="Join the waitlist to send collectibles directly to Courtyard with no-fee shipping and bank-grade storage provided by Brink’s."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
           />
           <InfoCard
-            color="red"
             title="2. Convert your collectible"
             text="Once we authenticate your asset, we create and send a Connected Collectible (a type of NFT) to your wallet to supercharge your once-dormant physical asset with new possibilities."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4, ml: "auto" }}
           />
           <InfoCard
-            color="purple"
             title="3. Trade to earn passive income"
             text="Set a price, let the bids roll in, or HODL. You have complete ownership of the Connected Collectible, which is immediately tradable on the blockchain. Each time your Connected Collectible is sold on a marketplace after the initial sale, you will receive 1% of each future sale until the physical collectible is redeemed by another collector."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
           />
           <InfoCard
-            color="blue"
             title="4. Redeem your collectible"
             text="Connected Collectibles are always redeemable for the physical collectible. And if you’re the original owner and don’t sell the Connected Collectible you listed, you can redeem your physical collectible without paying withdrawal fees at any time."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, ml: "auto" }}
           />
         </Box>
-        <Explainer
-          contentAlignDesktop="right"
-          contentAlignMobile="top"
-          sx={{ mb: { xs: 9, sm: 24 } }}
-        >
-          <Box>
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: { xs: "1.75rem", sm: "1.75rem", md: "3.5rem" },
-                fontWeight: 700,
-                letterSpacing: { xs: -0.7, sm: -0.7, md: -2 },
-                lineHeight: { xs: 1.143, sm: 1.143, md: 1 },
-                color: "white",
-                mb: 2.5,
-              }}
-            >
-              What is a Connected Collectible?
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: { xs: "0.875rem", sm: "0.875rem", md: "1.125rem" },
-                fontWeight: 600,
-                letterSpacing: { xs: -0.7, sm: -0.7, md: -0.8 },
-                lineHeight: { xs: 1.429, sm: 1.429, md: 1.556 },
-                color: "white",
-              }}
-            >
-              A Connected Collectible functions as a digital certificate of a
-              physical asset in the form of a Non-Fungible Token (NFT). Once the
-              underlying asset is securely vaulted and insured, the Connected
-              Collectible is issued to the collector's wallet. Collectors can
-              then trade the Connected Collectible on any NFT marketplace, while
-              the provenance and transaction history are secured on the
-              blockchain.
-              <br />
-              <br />
-              Connected Collectibles can always be redeemed for the exact
-              physical asset. Once the Connected Collectible is sold to another
-              collector, the first owner no longer owns the physical asset and
-              can no longer redeem it.
-            </Typography>
-          </Box>
-        </Explainer>
-        <Box sx={{ mb: { xs: 9, sm: 21 } }}>
+
+        {/* <Box sx={{ mb: { xs: 9, sm: 21 } }}>
           <Title variant="h2" sx={{ textAlign: "center", mb: 8 }}>
             Have more questions?
           </Title>
@@ -351,7 +265,7 @@ const Home = () => {
             color="black"
             sx={{ mx: "auto" }}
           />
-        </Box>
+        </Box> */}
       </Container>
       <Box sx={{ bgcolor: "black" }}>
         <Container
@@ -374,7 +288,7 @@ const Home = () => {
               mt: { xs: 8, sm: 12 },
             }}
           >
-            Collect, sell, and earn passive income
+            Invest in Culture
           </Typography>
           <Button
             title="Join the waitlist"
