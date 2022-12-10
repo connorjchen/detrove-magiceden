@@ -1,9 +1,9 @@
 import { Box, Container, Link, Typography } from "@mui/material";
 import React from "react";
-import twitterLogo from "../../images/twitter-white.svg";
+// import twitterLogo from "../../images/twitter-white.svg";
 import discordLogo from "../../images/discord-logo.svg";
 import LinkedinLogo from "../../images/linked-in-white.svg";
-import GitbookLogo from "../../images/gitbook-white.svg";
+// import GitbookLogo from "../../images/gitbook-white.svg";
 
 import SocialIcons from "../socialIcons";
 const navLinks = [
@@ -37,7 +37,7 @@ const Footer = () => {
             justifyContent: "space-between",
             alignItems: { xs: "center", md: "flex-end" },
             mb: { xs: 0, md: 10 },
-            mt: 7,
+            mt: 4,
           }}
         >
           <Box

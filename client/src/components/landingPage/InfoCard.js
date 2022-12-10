@@ -1,15 +1,17 @@
-import { Box, SxProps, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
-const accentImages = {
-  orange: "polygon-orange.png",
-  red: "polygon-red.png",
-  purple: "polygon-purple.png",
-  blue: "polygon-blue.png",
-};
+// const accentImages = {
+//   orange: "polygon-orange.png",
+//   red: "polygon-red.png",
+//   purple: "polygon-purple.png",
+//   blue: "polygon-blue.png",
+// };
 
-const InfoCard = ({ title, text, color, sx }) => {
+const InfoCard = ({ title, text, sx }) => {
   return (
     <Box
+      data-aos="fade-down"
+      data-aos-duration="1000"
       sx={{
         width: 1,
         borderRadius: "16px",

@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Container,
@@ -7,9 +7,10 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-  TextField,
+  OutlinedInput,
   Link,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { experimental_sx as sx } from "@mui/system";
 import Button from "../components/landingPage/Button";
 import Footer from "../components/landingPage/Footer";
@@ -22,6 +23,8 @@ import discountIcon from "../images/discount.png";
 import vaultIcon from "../images/vault.png";
 import iphone from "../images/iphone demo.png";
 import addEmail from "../redux/actions/landingActions";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Title = styled(Typography)(
   sx({
@@ -32,39 +35,46 @@ const Title = styled(Typography)(
   })
 );
 
-const servicePoints = [
-  { title: "No-fee vault storage at Brink’s", icon: "/service-vault.svg" },
-  { title: "Authenticity guarantee", icon: "/service-authentic.svg" },
-  { title: "No sales tax on vault transactions", icon: "/service-no-tax.svg" },
-  { title: "Fully insured vaulted assets", icon: "/service-insurance.svg" },
-  {
-    title: "Always redeemable for physical assets",
-    icon: "/service-redeem.svg",
-  },
-  { title: "Seamlessly buy and sell as an NFT", icon: "/service-buy-sell.svg" },
-  {
-    title: "Insured delivery of physical assets to 150+ countries",
-    icon: "/service-delivery.svg",
-  },
-];
+// const servicePoints = [
+//   { title: "No-fee vault storage at Brink’s", icon: "/service-vault.svg" },
+//   { title: "Authenticity guarantee", icon: "/service-authentic.svg" },
+//   { title: "No sales tax on vault transactions", icon: "/service-no-tax.svg" },
+//   { title: "Fully insured vaulted assets", icon: "/service-insurance.svg" },
+//   {
+//     title: "Always redeemable for physical assets",
+//     icon: "/service-redeem.svg",
+//   },
+//   { title: "Seamlessly buy and sell as an NFT", icon: "/service-buy-sell.svg" },
+//   {
+//     title: "Insured delivery of physical assets to 150+ countries",
+//     icon: "/service-delivery.svg",
+//   },
+// ];
 
 const Home = () => {
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mediumMediaQuery = useMediaQuery("(max-width:900px)");
   const theme = useTheme();
-  const valueRef = useRef("");
+  const [email, setEmail] = useState("");
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  useEffect(() => {
+    Aos.init();
+  }, []);
+
   return (
     <Box id="top-container">
       <Container sx={{ maxWidth: 0.95 }}>
         <Navbar />
         <Box
+          data-aos="fade-down"
+          data-aos-duration="1000"
           sx={{
-            mt: { xs: 4, sm: 16 },
+            mt: { xs: 4, md: 16 },
             position: "relative",
             overflow: "hidden",
           }}
         >
-          {/* {mobile && (
+          {mediumMediaQuery && (
             <video
               src={sneakerVideo}
               autoPlay
@@ -79,10 +89,10 @@ const Home = () => {
                 border: "none",
               }}
             />
-          )} */}
+          )}
           <Title
             variant="h1"
-            sx={{ maxWidth: { xs: 1, sm: 0.6 }, fontWeight: 900 }}
+            sx={{ maxWidth: { xs: 1, md: 0.6 }, fontWeight: 900 }}
           >
             Invest in{" "}
             <span style={{ color: theme.palette.accent.logoDark }}>
@@ -95,7 +105,7 @@ const Home = () => {
               fontSize: "1.125rem",
               lineHeight: "24px",
               letterSpacing: "-0.8px",
-              maxWidth: { xs: 1, sm: 0.5 },
+              maxWidth: { xs: 1, md: 0.5 },
               mt: 4,
             }}
           >
@@ -106,35 +116,50 @@ const Home = () => {
             sx={{
               mt: 6,
               display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
+              flexDirection: { xs: "column", md: "row" },
             }}
           >
-            <TextField
-              id="waitlist"
-              label="Enter Email"
-              variant="outlined"
-              color="grey"
-              inputRef={valueRef}
-              // onChange={(val) => setEmail(val)}
+            <OutlinedInput
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Email"
+              sx={{
+                ...theme.inputAnimation,
+                borderRadius: "8px",
+              }}
             />
             <Button
-              title="Join the waitlist"
+              title="Apply for Early Access"
               variant="primary"
               color="black"
-              sx={{ width: { xs: "auto", sm: "fit-content" }, ml: 1 }}
+              sx={{
+                width: { xs: "auto", md: "fit-content" },
+                ml: { xs: 0, md: 1 },
+                mt: { xs: 2, md: 0 },
+              }}
               onClick={() => {
-                console.log(valueRef.current.value);
-                dispatch(addEmail(valueRef.current.value));
-                valueRef.current.value = "";
+                if (/\S+@\S+\.\S+/.test(email) === false) {
+                  enqueueSnackbar("Invalid email format", {
+                    variant: "error",
+                  });
+                  return;
+                } else {
+                  dispatch(addEmail(email));
+                  setEmail("");
+                  enqueueSnackbar("Email added to waitlist", {
+                    variant: "success",
+                  });
+                }
               }}
             />
           </Box>
           <Box
             sx={{
-              mt: 19,
+              mt: { xs: 0, md: 19 },
             }}
           >
-            {!mobile && (
+            {!mediumMediaQuery && (
               <video
                 src={sneakerVideo}
                 autoPlay
@@ -154,26 +179,6 @@ const Home = () => {
                 }}
               />
             )}
-            {/* {!mobile && (
-              <video
-                src={sneakerVideo}
-                autoPlay
-                muted
-                playsInline
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute",
-                  right: 0,
-                  top: -5,
-                  outline: "none",
-                  border: "none",
-                  zIndex: -10,
-                  borderRadius: "40px",
-                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
-                }}
-              />
-            )} */}
           </Box>
         </Box>
         <Box
@@ -186,7 +191,8 @@ const Home = () => {
           }}
         >
           <Tile
-            imgSrcImage={authenticityIcon}
+            imgSrcImage={mediumMediaQuery ? null : authenticityIcon}
+            imgSrcIcon={mediumMediaQuery ? authenticityIcon : null}
             title="Authenticity Guaranteed"
             text="Thanks to our meticulous multi-verification process, we ensure your product is authentic, otherwise, get your money back guaranteed"
           />
@@ -198,6 +204,8 @@ const Home = () => {
           />
         </Box>
         <Box
+          data-aos="fade-down"
+          data-aos-duration="1000"
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
@@ -221,13 +229,15 @@ const Home = () => {
         </Box>
 
         <Title
+          data-aos="fade-down"
+          data-aos-duration="1000"
           variant="h2"
           sx={{ textAlign: "center", mt: { xs: 7, md: 24 } }}
           id="how-it-works"
         >
           How does it work?
         </Title>
-        <Box sx={{ mt: 10.25, mb: { xs: 7, sm: 25 } }}>
+        <Box sx={{ mt: { xs: 4, md: 10.25 }, mb: { xs: 7, md: 24 } }}>
           <InfoCard
             title="1. Invest in Sneakers"
             text="Invest in sneakers without owning them. We keep them clean, so you can redeem"
@@ -274,7 +284,7 @@ const Home = () => {
             maxWidth: 0.95,
             display: "flex",
             flexDirection: "column",
-            alignItems: { xs: "flex-start", sm: "center" },
+            alignItems: "center",
           }}
         >
           <Typography
@@ -285,19 +295,23 @@ const Home = () => {
               letterSpacing: { xs: -1, sm: -0.8 },
               lineHeight: { xs: "40px", sm: "94px" },
               color: "white",
-              textAlign: { xs: "left", sm: "center" },
+              textAlign: "center",
               mt: { xs: 8, sm: 12 },
             }}
           >
             Be a Part of the Future of Reselling
           </Typography>
-          <Link href={"/#top-container"}>
+          <Link
+            href={"/#top-container"}
+            sx={{
+              textDecoration: "none",
+            }}
+          >
             <Button
-              title="Join the waitlist"
+              title="Apply for Early Access"
               variant="secondary"
-              // onClick={window.scrollTo({ top: 0, left: 0, behavior: "smooth" })}
               color="white"
-              sx={{ mt: { xs: 4, sm: 9 }, mb: { xs: 4, sm: 12 } }}
+              sx={{ mt: { xs: 4, sm: 9 }, mb: { xs: 4, sm: 9 } }}
             />
           </Link>
         </Container>

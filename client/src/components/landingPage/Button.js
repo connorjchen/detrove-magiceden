@@ -1,4 +1,4 @@
-import { Typography, useTheme, SxProps } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import React from "react";
 
 const Button = ({ title, variant, color, sx, onClick }) => {

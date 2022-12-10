@@ -18,17 +18,17 @@ const HamburgerMenu = ({ mobileOpen, onClick }) => {
       sx={{
         zIndex: 3,
         transition: "all 0.3s ease",
-        "&>:first-child": {
+        "&>:first-of-type": {
           transform: mobileOpen
             ? "rotate(45deg) translateY(6px) translateX(6px)"
             : "none",
           transition: "all 0.3s ease-out",
         },
-        "&>:nth-child(2)": {
+        "&>:nth-of-type(2)": {
           opacity: mobileOpen ? 0 : 1,
           transition: "all 0.3s ease-out",
         },
-        "&>:nth-child(3)": {
+        "&>:nth-of-type(3)": {
           transform: mobileOpen
             ? "rotate(-45deg) translateY(-7px) translateX(7px)"
             : "none",

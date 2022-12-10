@@ -1,10 +1,8 @@
 import React from "react";
 
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function LogInReminder() {
-  const theme = useTheme();
-
   return (
     <Box display="flex" height="100%">
       <Typography

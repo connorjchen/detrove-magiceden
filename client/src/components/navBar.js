@@ -14,17 +14,18 @@ import {
   IconButton,
   Drawer,
 } from "@mui/material";
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import detroveLogo from "../images/detroveLogo.svg";
 import SearchBar from "./searchBar";
-import jwt_decode from "jwt-decode";
 import { RequestsEnum } from "../redux/helpers/requestsEnum";
 import { getLoadingAndErrors } from "../redux/helpers/requestsSelectors";
 import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { displayErrors } from "../utils/utils.js";
 import { getUser } from "../redux/actions/profileActions";
+import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { gapi } from "gapi-script";
 
 const drawerWidth = 240;
 const navItems = [
@@ -43,44 +44,36 @@ export default function NavBar(props) {
   const { user } = useSelector((state) => state.profile);
   const { errors } = useSelector((state) =>
     getLoadingAndErrors(state, [RequestsEnum.profileGetUser])
-  ); // did not use isLoading
+  );
 
-  const googleSignOutCallback = () => {
+  const googleSignInSuccess = (response) => {
+    const user = response.profileObj;
+    dispatch(getUser(user.email));
+    localStorage.setItem("userEmail", user.email);
+  };
+
+  const googleSignInFailure = (error) => {
+    enqueueSnackbar(error.error, { variant: "error" });
+  };
+
+  const googleSignOut = () => {
     dispatch(getUser(null));
-    navigate("/");
+    navigate("/marketplace");
     localStorage.removeItem("userEmail");
   };
 
-  useEffect(() => {
-    const googleSignInCallback = (response) => {
-      const user = jwt_decode(response.credential);
-      dispatch(getUser(user.email));
-      localStorage.setItem("userEmail", user.email);
-    };
-
-    /* global google */
-    google.accounts.id.initialize({
-      client_id:
-        "320221953489-1m1bpln163tqqvfkgh3fhpgdv15jm5nd.apps.googleusercontent.com",
-      callback: (response) => googleSignInCallback(response),
-    });
-
-    if (localStorage.getItem("userEmail")) {
-      dispatch(getUser(localStorage.getItem("userEmail")));
-    }
-  }, [dispatch]);
+  const googleClientId =
+    "320221953489-1m1bpln163tqqvfkgh3fhpgdv15jm5nd.apps.googleusercontent.com";
 
   useEffect(() => {
-    if (!user) {
-      google.accounts.id.renderButton(document.getElementById("googleSignIn"), {
-        theme: "outline",
-        size: "large",
+    const initClient = () => {
+      gapi.auth2.init({
+        clientId: googleClientId,
+        scope: "",
       });
-      document.getElementById("googleSignIn").hidden = false;
-    } else {
-      document.getElementById("googleSignIn").hidden = true;
-    }
-  }, [user]);
+    };
+    gapi.load("client:auth2", initClient);
+  });
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
@@ -89,33 +82,6 @@ export default function NavBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} textAlign="center">
-      <Typography variant="h6" sx={{ my: 2, fontWeight: "bold" }}>
-        Detrove
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map(([item, link], i) => (
-          <Link
-            key={i}
-            to={link}
-            style={{
-              textDecoration: "none",
-              color: theme.palette.tertiary.main,
-            }}
-          >
-            <ListItem key={item} disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-    </Box>
-  );
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -156,72 +122,84 @@ export default function NavBar(props) {
           sx={{
             justifyContent: "space-between",
             padding: "16px 0 !important",
-            minHeight: "fit-content !important",
+            minHeight: "48px !important",
+            boxSizing: "content-box",
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+            }}
           >
-            <MenuIcon />
-          </IconButton>
+            <Box component="img" src={detroveLogo} alt="logo" width="40px" />
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                color: theme.palette.accent.dark,
+                marginRight: "32px",
+              }}
+            >
+              Detrove
+            </Typography>
+          </Link>
+          <Box sx={{ display: { md: "none" } }}>
+            <IconButton size="large" aria-label="search" color="inherit">
+              <SearchIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
           <Box
             sx={{
-              display: { xs: "none", sm: "flex" },
+              display: { xs: "none", md: "flex" },
               width: "100%",
             }}
           >
-            <Link
-              to="/"
-              style={{
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Box component="img" src={detroveLogo} alt="logo" width="40px" />
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: "bold",
-                  color: theme.palette.accent.dark,
-                  marginRight: "32px",
-                }}
-              >
-                Detrove
-              </Typography>
-            </Link>
             <SearchBar />
           </Box>
           <Box
-            sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}
+            sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
           >
             {navItems.map(([item, link], i) => (
               <Link key={i} to={link} style={{ textDecoration: "none" }}>
                 <NavBarText text={item} />
               </Link>
             ))}
-            <Box id="googleSignIn"></Box>
-            {user && (
-              <Box
-                onClick={() => googleSignOutCallback()}
-                sx={{
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
+            {user ? (
+              <GoogleLogout
+                clientId={googleClientId}
+                buttonText="Sign out"
+                onLogoutSuccess={googleSignOut}
               >
-                {<NavBarText text="Sign Out" />}
-              </Box>
+                <NavBarText text="Sign out" />
+              </GoogleLogout>
+            ) : (
+              <GoogleLogin
+                clientId={googleClientId}
+                onSuccess={googleSignInSuccess}
+                onFailure={googleSignInFailure}
+                cookiePolicy={"single_host_origin"}
+                isSignedIn={true}
+              >
+                <NavBarText text="Sign in with Google" />
+              </GoogleLogin>
             )}
           </Box>
         </Toolbar>
       </AppBar>
       <Box sx={{ color: theme.palette.tertiary.main }}>
         <Drawer
+          anchor="right"
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -230,14 +208,67 @@ export default function NavBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
             },
           }}
         >
-          {drawer}
+          <Box onClick={handleDrawerToggle} textAlign="center">
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+                color: theme.palette.tertiary.main,
+              }}
+            >
+              <Typography variant="h6" sx={{ my: 2, fontWeight: "bold" }}>
+                Detrove
+              </Typography>
+            </Link>
+            <Divider />
+            <List>
+              {navItems.map(([item, link], i) => (
+                <Link
+                  key={i}
+                  to={link}
+                  style={{
+                    textDecoration: "none",
+                    color: theme.palette.tertiary.main,
+                  }}
+                >
+                  <ListItem key={item} disablePadding>
+                    <ListItemButton sx={{ textAlign: "center" }}>
+                      <ListItemText primary={item} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+            {user ? (
+              <GoogleLogout
+                clientId={googleClientId}
+                onLogoutSuccess={googleSignOut}
+              >
+                <Typography variant="h6" fontWeight="normal">
+                  Sign out
+                </Typography>
+              </GoogleLogout>
+            ) : (
+              <GoogleLogin
+                clientId={googleClientId}
+                onSuccess={googleSignInSuccess}
+                onFailure={googleSignInFailure}
+                cookiePolicy={"single_host_origin"}
+                isSignedIn={true}
+              >
+                <Typography variant="h6" fontWeight="normal">
+                  Sign in with Google
+                </Typography>
+              </GoogleLogin>
+            )}
+          </Box>
         </Drawer>
       </Box>
     </Box>

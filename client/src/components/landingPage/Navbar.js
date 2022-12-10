@@ -12,11 +12,11 @@ import HamburgerMenu from "./HamburgerMenu";
 import { useLocation } from "react-router-dom";
 import React from "react";
 import detroveLogo from "../../images/detroveLogo.svg";
+import rightArrow from "../../images/nav-chevron.svg";
 const Navbar = ({ ctaButtonParams }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
-  const mobile = useMediaQuery("(max-width:600px)");
-  const menuBreakpoint = useMediaQuery("(max-width:1100px)");
+  const menuBreakpoint = useMediaQuery("(max-width:600px)");
 
   const currentRoute = useLocation();
 
@@ -192,7 +192,7 @@ const Navbar = ({ ctaButtonParams }) => {
                     >
                       {navItem.title}
                     </Typography>
-                    <img src="/nav-chevron.svg" alt="right arrow"></img>
+                    <img src={rightArrow} alt="right arrow"></img>
                   </Box>
                 </Link>
               ))}

@@ -1,11 +1,13 @@
-import { Box, SxProps, Typography, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
+
 const Tile = ({
   title,
   text,
   compact,
   blackBg,
   imgSrcIcon,
+  imgSrcPolygon,
   imgSrcImage,
   imgIphone,
   sx,
@@ -13,6 +15,8 @@ const Tile = ({
   const mobile = useMediaQuery("(max-width:600px)");
   return (
     <Box
+      data-aos="fade-down"
+      data-aos-duration="1000"
       sx={{
         width: { xs: 1, md: compact ? 0.45 : 0.55 },
         bgcolor: blackBg ? "black" : "#F2F2F2",
@@ -44,11 +48,11 @@ const Tile = ({
             fontSize: { xs: "1.5rem", sm: "2rem" },
             fontWeight: 600,
             lineHeight: "36px",
-            // letterSpacing: "-2px",
+            letterSpacing: "-2px",
             color: blackBg ? "white" : "black",
           }}
         >
-          {/* {imgSrcPolygon && (
+          {imgSrcPolygon && (
             <img
               src={imgSrcPolygon}
               style={{
@@ -58,7 +62,7 @@ const Tile = ({
               }}
               alt=""
             ></img>
-          )} */}
+          )}
           {title}
         </Typography>
         <Typography
@@ -66,16 +70,13 @@ const Tile = ({
             fontSize: "1rem",
             fontWeight: 600,
             lineHeight: "24px",
-            // letterSpacing: "-0.8px",
+            letterSpacing: "-0.8px",
             color: blackBg ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)",
             mt: 2.5,
           }}
         >
           {text}
         </Typography>
-        {/* {imgSrcImage && (
-          <Box sx={{ height: { xs: "270px", sm: "360px" } }}></Box>
-        )} */}
         {imgSrcImage && (
           <Box
             sx={{
@@ -99,6 +100,7 @@ const Tile = ({
             ></img>
           </Box>
         )}
+        {imgIphone && <Box sx={{ height: { xs: "270px", sm: "360px" } }}></Box>}
         {imgIphone && (
           <Box
             sx={{
