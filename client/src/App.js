@@ -22,16 +22,11 @@ const ScrollToTop = (props) => {
   return <>{props.children}</>;
 };
 
+ReactGa.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+
 function App() {
   useEffect(() => {
-    ReactGa.initialize(process.env.REACT_APP_GA_TRACKING_ID);
-    // ReactGa.pageview(
-    //   window.location.pathname,
-    //   undefined,
-    //   '{{ getenv "BRANCH" }}'
-    // );
-    // unsure if this getenv thing works
-    // unsure if this tracks changes between marketplace to profile/sell/buy
+    ReactGa.pageview(window.location.pathname, undefined, process.env.BRANCH); // unsure if this tracks changes between marketplace to profile/sell/buy
     ReactGa.pageview("/");
   }, []);
 
