@@ -1,4 +1,4 @@
-# Detrove
+# Detrove Magic Eden
 
 Built using node version v16 LTS and npm version 8.19.2
 
