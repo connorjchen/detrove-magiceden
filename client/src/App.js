@@ -11,6 +11,7 @@ import Listing from "./screens/listing";
 import { ThemeProvider } from "@mui/material";
 import theme from "./styles/theme";
 import { SnackbarProvider } from "notistack";
+import ReactGa from "react-ga";
 
 const ScrollToTop = (props) => {
   const location = useLocation();
@@ -22,6 +23,18 @@ const ScrollToTop = (props) => {
 };
 
 function App() {
+  useEffect(() => {
+    ReactGa.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+    ReactGa.pageview(
+      window.location.pathname,
+      undefined,
+      '{{ getenv "BRANCH" }}'
+    ); // unsure if this tracks changes between marketplace to profile/sell/buy
+    console.log('{{ getenv "BRANCH" }}');
+    console.log(process.env);
+    ReactGa.pageview("/");
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
 <<<<<<< HEAD

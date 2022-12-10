@@ -25,6 +25,7 @@ import iphone from "../images/iphone demo.png";
 import addEmail from "../redux/actions/landingActions";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import ReactGa from "react-ga";
 
 const Title = styled(Typography)(
   sx({
@@ -122,11 +123,14 @@ const Home = () => {
             <OutlinedInput
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               placeholder="Enter Email"
               sx={{
                 ...theme.inputAnimation,
                 borderRadius: "8px",
+                width: { xs: "auto", md: "240px" },
               }}
             />
             <Button
@@ -134,11 +138,16 @@ const Home = () => {
               variant="primary"
               color="black"
               sx={{
-                width: { xs: "auto", md: "fit-content" },
+                width: { xs: "auto", md: "240px" },
+                boxSizing: "border-box",
                 ml: { xs: 0, md: 1 },
                 mt: { xs: 2, md: 0 },
               }}
               onClick={() => {
+                ReactGa.event({
+                  category: "Email Button",
+                  action: "Email added to waitlist",
+                });
                 if (/\S+@\S+\.\S+/.test(email) === false) {
                   enqueueSnackbar("Invalid email format", {
                     variant: "error",
