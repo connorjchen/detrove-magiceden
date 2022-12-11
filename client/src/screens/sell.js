@@ -91,7 +91,7 @@ export default function Sell() {
           value={price}
           type="number"
           onChange={handleSetPrice}
-          startAdornment={<Typography variant="h6">$</Typography>}
+          startAdornment={<Typography variant="h6">USDC</Typography>}
           placeholder="Price"
           sx={{
             ...theme.inputAnimation,
@@ -135,7 +135,7 @@ export default function Sell() {
             Total Income:
           </Typography>
           <Typography variant="h6" fontSize="20px">
-            {price ? `${convertToDisplayPrice(price * 0.95)}` : "$"}
+            {price ? `${convertToDisplayPrice(price * 0.95)}` : "USDC"}
           </Typography>
         </Box>
       </>

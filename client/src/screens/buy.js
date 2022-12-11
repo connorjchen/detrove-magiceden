@@ -79,7 +79,7 @@ export default function Buy() {
         <Box display="flex" justifyContent="space-between">
           <Typography variant="h6">Market Price</Typography>
           <Typography variant="h6">
-            {price ? `${convertToDisplayPrice(price)}` : "$"}
+            {price ? `${convertToDisplayPrice(price)}` : "USDC"}
           </Typography>
         </Box>
         <Box display="flex" justifyContent="space-between">
@@ -110,7 +110,7 @@ export default function Buy() {
             Order Total:
           </Typography>
           <Typography variant="h6" fontSize="20px">
-            {price ? `${convertToDisplayPrice(price * 1.05)}` : "$"}
+            {price ? `${convertToDisplayPrice(price * 1.05)}` : "USDC"}
           </Typography>
         </Box>
       </>

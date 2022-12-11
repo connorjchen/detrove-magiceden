@@ -138,8 +138,8 @@ export const convertToDisplayPrice = (price) => {
   if (price === "") {
     return " ";
   }
-  return `$${parseFloat(price)
+  return `${parseFloat(price)
     .toFixed(2)
     .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC`;
 };

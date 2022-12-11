@@ -64,6 +64,16 @@ export default function NavBar(props) {
   );
 
   useEffect(() => {
+    if (user && base58 === undefined) {
+      dispatch(getUser(null));
+    }
+
+    if (!user && base58 !== undefined) {
+      dispatch(getUser(base58));
+    }
+  }, [dispatch, base58]);
+
+  useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
   }, [errors, enqueueSnackbar]);
 
