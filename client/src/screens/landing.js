@@ -253,12 +253,17 @@ const Home = () => {
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
           />
           <InfoCard
-            title="2. Buy and Sell Sneakers"
-            text="Speculate on the price of sneakers and sell them at a profit."
+            title="2. Buy Sneakers"
+            text="Buy sneakers from the marketplace that you think will appreciate in value."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4, ml: "auto" }}
           />
           <InfoCard
-            title="3. Redeem your Sneakers"
+            title="3. Sell your Sneakers"
+            text="Sell sneakers from your collection to other collectors for a profit."
+            sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
+          />
+          <InfoCard
+            title="4. Redeem your Sneakers"
             text="Want to wear your sneakers? Redeem them at any time for the authentic item."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, ml: "auto" }}
           />
