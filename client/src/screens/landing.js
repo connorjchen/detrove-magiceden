@@ -110,7 +110,7 @@ const Home = () => {
               mt: 4,
             }}
           >
-            Enjoy 3% total transaction fees, instant transactions and zero
+            Enjoy 5% total transaction fees, instant transactions and zero
             consignment fees
           </Typography>
           <Box
@@ -248,23 +248,18 @@ const Home = () => {
         </Title>
         <Box sx={{ mt: { xs: 4, md: 10.25 }, mb: { xs: 7, md: 24 } }}>
           <InfoCard
-            title="1. Invest in Sneakers"
-            text="Invest in sneakers without owning them. We keep them clean, so you can redeem"
+            title="1. Send your Sneakers"
+            text="Simply mail us the item and we'll add it to your collection once it's verified."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
           />
           <InfoCard
-            title="2. Deposit your Sneakers"
-            text="Clean your collection by sending your sneakers to us. Your home is now clean and we keep your sneakers supreme"
+            title="2. Buy and Sell Sneakers"
+            text="Speculate on the price of sneakers and sell them at a profit."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4, ml: "auto" }}
           />
           <InfoCard
-            title="3. Trade to earn"
-            text="Convert your love for sneakers into profit. Trade what you love and earn for that love"
-            sx={{ maxWidth: { xs: 1, sm: 0.95 }, mb: 4 }}
-          />
-          <InfoCard
-            title="4. Redeem your Kicks"
-            text="Want to flex them kicks? Redeem your sneakers and we ship"
+            title="3. Redeem your Sneakers"
+            text="Want to wear your sneakers? Redeem them at any time for the authentic item."
             sx={{ maxWidth: { xs: 1, sm: 0.95 }, ml: "auto" }}
           />
         </Box>

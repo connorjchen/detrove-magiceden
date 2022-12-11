@@ -11,7 +11,7 @@ export default function LogInReminder() {
         fontWeight="normal"
         margin="auto"
       >
-        Log in with Google!
+        Log in with Phantom Wallet!
       </Typography>
     </Box>
   );
