@@ -6,6 +6,7 @@ Legacy peer deps needed because of MUI incompatible with new version of React
 
 ## Run Frontend:
 
+- Install Phantom Wallet browser extension
 - cd client
 - npm install --legacy-peer-deps
 - npm start

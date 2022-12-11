@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 
 import { reducers } from "./redux/reducers";
 import App from "./App";
+import WalletAdapter from "./WalletAdapter";
 import "./index.css";
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
@@ -13,6 +14,6 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    <App />
+    <WalletAdapter />
   </Provider>
 );

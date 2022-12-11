@@ -32,27 +32,6 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-<<<<<<< HEAD
-      <BrowserRouter>
-        <ScrollToTop>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<Marketplace />} exact />
-<<<<<<< HEAD
-            <Route path="/solana/:address" element={<Listing />} />
-            <Route path="/sell/:address" element={<Sell />} />
-            <Route path="/buy/:address" element={<Buy />} />
-            <Route path="profile" element={<Profile />} />
-=======
-            <Route path="/product/:sneakerId" element={<Product />} />
-            <Route path="/sell/:sneakerId" element={<Sell />} />
-            <Route path="/profile" element={<Profile />} />
->>>>>>> cbded3e (Implemented SQL routes and reducers (#26))
-          </Routes>
-          <Footer />
-        </ScrollToTop>
-      </BrowserRouter>
-=======
       <SnackbarProvider>
         <BrowserRouter>
           <ScrollToTop>
@@ -70,7 +49,6 @@ function App() {
           </ScrollToTop>
         </BrowserRouter>
       </SnackbarProvider>
->>>>>>> 5fc6251 (Connor/redux refactor (#30))
     </ThemeProvider>
   );
 }

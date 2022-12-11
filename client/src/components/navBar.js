@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   useTheme,
   alpha,
@@ -24,8 +24,14 @@ import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { displayErrors } from "../utils/utils.js";
 import { getUser } from "../redux/actions/profileActions";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { gapi } from "gapi-script";
+import "./wallet.css";
+import {
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
+require("@solana/wallet-adapter-react-ui/styles.css");
 
 const drawerWidth = 240;
 const navItems = [
@@ -39,41 +45,23 @@ export default function NavBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const dispatch = useDispatch();
+  const [isConnected, setIsConnected] = React.useState(false);
+  const { publicKey, wallet, disconnect } = useWallet();
   const navigate = useNavigate();
+
+  const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+  const content = useMemo(() => {
+    if (!wallet || !base58) {
+      return "Connect";
+    }
+    setIsConnected(true);
+    return base58.slice(0, 4) + ".." + base58.slice(-4);
+  }, [wallet, base58]);
 
   const { user } = useSelector((state) => state.profile);
   const { errors } = useSelector((state) =>
     getLoadingAndErrors(state, [RequestsEnum.profileGetUser])
   );
-
-  const googleSignInSuccess = (response) => {
-    const user = response.profileObj;
-    dispatch(getUser(user.email));
-    localStorage.setItem("userEmail", user.email);
-  };
-
-  const googleSignInFailure = (error) => {
-    enqueueSnackbar(error.error, { variant: "error" });
-  };
-
-  const googleSignOut = () => {
-    dispatch(getUser(null));
-    navigate("/marketplace");
-    localStorage.removeItem("userEmail");
-  };
-
-  const googleClientId =
-    "320221953489-1m1bpln163tqqvfkgh3fhpgdv15jm5nd.apps.googleusercontent.com";
-
-  useEffect(() => {
-    const initClient = () => {
-      gapi.auth2.init({
-        clientId: googleClientId,
-        scope: "",
-      });
-    };
-    gapi.load("client:auth2", initClient);
-  });
 
   useEffect(() => {
     displayErrors(errors, enqueueSnackbar);
@@ -175,25 +163,12 @@ export default function NavBar(props) {
                 <NavBarText text={item} />
               </Link>
             ))}
-            {user ? (
-              <GoogleLogout
-                clientId={googleClientId}
-                buttonText="Sign out"
-                onLogoutSuccess={googleSignOut}
-              >
-                <NavBarText text="Sign out" />
-              </GoogleLogout>
-            ) : (
-              <GoogleLogin
-                clientId={googleClientId}
-                onSuccess={googleSignInSuccess}
-                onFailure={googleSignInFailure}
-                cookiePolicy={"single_host_origin"}
-                isSignedIn={true}
-              >
-                <NavBarText text="Sign in with Google" />
-              </GoogleLogin>
-            )}
+            <WalletMultiButton
+              className={
+                isConnected ? "wallet-button-connected" : "wallet-button"
+              }
+              children={content}
+            />
           </Box>
         </Toolbar>
       </AppBar>
@@ -246,28 +221,12 @@ export default function NavBar(props) {
                 </Link>
               ))}
             </List>
-            {user ? (
-              <GoogleLogout
-                clientId={googleClientId}
-                onLogoutSuccess={googleSignOut}
-              >
-                <Typography variant="h6" fontWeight="normal">
-                  Sign out
-                </Typography>
-              </GoogleLogout>
-            ) : (
-              <GoogleLogin
-                clientId={googleClientId}
-                onSuccess={googleSignInSuccess}
-                onFailure={googleSignInFailure}
-                cookiePolicy={"single_host_origin"}
-                isSignedIn={true}
-              >
-                <Typography variant="h6" fontWeight="normal">
-                  Sign in with Google
-                </Typography>
-              </GoogleLogin>
-            )}
+            <WalletMultiButton
+              className={
+                isConnected ? "wallet-button-connected" : "wallet-button"
+              }
+              children={content}
+            />
           </Box>
         </Drawer>
       </Box>
